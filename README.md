@@ -4,6 +4,8 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 ## Get started
 
+PS: If you haven't already, make sure to install [Node.js](https://nodejs.org/) and [npm](https://www.npmjs.com/) before getting started.
+
 1. Install dependencies
 
    ```bash
