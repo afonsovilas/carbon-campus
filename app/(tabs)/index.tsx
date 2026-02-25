@@ -18,7 +18,7 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
+        <ThemedText type="title">Bem Vindo!</ThemedText>
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
@@ -74,6 +74,12 @@ export default function HomeScreen() {
           <ThemedText type="defaultSemiBold">app-example</ThemedText>.
         </ThemedText>
       </ThemedView>
+        <ThemedView style={styles.stepContainer}>
+            <ThemedText type="subtitle">Step 4: Começarem a Trabalhar</ThemedText>
+            <ThemedText>
+                {`Principalmente tu, sim tu `}<ThemedText type="defaultSemiBold">Afonso Vilas</ThemedText>
+            </ThemedText>
+        </ThemedView>
     </ParallaxScrollView>
   );
 }
