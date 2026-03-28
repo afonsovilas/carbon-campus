@@ -1,48 +1,97 @@
-import { StyleSheet, ScrollView } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { router } from 'expo-router';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
-const courseData = [
-    { name: 'MIEIC', points: 2450, position: 1 },
-    { name: 'LCC', points: 1980, position: 2 },
-    { name: 'LEI', points: 1670, position: 3 },
-];
+import { Ionicons } from '@expo/vector-icons';
 
 export default function RankingScreen() {
-    return (
-        <ScrollView style={styles.container}>
-            <ThemedText type="title">🏆 Ranking Cursos</ThemedText>
 
-            {courseData.map((course, index) => (
-                <ThemedView
-                    key={index}
-                    style={[
-                        styles.rankingItem,
-                        course.position === 1 ? styles.position1 :
-                            course.position === 2 ? styles.position2 :
-                                styles.position3
-                    ]}
+
+    const [tripsCount, setTripsCount] = useState(0);
+
+    if (tripsCount === 0) {
+        return (
+            <ThemedView style={styles.lockedContainer}>
+                <Ionicons
+                    name="lock-closed"
+                    size={120}
+                    color="#D1D1D6"
+                    style={styles.icon}
+                />
+
+
+                <ThemedText type="title" style={styles.lockedTitle} testID="locked-title">
+                    Tabela bloqueada!
+                </ThemedText>
+
+
+                <ThemedText style={styles.lockedDescription}>
+                    As LeaderBoards encontram-se bloqueadas, regista a tua primeira viagem para as desbloqueares!
+                </ThemedText>
+
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => router.push('/LogTripScreen')}
+                    testID="register-trip-button"
                 >
-                    <ThemedText type="title">#{course.position} {course.name}</ThemedText>
-                    <ThemedText>{course.points.toLocaleString()} pts</ThemedText>
-                </ThemedView>
-            ))}
-        </ScrollView>
+                    <ThemedText type="defaultSemiBold" style={styles.buttonText}>
+                        Registar 1ª Viagem
+                    </ThemedText>
+                </TouchableOpacity>
+            </ThemedView>
+        );
+    }
+
+
+    return (
+        <ThemedView style={styles.container}>
+            <ThemedText type="title">🏆 Ranking (Desbloqueado)</ThemedText>
+
+        </ThemedView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20 },
-    rankingItem: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        padding: 20,
-        borderRadius: 12,
-        marginVertical: 6,
-        backgroundColor: 'rgba(255,255,255,0.2)',
-        borderLeftWidth: 5,
+    container: { flex: 1, padding: 20, justifyContent: 'center', alignItems: 'center' },
+    lockedContainer: {
+        flex: 1,
+        padding: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 15,
     },
-    position1: { borderLeftColor: '#FFD700' },  // Ouro
-    position2: { borderLeftColor: '#C0C0C0' },  // Prata
-    position3: { borderLeftColor: '#CD7F32' },  // Bronze
+    icon: {
+        fontSize: 100,
+        marginBottom: 20,
+    },
+    lockedTitle: {
+        fontSize: 24,
+        textAlign: 'center',
+    },
+    lockedDescription: {
+        textAlign: 'center',
+        fontSize: 16,
+        opacity: 0.8,
+        lineHeight: 22,
+        marginBottom: 30,
+    },
+    button: {
+        paddingVertical: 18,
+        paddingHorizontal: 30,
+        borderRadius: 12,
+        backgroundColor: '#4CAF50',
+        alignItems: 'center',
+        width: '100%',
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+    },
 });
