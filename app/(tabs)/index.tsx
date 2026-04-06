@@ -1,21 +1,32 @@
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Link } from 'expo-router';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { IconSymbol } from '@/components/ui/icon-symbol'; // Import necessário
-import { useThemeColor } from '@/hooks/use-theme-color'; // Para a cor do ícone
+import { IconSymbol } from '@/components/ui/icon-symbol'; //
+import { useThemeColor } from '@/hooks/use-theme-color'; //
 
 export default function HomeScreen() {
     const iconColor = useThemeColor({}, 'icon');
 
     return (
         <ThemedView style={styles.container}>
-            {/* Ícone para ir para Amigos (User Story 1) */}
-            <Link href="/invites" asChild>
-                <TouchableOpacity style={styles.friendsButton}>
-                    <IconSymbol name="paperplane.fill" size={28} color={iconColor} />
-                </TouchableOpacity>
-            </Link>
+            {/* 🚩 CONTENTOR DE ÍCONES NO TOPO DIREITO */}
+            <View style={styles.topButtonsContainer}>
+                {/* Ícone para Desafios (Novo) */}
+                <Link href="/challenge" asChild>
+                    <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
+                        {/* 'house.fill' é um exemplo; podes mapear 'trophy' no icon-symbol.tsx */}
+                        <IconSymbol name="flag.fill" size={26} color={iconColor} />
+                    </TouchableOpacity>
+                </Link>
+
+                {/* Ícone para Amigos/Invites */}
+                <Link href="/invites" asChild>
+                    <TouchableOpacity style={styles.iconButton} activeOpacity={0.7}>
+                        <IconSymbol name="paperplane.fill" size={26} color={iconColor} />
+                    </TouchableOpacity>
+                </Link>
+            </View>
 
             <ThemedText type="title">🌿 CarbonCampus</ThemedText>
             <ThemedText type="subtitle">Reduz a pegada de carbono</ThemedText>
@@ -25,7 +36,6 @@ export default function HomeScreen() {
                 <ThemedText>23kg CO₂ evitados</ThemedText>
             </ThemedView>
 
-            {/* Mudámos para TouchableOpacity para ter feedback de clique */}
             <TouchableOpacity style={styles.button} activeOpacity={0.7}>
                 <ThemedText type="title">➕ Registar Viagem</ThemedText>
             </TouchableOpacity>
@@ -43,12 +53,25 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20, gap: 20, justifyContent: 'center' },
-    friendsButton: {
+    container: {
+        flex: 1,
+        padding: 20,
+        gap: 20,
+        justifyContent: 'center'
+    },
+    // Posiciona o grupo de ícones no canto superior direito
+    topButtonsContainer: {
         position: 'absolute',
         top: 60,
-        right: 25,
+        right: 20,
+        flexDirection: 'row', // Alinha os ícones lado a lado
+        gap: 12,              // Espaço entre os ícones
         zIndex: 10,
+    },
+    iconButton: {
+        padding: 8,
+        backgroundColor: 'rgba(255,255,255,0.1)', // Dá um leve fundo para destacar o clique
+        borderRadius: 12,
     },
     card: {
         padding: 20,
