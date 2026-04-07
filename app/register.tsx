@@ -25,7 +25,8 @@ export default function RegisterScreen() {
         <View style={styles.container}>
             <TextInput
                 style={styles.input}
-                placeholder="up1234@up.pt"
+                placeholder="Email"
+                placeholderTextColor="#999"
                 value={email}
                 onChangeText={setEmail}
                 testID="email-input"
@@ -33,13 +34,14 @@ export default function RegisterScreen() {
             <TextInput
                 style={styles.input}
                 placeholder="Password"
+                placeholderTextColor="#999"
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
                 testID="password-input"
             />
             <TouchableOpacity style={styles.button} onPress={handleRegister} testID="submit-button">
-                <Text style={styles.buttonText}>Registar MIEIC</Text>
+                <Text style={styles.buttonText}>Registar</Text>
             </TouchableOpacity>
         </View>
     );
@@ -47,7 +49,7 @@ export default function RegisterScreen() {
 
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 30, justifyContent: 'center', gap: 20 },
-    input: { borderWidth: 1, padding: 15, borderRadius: 8 },
+    input: { borderWidth: 1, padding: 15, borderRadius: 8, color: '#000', backgroundColor: '#fff' },
     button: { backgroundColor: '#4CAF50', padding: 15, borderRadius: 8 },
     buttonText: { color: 'white', textAlign: 'center', fontWeight: 'bold' }
 });

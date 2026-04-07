@@ -37,7 +37,7 @@ describe('RegisterScreen acceptance tests', () => {
         expect(getByTestId('email-input')).toBeTruthy();
         expect(getByTestId('password-input')).toBeTruthy();
         expect(getByTestId('submit-button')).toBeTruthy();
-        expect(getByText(/Registar MIEIC/i)).toBeTruthy();
+        expect(getByText(/Registar/i)).toBeTruthy();
     });
 
     it('Cenário Normal: registo com email FEUP válido navega para tabs', () => {
