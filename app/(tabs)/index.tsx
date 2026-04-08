@@ -34,6 +34,11 @@ export default function HomeScreen() {
             <ThemedView style={styles.card}>
                 <ThemedText type="title">📊 1.247 pontos</ThemedText>
                 <ThemedText>23kg CO₂ evitados</ThemedText>
+                <Link href="../rewardScreen" asChild>
+                    <TouchableOpacity style={styles.smallButton} activeOpacity={0.7}>
+                        <ThemedText type="title" style={{fontSize:20}}>Levantar</ThemedText>
+                    </TouchableOpacity>
+                </Link>
             </ThemedView>
 
             <TouchableOpacity style={styles.button} activeOpacity={0.7}>
@@ -84,5 +89,12 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         backgroundColor: '#4CAF50',
         alignItems: 'center'
+    },
+    smallButton: {
+        padding: 8,
+        marginTop: 5,
+        borderRadius: 16,
+        backgroundColor: '#4CAF50',
+        alignItems: 'center',
     },
 });
