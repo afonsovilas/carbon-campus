@@ -72,16 +72,16 @@ Our requirements are documented as User Stories in our GitHub Project T5-Scrumbo
 
 | ID   | User Story | Priority (MoSCoW) | Effort (Fibonacci) |
 | ---- | ---------- | ----------------- | ------------------ |
-| US1  | Como visitante, quero criar uma conta utilizando o meu endereço de email e uma palavra-passe, para poder guardar o meu histórico de viagens e a minha pontuação. | Must-have | 3 |
-| US2  | Como utilizador registado, quero fazer o login na aplicação, para aceder aos meus dados e aos meus desafios em curso. | Must-have | 3 |
-| US3  | Como utilizador, quero selecionar um meio de transporte sustentável (ex: bicicleta, transporte público, a pé) e inserir a distância que percorri, para registar uma deslocação. | Must-have | 5 |
+| US1  | Como visitante, quero criar uma conta utilizando o meu endereço de email e uma palavra-passe, para poder guardar o meu histórico de viagens e a minha pontuação. | Must-have | 8 |
+| US2  | Como utilizador registado, quero fazer o login na aplicação, para aceder aos meus dados e aos meus desafios em curso. | Must-have | 5 |
+| US3  | Como utilizador, quero selecionar um meio de transporte sustentável (ex: bicicleta, transporte público, a pé) e inserir a distância que percorri, para registar uma deslocação. | Must-have | 20 |
 | US4  | Como utilizador, quero que a aplicação calcule e mostre automaticamente a quantidade de CO2 (em kg ou gramas) que poupei ao registar a viagem, para validar a minha ação. | Must-have | 5 |
 | US5  | Como utilizador, quero visualizar a minha pontuação total de CO2 poupado no ecrã principal, para ter noção do meu impacto ambiental acumulado. | Must-have | 3 |
 | US6  | Como utilizador, quero pesquisar outros utilizadores inserindo o seu endereço de email, para lhes enviar um pedido de ligação/amizade. | Must-have | 5 |
 | US7  | Como utilizador, quero aceitar ou rejeitar convites de outros utilizadores, para gerir quem pertence à minha rede. | Must-have | 5 |
 | US8  | Como utilizador, quero criar um novo desafio com uma data de início e uma data de fim estipuladas, para definir o período da competição. | Must-have | 5 |
-| US9  | Como criador de um desafio, quero selecionar contactos da minha rede e enviar-lhes um convite, para que entrem na competição. | Must-have | 8 |
-| US10 | Como participante num desafio ativo, quero ver uma tabela classificativa (leaderboard) ordenada pela quantidade de CO2 poupado durante o tempo do desafio, para verificar em que posição me encontro face aos restantes concorrentes. | Must-have | 8 |
+| US9  | Como criador de um desafio, quero selecionar contactos da minha rede e enviar-lhes um convite, para que entrem na competição. | Must-have | 5 |
+| US10 | Como participante num desafio ativo, quero ver uma tabela classificativa (leaderboard) ordenada pela quantidade de CO2 poupado durante o tempo do desafio, para verificar em que posição me encontro face aos restantes concorrentes. | Must-have | 5 |
 
 ### Requirements Quality (DoR)
 
