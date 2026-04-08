@@ -1,0 +1,86 @@
+@startuml T5_IMPLEMENTATION
+!theme plain
+skinparam linetype ortho
+skinparam arrow {
+  thickness 1
+  color #333333
+}
+skinparam padding 20
+skinparam ranksep 80
+skinparam nodesep 100
+
+title T5 - Application Implementation Architecture
+
+[_layout.tsx\nRoot Layout] as ROOT
+[login.tsx] as LOGIN
+[register.tsx] as REGISTER
+[(tabs)/_layout.tsx\nTab Navigation] as TABS_CONFIG
+[(tabs)/index.tsx\nHome Tab] as HOME
+[(tabs)/explore.tsx\nExplore Tab] as EXPLORE
+[register-trip.tsx] as TRIP
+[rewardScreen.tsx] as REWARD
+
+[ThemedView] as TV
+[ThemedText] as TT
+[HapticTab] as HT
+[ParallaxScrollView] as PS
+
+[useColorScheme] as UC
+[useThemeColor] as UT
+[theme.ts] as THEME_CONST
+
+[Login State] as LOGIN_STATE
+[Reward State] as REWARD_STATE
+[Trip State] as TRIP_STATE
+
+[Expo Router] as ROUTER
+[React Navigation] as RNAV
+[Bottom Tabs] as BTABS
+
+ROOT --> ROUTER : enables\nrouting
+ROOT --> LOGIN : initial
+ROOT --> TABS_CONFIG : stack
+ROOT --> TRIP : stack
+ROOT --> REWARD : stack
+
+LOGIN --> LOGIN_STATE : manages
+REGISTER --> LOGIN_STATE : manages
+LOGIN --> TV : renders
+LOGIN --> TT : renders
+REGISTER --> TV : renders
+REGISTER --> TT : renders
+
+TABS_CONFIG --> RNAV : built on
+TABS_CONFIG --> BTABS : implements
+TABS_CONFIG --> HOME : tab 0
+TABS_CONFIG --> EXPLORE : tab 1
+TABS_CONFIG --> HT : controls
+
+HOME --> TV : renders
+HOME --> TT : renders
+HOME --> PS : displays
+EXPLORE --> TV : renders
+EXPLORE --> TT : renders
+
+TRIP --> TV : renders
+TRIP --> TT : renders
+TRIP --> TRIP_STATE : manages
+
+REWARD --> TV : renders
+REWARD --> REWARD_STATE : manages
+REWARD --> TRIP_STATE : reads
+
+TV --> UT : consumes
+TT --> UT : consumes
+HT --> UT : consumes
+
+UT --> THEME_CONST : references
+UT --> UC : uses
+
+PS --> TV : contains
+PS --> TT : contains
+
+ROUTER --> RNAV : uses
+BTABS --> RNAV : extends
+
+@enduml
