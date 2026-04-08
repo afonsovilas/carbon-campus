@@ -1,13 +1,13 @@
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
 import React, { useMemo, useState } from 'react';
 import {
     Keyboard,
     KeyboardAvoidingView,
     Platform,
     Pressable,
-    SafeAreaView,
     ScrollView,
     StyleSheet,
-    Text,
     TextInput,
     TouchableOpacity,
     View,
@@ -59,10 +59,7 @@ export default function LogTripScreen() {
     };
 
     return (
-        <SafeAreaView style={styles.safeArea}>
-            <View style={styles.backgroundOrbTop} />
-            <View style={styles.backgroundOrbBottom} />
-
+        <ThemedView style={styles.screen}>
             <KeyboardAvoidingView
                 style={styles.flex}
                 behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -76,205 +73,167 @@ export default function LogTripScreen() {
                         keyboardShouldPersistTaps="handled"
                         showsVerticalScrollIndicator={false}
                     >
-                        <View>
-                            <View style={styles.headerBlock}>
-                                <Text style={styles.headerTitle}>Log a Trip</Text>
-                                <Text style={styles.headerSubtitle}>
-                                    Choose how you traveled and save your distance in seconds.
-                                </Text>
-                            </View>
-
-                            <View style={styles.card}>
-                                <Text style={styles.sectionLabel}>Transport Mode</Text>
-                                <Text style={styles.selectedTransportText}>
-                                    {selectedTransport ?? 'Select...'}
-                                </Text>
-
-                                <View style={styles.transportOptionsRow}>
-                                    {TRANSPORT_MODES.map((mode) => {
-                                        const isSelected = selectedTransport === mode;
-
-                                        return (
-                                            <TouchableOpacity
-                                                key={mode}
-                                                style={[
-                                                    styles.transportOption,
-                                                    isSelected && styles.transportOptionSelected,
-                                                ]}
-                                                activeOpacity={0.85}
-                                                onPress={() => {
-                                                    setSelectedTransport(mode);
-                                                    setTripLogged(false);
-                                                    Keyboard.dismiss();
-                                                }}
-                                            >
-                                                <Text
-                                                    style={[
-                                                        styles.transportOptionText,
-                                                        isSelected && styles.transportOptionTextSelected,
-                                                    ]}
-                                                >
-                                                    {mode}
-                                                </Text>
-                                            </TouchableOpacity>
-                                        );
-                                    })}
-                                </View>
-
-                                <Text style={styles.sectionLabel}>Distance</Text>
-                                <View style={styles.inputRow}>
-                                    <TextInput
-                                        style={[styles.input, showDistanceError && styles.inputError]}
-                                        placeholder="Distance (km)"
-                                        keyboardType="decimal-pad"
-                                        returnKeyType="done"
-                                        value={distance}
-                                        onBlur={() => setIsDistanceTouched(true)}
-                                        onSubmitEditing={Keyboard.dismiss}
-                                        onChangeText={(value) => {
-                                            setDistance(value);
-                                            setIsDistanceTouched(true);
-                                            setTripLogged(false);
-                                        }}
-                                    />
-                                    <View style={styles.kmBadge}>
-                                        <Text style={styles.kmBadgeText}>km</Text>
-                                    </View>
-                                </View>
-
-                                {showDistanceError && (
-                                    <Text style={styles.errorText}>
-                                        Please enter a valid distance greater than 0
-                                    </Text>
-                                )}
-
-                                {tripLogged && (
-                                    <View style={styles.successContainer}>
-                                        <Text style={styles.successMessage}>Trip logged successfully!</Text>
-                                    </View>
-                                )}
-                            </View>
+                        <View style={styles.headerBlock}>
+                            <ThemedText type="title">Registar Viagem</ThemedText>
+                            <ThemedText type="default" style={styles.headerSubtitle}>
+                                Escolhe o transporte e adiciona a distancia percorrida.
+                            </ThemedText>
                         </View>
+
+                        <ThemedView style={styles.card}>
+                            <ThemedText type="defaultSemiBold" style={styles.sectionLabel}>
+                                Transport Mode
+                            </ThemedText>
+                            <ThemedText type="default" style={styles.selectedTransportText}>
+                                {selectedTransport ?? 'Select...'}
+                            </ThemedText>
+
+                            <View style={styles.transportOptionsRow}>
+                                {TRANSPORT_MODES.map((mode) => {
+                                    const isSelected = selectedTransport === mode;
+
+                                    return (
+                                        <TouchableOpacity
+                                            key={mode}
+                                            style={[
+                                                styles.transportOption,
+                                                isSelected && styles.transportOptionSelected,
+                                            ]}
+                                            activeOpacity={0.8}
+                                            onPress={() => {
+                                                setSelectedTransport(mode);
+                                                setTripLogged(false);
+                                                Keyboard.dismiss();
+                                            }}
+                                        >
+                                            <ThemedText
+                                                type="defaultSemiBold"
+                                                style={[
+                                                    styles.transportOptionText,
+                                                    isSelected && styles.transportOptionTextSelected,
+                                                ]}
+                                            >
+                                                {mode}
+                                            </ThemedText>
+                                        </TouchableOpacity>
+                                    );
+                                })}
+                            </View>
+
+                            <ThemedText type="defaultSemiBold" style={styles.sectionLabel}>
+                                Distance
+                            </ThemedText>
+                            <View style={styles.inputRow}>
+                                <TextInput
+                                    style={[styles.input, showDistanceError && styles.inputError]}
+                                    placeholder="Distance (km)"
+                                    keyboardType="decimal-pad"
+                                    returnKeyType="done"
+                                    value={distance}
+                                    onBlur={() => setIsDistanceTouched(true)}
+                                    onSubmitEditing={Keyboard.dismiss}
+                                    onChangeText={(value) => {
+                                        setDistance(value);
+                                        setIsDistanceTouched(true);
+                                        setTripLogged(false);
+                                    }}
+                                />
+                                <View style={styles.kmBadge}>
+                                    <ThemedText type="defaultSemiBold" style={styles.kmBadgeText}>
+                                        km
+                                    </ThemedText>
+                                </View>
+                            </View>
+
+                            {showDistanceError && (
+                                <ThemedText style={styles.errorText}>
+                                    Please enter a valid distance greater than 0
+                                </ThemedText>
+                            )}
+
+                            {tripLogged && (
+                                <View style={styles.successContainer}>
+                                    <ThemedText type="defaultSemiBold" style={styles.successMessage}>
+                                        Trip logged successfully!
+                                    </ThemedText>
+                                </View>
+                            )}
+                        </ThemedView>
 
                         <TouchableOpacity
                             style={[styles.button, !canSaveTrip && styles.buttonDisabled]}
                             onPress={handleSaveTrip}
-                            activeOpacity={canSaveTrip ? 0.9 : 1}
+                            activeOpacity={canSaveTrip ? 0.7 : 1}
                             disabled={!canSaveTrip}
                         >
-                            <Text style={styles.buttonText}>Save Trip</Text>
+                            <ThemedText type="defaultSemiBold" style={styles.buttonText}>
+                                Save Trip
+                            </ThemedText>
                         </TouchableOpacity>
                     </ScrollView>
                 </Pressable>
             </KeyboardAvoidingView>
-        </SafeAreaView>
+        </ThemedView>
     );
 }
 
 const styles = StyleSheet.create({
+    screen: {
+        flex: 1,
+    },
     flex: {
         flex: 1,
     },
-    safeArea: {
-        flex: 1,
-        backgroundColor: '#eff6ff',
-    },
     container: {
         padding: 20,
-        paddingBottom: 36,
+        paddingTop: 26,
+        paddingBottom: 30,
         gap: 18,
     },
-    backgroundOrbTop: {
-        position: 'absolute',
-        width: 260,
-        height: 260,
-        borderRadius: 130,
-        backgroundColor: '#dbeafe',
-        top: -90,
-        right: -70,
-        opacity: 0.8,
-    },
-    backgroundOrbBottom: {
-        position: 'absolute',
-        width: 240,
-        height: 240,
-        borderRadius: 120,
-        backgroundColor: '#dcfce7',
-        bottom: -110,
-        left: -70,
-        opacity: 0.8,
-    },
     headerBlock: {
-        marginBottom: 14,
-    },
-    headerTitle: {
-        fontSize: 38,
-        fontWeight: '800',
-        color: '#0f172a',
-        letterSpacing: 0.2,
+        gap: 4,
     },
     headerSubtitle: {
-        marginTop: 6,
-        fontSize: 15,
-        lineHeight: 22,
-        color: '#475569',
+        opacity: 0.8,
     },
     card: {
-        backgroundColor: '#ffffff',
-        borderRadius: 20,
-        padding: 18,
+        padding: 20,
+        borderRadius: 16,
+        backgroundColor: 'rgba(255,255,255,0.15)',
         borderWidth: 1,
-        borderColor: '#e2e8f0',
-        shadowColor: '#0f172a',
-        shadowOpacity: 0.12,
-        shadowRadius: 18,
-        shadowOffset: {
-            width: 0,
-            height: 8,
-        },
-        elevation: 6,
+        borderColor: 'rgba(255,255,255,0.25)',
     },
     sectionLabel: {
-        fontSize: 14,
-        fontWeight: '800',
-        color: '#1e293b',
         marginBottom: 8,
-        marginTop: 8,
-        textTransform: 'uppercase',
-        letterSpacing: 0.6,
+        marginTop: 6,
     },
     selectedTransportText: {
-        fontSize: 16,
-        color: '#0f172a',
         marginBottom: 12,
-        fontWeight: '700',
+        opacity: 0.8,
     },
     transportOptionsRow: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 9,
+        gap: 8,
         marginBottom: 16,
     },
     transportOption: {
         borderWidth: 1,
-        borderColor: '#cbd5e1',
-        borderRadius: 999,
-        paddingVertical: 10,
-        paddingHorizontal: 14,
-        backgroundColor: '#f8fafc',
+        borderColor: 'rgba(255,255,255,0.45)',
+        borderRadius: 12,
+        paddingVertical: 9,
+        paddingHorizontal: 12,
+        backgroundColor: 'rgba(255,255,255,0.08)',
     },
     transportOptionSelected: {
-        borderColor: '#16a34a',
-        backgroundColor: '#dcfce7',
+        borderColor: '#4CAF50',
+        backgroundColor: 'rgba(76,175,80,0.18)',
     },
     transportOptionText: {
         fontSize: 14,
-        color: '#334155',
-        fontWeight: '600',
     },
     transportOptionTextSelected: {
-        color: '#166534',
-        fontWeight: '700',
+        color: '#4CAF50',
     },
     inputRow: {
         position: 'relative',
@@ -282,78 +241,74 @@ const styles = StyleSheet.create({
     },
     input: {
         width: '100%',
-        paddingVertical: 13,
+        paddingVertical: 12,
         paddingHorizontal: 12,
-        paddingRight: 52,
+        paddingRight: 50,
         borderWidth: 1,
-        borderColor: '#94a3b8',
-        borderRadius: 14,
-        backgroundColor: '#f8fafc',
+        borderColor: 'rgba(255,255,255,0.35)',
+        borderRadius: 12,
+        backgroundColor: 'rgba(255,255,255,0.12)',
         fontSize: 16,
-        color: '#0f172a',
+        color: '#11181C',
     },
     kmBadge: {
         position: 'absolute',
         right: 10,
-        backgroundColor: '#e2e8f0',
-        borderRadius: 999,
-        paddingHorizontal: 10,
+        backgroundColor: 'rgba(255,255,255,0.25)',
+        borderRadius: 10,
+        paddingHorizontal: 8,
         paddingVertical: 4,
     },
     kmBadgeText: {
         fontSize: 12,
-        fontWeight: '700',
-        color: '#334155',
+        color: '#11181C',
     },
     inputError: {
         borderColor: '#ef4444',
-        borderWidth: 1.8,
+        borderWidth: 1.5,
     },
     errorText: {
         marginTop: 8,
-        fontSize: 13,
         color: '#dc2626',
-        fontWeight: '600',
+        fontSize: 14,
     },
     button: {
-        backgroundColor: '#16a34a',
-        paddingVertical: 16,
-        borderRadius: 16,
+        backgroundColor: '#4CAF50',
+        paddingVertical: 18,
+        borderRadius: 12,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 4,
-        shadowColor: '#14532d',
-        shadowOpacity: 0.28,
-        shadowRadius: 16,
+        marginTop: 2,
+        shadowColor: '#000',
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
         shadowOffset: {
             width: 0,
-            height: 6,
+            height: 2,
         },
-        elevation: 7,
+        elevation: 5,
     },
     buttonDisabled: {
-        backgroundColor: '#94a3b8',
+        backgroundColor: '#9CA3AF',
         shadowOpacity: 0,
         elevation: 0,
     },
     buttonText: {
-        color: '#fff',
+        color: 'white',
         fontSize: 18,
-        fontWeight: '700',
-        letterSpacing: 0.3,
     },
     successContainer: {
         marginTop: 14,
         borderWidth: 1,
-        borderColor: '#86efac',
-        backgroundColor: '#f0fdf4',
+        borderColor: '#86EFAC',
+        backgroundColor: '#F0FDF4',
         borderRadius: 12,
         paddingHorizontal: 12,
         paddingVertical: 10,
     },
     successMessage: {
-        fontSize: 14,
-        color: '#16a34a',
-        fontWeight: '700',
+        color: '#166534',
+        fontSize: 15,
+        lineHeight: 20,
     },
 });
