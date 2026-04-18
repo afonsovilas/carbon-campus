@@ -1,30 +1,39 @@
-import { StyleSheet, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-
-const history = [
-    { mode: 'Autocarro', distance: '2.3km', points: 45, date: '18/03' },
-    { mode: 'Metro', distance: '1.8km', points: 38, date: '17/03' },
-    { mode: 'Bicicleta', distance: '4.1km', points: 82, date: '16/03' },
-];
+import { useTrips } from '@/contexts/TripsContext';
+import { ScrollView, StyleSheet } from 'react-native';
 
 export default function HistoryScreen() {
+    const { trips } = useTrips();
+
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
             <ThemedText type="title">📜 Histórico de Viagens</ThemedText>
 
-            {history.map((trip, index) => (
-                <ThemedView key={index} style={styles.tripItem}>
-                    <ThemedText type="default">{trip.mode} ({trip.distance})</ThemedText>
-                    <ThemedText type="subtitle">+{trip.points} pts • {trip.date}</ThemedText>
-                </ThemedView>
-            ))}
+            {trips.length === 0 ? (
+                <ThemedText type="default" style={styles.emptyMessage}>
+                    Nenhuma viagem registada ainda
+                </ThemedText>
+            ) : (
+                trips.map((trip) => (
+                    <ThemedView key={trip.id} style={styles.tripItem}>
+                        <ThemedText type="default">{trip.mode} ({trip.distance}km)</ThemedText>
+                        <ThemedText type="subtitle">+{trip.points} pts • {trip.date}</ThemedText>
+                    </ThemedView>
+                ))
+            )}
         </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20 },
+    container: { flex: 1, padding: 20, paddingTop: 100 },
+    contentContainer: {
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingBottom: 40,
+        paddingTop: 40,
+    },
     tripItem: {
         padding: 20,
         borderRadius: 12,
@@ -33,5 +42,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        width: '100%',
+    },
+    emptyMessage: {
+        marginTop: 40,
+        opacity: 0.7,
+        textAlign: 'center',
     },
 });

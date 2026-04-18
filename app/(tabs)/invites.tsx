@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import React, { useState } from 'react';
+import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function FriendsScreen() {
     const theme = useColorScheme() ?? 'light';
@@ -74,13 +74,13 @@ export default function FriendsScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20, gap: 20 },
-    searchContainer: { flexDirection: 'row', gap: 10, marginTop: 10 },
+    container: { flex: 1, padding: 20, gap: 20, alignItems: 'center', width: '100%', paddingTop: 100, justifyContent: 'flex-start' },
+    searchContainer: { flexDirection: 'row', gap: 10, marginTop: 10, width: '100%' },
     input: { flex: 1, borderWidth: 1, borderRadius: 12, padding: 12 },
     searchButton: { backgroundColor: '#4CAF50', padding: 12, borderRadius: 12, justifyContent: 'center' },
     profileCard: {
         padding: 20, borderRadius: 16, backgroundColor: 'rgba(255,255,255,0.1)',
-        flexDirection: 'row', alignItems: 'center', gap: 15, marginTop: 20
+        flexDirection: 'row', alignItems: 'center', gap: 15, marginTop: 20, width: '100%'
     },
     profileInfo: { flex: 1 },
     actionButton: { backgroundColor: '#22c55e', padding: 10, borderRadius: 8 },

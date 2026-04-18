@@ -55,7 +55,7 @@ export default function RankingScreen() {
 
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => router.push('LogTripScreen')}
+                    onPress={() => router.push('/(tabs)/LogTripScreen')}
                     testID="register-trip-button"
                 >
                     <ThemedText type="defaultSemiBold" style={styles.buttonText}>
@@ -138,18 +138,23 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 20,
-        justifyContent: 'space-between',
+        paddingTop: 100,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        width: '100%',
     },
     title: {
-        marginBottom: 20,
+        marginBottom: 40,
         textAlign: 'center',
     },
     leaderboardContainer: {
         flex: 1,
+        marginTop: 20,
         marginBottom: 20,
         borderRadius: 16,
         backgroundColor: 'rgba(255,255,255,0.08)',
         padding: 16,
+        width: '100%',
     },
     leaderboardHeader: {
         flexDirection: 'row',
@@ -192,6 +197,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 12,
         paddingBottom: 10,
+        width: '100%',
     },
     tabButton: {
         flex: 1,

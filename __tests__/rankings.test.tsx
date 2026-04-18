@@ -30,7 +30,7 @@ describe('Automated Acceptance Test: US10 - Tabela Bloqueada', () => {
 
         fireEvent.press(registerButton);
 
-        expect(router.push).toHaveBeenCalledWith('LogTripScreen');
+        expect(router.push).toHaveBeenCalledWith('/(tabs)/LogTripScreen');
     });
 
 });

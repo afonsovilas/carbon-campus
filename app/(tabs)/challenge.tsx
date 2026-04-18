@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { StyleSheet, TextInput, ScrollView, TouchableOpacity, View, Alert } from 'react-native';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import React, { useState } from 'react';
+import { Alert, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function ChallengesScreen() {
     // --- Estados para Criação de Desafios ---
@@ -43,7 +43,7 @@ export default function ChallengesScreen() {
     };
 
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
+        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
             <ThemedText type="title">🏆 New Challenge</ThemedText>
 
             <ThemedView style={styles.card}>
@@ -137,33 +137,39 @@ export default function ChallengesScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20 },
-    card: { padding: 15, marginTop: 20, borderRadius: 12, gap: 10, backgroundColor: 'rgba(255,255,255,0.1)' },
+    container: { flex: 1, padding: 20, paddingTop: 100 },
+    contentContainer: {
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        paddingBottom: 40,
+        paddingTop: 40,
+    },
+    card: { padding: 15, marginTop: 20, borderRadius: 12, gap: 10, backgroundColor: 'rgba(255,255,255,0.1)', width: '100%' },
     input: { backgroundColor: 'white', padding: 12, borderRadius: 8, color: '#000' },
-    row: { flexDirection: 'row', gap: 10 },
-    createButton: { backgroundColor: '#4CAF50', padding: 15, borderRadius: 8, alignItems: 'center' },
+    row: { flexDirection: 'row', gap: 10, width: '100%' },
+    createButton: { backgroundColor: '#4CAF50', padding: 15, borderRadius: 8, alignItems: 'center', width: '100%' },
 
     // Lista de Desafios
     challengeItem: {
         padding: 15, borderRadius: 12, marginVertical: 5,
-        flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.05)'
+        flexDirection: 'row', alignItems: 'center', backgroundColor: 'rgba(255,255,255,0.05)', width: '100%'
     },
     inviteButton: { backgroundColor: '#2196F3', padding: 10, borderRadius: 8 },
 
     // Contentor de Convite (O que pediste)
     inviteFriendsContainer: {
         marginTop: 10, marginBottom: 20, padding: 15, borderRadius: 12,
-        backgroundColor: 'rgba(33, 150, 243, 0.1)', borderWidth: 1, borderColor: '#2196F3'
+        backgroundColor: 'rgba(33, 150, 243, 0.1)', borderWidth: 1, borderColor: '#2196F3', width: '100%'
     },
     headerRow: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 10 },
-    searchContainer: { flexDirection: 'row', gap: 10 },
+    searchContainer: { flexDirection: 'row', gap: 10, width: '100%' },
     innerInput: { flex: 1, backgroundColor: 'white', padding: 10, borderRadius: 8, color: '#000' },
     searchButton: { backgroundColor: '#4CAF50', padding: 10, borderRadius: 8, justifyContent: 'center' },
 
     // Resultado da Pesquisa
     foundUserCard: {
         flexDirection: 'row', alignItems: 'center', marginTop: 15,
-        padding: 10, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 8
+        padding: 10, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 8, width: '100%'
     },
     addFriendButton: { backgroundColor: '#2196F3', padding: 8, borderRadius: 6 }
 });
