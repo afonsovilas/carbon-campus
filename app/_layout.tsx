@@ -1,8 +1,9 @@
+import { TripsProvider } from '@/contexts/TripsContext';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export const unstable_settings = {
     initialRouteName: 'login',
@@ -13,18 +14,20 @@ export default function RootLayout() {
 
     return (
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <Stack initialRouteName="login">
-                <Stack.Screen name="login" options={{
-                    headerShown: false,
-                }} />
-                <Stack.Screen name="register" options={{
-                    headerShown: true,
-                    title: 'CarbonCampus Registo'
-                }} />
-                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-            </Stack>
-            <StatusBar style="auto" />
+            <TripsProvider>
+                <Stack initialRouteName="login">
+                    <Stack.Screen name="login" options={{
+                        headerShown: false,
+                    }} />
+                    <Stack.Screen name="register" options={{
+                        headerShown: true,
+                        title: 'CarbonCampus Registo'
+                    }} />
+                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                    <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+                </Stack>
+                <StatusBar style="auto" />
+            </TripsProvider>
         </ThemeProvider>
     );
 }

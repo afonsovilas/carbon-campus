@@ -1,5 +1,6 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { useTrips } from '@/contexts/TripsContext';
 import React, { useMemo, useState } from 'react';
 import {
     Keyboard,
@@ -32,7 +33,19 @@ const TRANSPORT_MODES: TransportMode[] = [
     'Electric Scooter',
 ];
 
+// Pontos por km para cada modo de transporte
+const POINTS_PER_KM: Record<TransportMode, number> = {
+    'Bicycle': 20,
+    'Car': 5,
+    'Walking': 15,
+    'Train': 10,
+    'Bus': 12,
+    'Metro': 10,
+    'Electric Scooter': 18,
+};
+
 export default function LogTripScreen() {
+    const { addTrip } = useTrips();
     const [selectedTransport, setSelectedTransport] = useState<TransportMode | null>(null);
     const [distance, setDistance] = useState('');
     const [tripLogged, setTripLogged] = useState(false);
@@ -43,12 +56,28 @@ export default function LogTripScreen() {
     const showDistanceError = isDistanceTouched && !isDistanceValid;
     const canSaveTrip = isDistanceValid && selectedTransport !== null;
 
+    const calculatePoints = (mode: TransportMode, dist: number): number => {
+        return Math.round(dist * POINTS_PER_KM[mode]);
+    };
+
     const handleSaveTrip = () => {
         setIsDistanceTouched(true);
 
-        if (!canSaveTrip) {
+        if (!canSaveTrip || !selectedTransport) {
             return;
         }
+
+        const points = calculatePoints(selectedTransport, parsedDistance);
+        const today = new Date();
+        const dateString = `${today.getDate()}/${today.getMonth() + 1}`;
+
+        addTrip({
+            id: `trip-${Date.now()}`,
+            mode: selectedTransport,
+            distance: parsedDistance,
+            points: points,
+            date: dateString,
+        });
 
         setTripLogged(true);
         setDistance('');
