@@ -1,7 +1,8 @@
-import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react-native';
-import RankingScreen from '../app/(tabs)/rankings';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
+import React from 'react';
+import RankingScreen from '../app/(tabs)/rankings';
+import { TripsProvider } from '../contexts/TripsContext';
 
 
 jest.mock('expo-router', () => ({
@@ -12,8 +13,11 @@ describe('Automated Acceptance Test: US10 - Tabela Bloqueada', () => {
 
     it('Scenario: User has 0 trips and views Locked Leaderboard', () => {
 
-
-        render(<RankingScreen />);
+        render(
+            <TripsProvider>
+                <RankingScreen />
+            </TripsProvider>
+        );
 
         const lockedTitle = screen.getByTestId('locked-title');
         expect(lockedTitle).toBeTruthy();
@@ -26,7 +30,7 @@ describe('Automated Acceptance Test: US10 - Tabela Bloqueada', () => {
 
         fireEvent.press(registerButton);
 
-        expect(router.push).toHaveBeenCalledWith('/LogTripScreen');
+        expect(router.push).toHaveBeenCalledWith('LogTripScreen');
     });
 
 });
