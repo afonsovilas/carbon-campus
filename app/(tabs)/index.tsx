@@ -1,9 +1,11 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function HomeScreen() {
+    const router = useRouter();
+
     return (
         <ThemedView style={styles.container}>
             <ThemedText type="title">🌿 CarbonCampus</ThemedText>
@@ -19,11 +21,19 @@ export default function HomeScreen() {
                 </Link>
             </ThemedView>
 
-            <TouchableOpacity style={styles.button} activeOpacity={0.7}>
+            <TouchableOpacity 
+                style={styles.button} 
+                activeOpacity={0.7}
+                onPress={() => router.push('/(tabs)/LogTripScreen')}
+            >
                 <ThemedText type="title">➕ Registar Viagem</ThemedText>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.button} activeOpacity={0.7}>
+            <TouchableOpacity 
+                style={styles.button} 
+                activeOpacity={0.7}
+                onPress={() => router.push('/(tabs)/rankings')}
+            >
                 <ThemedText type="title">🏆 Ranking</ThemedText>
             </TouchableOpacity>
 
