@@ -155,5 +155,6 @@ Focused on the implementation of Competitive Group Challenges and refining the a
 
 ## DevOps Status
 
-[![CI - Code Quality & Tests](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/actions/workflows/ci.yml/badge.svg)](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/actions/workflows/ci.yml)
-[![CD - Build Android APK](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/actions/workflows/build-apk.yml/badge.svg)](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/actions/workflows/build-apk.yml)
+CI-[![CI - Code Quality & Tests](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/T5/actions/workflows/ci.yml/badge.svg)](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/T5/actions/workflows/ci.yml)
+
+CD-[![CD - Build Android APK](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/T5/actions/workflows/build-apk.yml/badge.svg)](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/T5/actions/workflows/build-apk.yml)
