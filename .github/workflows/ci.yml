@@ -1,0 +1,36 @@
+name: CI - Code Quality & Tests #CI-continuous implementation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
+
+jobs:
+  validate:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '25' 
+          cache: 'npm'
+
+      - name: Install dependencies (Strictly)
+        run: npm ci
+
+      - name: Run Code Linter
+        run: npm run lint
+
+      - name: Run Unit Tests & Coverage
+        run: npm run test -- --coverage
