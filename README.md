@@ -152,3 +152,8 @@ Focused on the implementation of Competitive Group Challenges and refining the a
 - Guilherme Pinho and up202406596@up.pt
 - Luís Castanheira and up202404122@up.pt
 - Pedro Cunha and up202403358@up.pt
+
+## DevOps Status
+
+[![CI - Code Quality & Tests](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/actions/workflows/ci.yml/badge.svg)](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/actions/workflows/ci.yml)
+[![CD - Build Android APK](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/actions/workflows/build-apk.yml/badge.svg)](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/actions/workflows/build-apk.yml)
