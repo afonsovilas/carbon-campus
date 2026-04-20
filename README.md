@@ -1,5 +1,7 @@
 # CarbonCampus Development Report
 
+![CI](https://github.com/your-org/your-repo/actions/workflows/ci.yml/badge.svg)
+
 Welcome to the documentation of **CarbonCampus**!
 
 This Software Development Report, tailored for LEIC-ES-2025-26, provides comprehensive details about **CarbonCampus**, starting from a high-level vision and going into low-level implementation decisions.
@@ -135,7 +137,23 @@ Our project management workflow is structured around the following key areas:
 
 ### Sprint 1
 
-The detailed notes from our Sprint 1 Planning and Retrospective can be found in our dedicated documentation. During this sprint, we successfully established the foundational UI and the social networking logic.
+The detailed notes from our Sprint 1 Planning and Retrospective can be found in [SprintPlanningRetrospectives.md](./SprintPlanningRetrospectives.md). During this sprint, we successfully established the foundational UI and the social networking logic.
+
+**Delivered in Sprint 1 (v1.0.0):**
+
+| User Story | Description | Acceptance Tests |
+|---|---|---|
+| US3 | Log sustainable trip (transport + distance) | `__tests__/LogTripScreen.test.tsx` |
+| US4 | Automatic CO2 calculation & display | `__tests__/co2.test.ts` |
+| US5 | CO2 score on main dashboard | `__tests__/rankings.test.tsx` |
+| US6/US7 | Friend invite system (search + accept/reject) | `__tests__/invites.test.tsx` |
+| US8/US9 | Create challenges & invite friends | `__tests__/challenge.test.tsx` |
+| US10 | Leaderboard (locked until first trip) | `__tests__/rankings.test.tsx` |
+
+**DevOps:**
+- GitHub Actions CI pipeline: ESLint + Jest (with coverage) on every push/PR.
+- Automatic Android APK build on every new git tag/release.
+- See [CHANGELOG.md](./CHANGELOG.md) for full release notes.
 
 ### Sprint 2
 

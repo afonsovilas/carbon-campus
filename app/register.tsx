@@ -8,13 +8,8 @@ export default function RegisterScreen() {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleRegister = () => {
-        if (!email || !password || !confirmPassword) {
+        if (!email || !password) {
             Alert.alert('Erro', 'Preenche todos os campos');
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            Alert.alert('Erro', 'As passwords não coincidem');
             return;
         }
 
@@ -23,9 +18,8 @@ export default function RegisterScreen() {
             return;
         }
 
-        Alert.alert('Sucesso', 'Conta criada com sucesso!', [
-            { text: 'OK', onPress: () => router.replace('/(tabs)' as any) }
-        ]);
+        Alert.alert('Sucesso', 'Bem-vindo ao CarbonCampus!');
+        router.replace('/(tabs)' as any);
     };
 
     return (
