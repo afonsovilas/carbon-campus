@@ -7,6 +7,7 @@ import ChallengesScreen from '../app/(tabs)/challenge';
 import FriendsScreen from '../app/(tabs)/invites';
 import LogTripScreen from '../app/(tabs)/LogTripScreen';
 import RegisterScreen from '../app/register';
+import { TripsProvider } from '../contexts/TripsContext';
 
 jest.mock('expo-router', () => ({
   router: {
@@ -48,7 +49,11 @@ describe('Integration tests - component flows', () => {
   });
 
   it('LogTrip enables save button only when requirements are met', () => {
-    const { getByText, getByPlaceholderText, queryByText } = render(<LogTripScreen />);
+    const { getByText, getByPlaceholderText, queryByText } = render(
+      <TripsProvider>
+        <LogTripScreen />
+      </TripsProvider>
+    );
 
     fireEvent.press(getByText('Save Trip'));
     expect(queryByText('Trip logged successfully!')).toBeNull();

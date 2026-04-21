@@ -1,0 +1,171 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run jest tests",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand"
+			]
+		},
+		{
+			"label": "Run jest tests",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand"
+			]
+		},
+		{
+			"label": "Run unit trips test",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--testPathPattern",
+				"unit.trips-context.test.tsx"
+			]
+		},
+		{
+			"label": "Run full jest suite now",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand"
+			]
+		},
+		{
+			"label": "Run fixed new tests",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--testPathPattern",
+				"home.test.tsx|register-trip.test.tsx|history.test.tsx"
+			]
+		},
+		{
+			"label": "Run fixed new tests quoted",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--testPathPattern",
+				"\"home.test.tsx|register-trip.test.tsx|history.test.tsx\""
+			]
+		},
+		{
+			"label": "Run home test",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--testPathPattern",
+				"home.test.tsx"
+			]
+		},
+		{
+			"label": "Run register-trip test",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--testPathPattern",
+				"register-trip.test.tsx"
+			]
+		},
+		{
+			"label": "Run history test",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--testPathPattern",
+				"history.test.tsx"
+			]
+		},
+		{
+			"label": "Run full Jest suite final",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand"
+			]
+		},
+		{
+			"label": "Run final full suite after import fixes",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand"
+			]
+		},
+		{
+			"label": "Run final suite post-ts-fixes",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand"
+			]
+		},
+		{
+			"label": "Run rankings test no-warning",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--testPathPattern",
+				"rankings.test.tsx"
+			]
+		},
+		{
+			"label": "Run rankings test fixed warning",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--testPathPattern",
+				"rankings.test.tsx"
+			]
+		},
+		{
+			"label": "Run full suite after warning fix",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand"
+			]
+		}
+	]
+}

@@ -9,6 +9,14 @@ jest.mock('expo-router', () => ({
     router: { push: jest.fn() }
 }));
 
+jest.mock('@expo/vector-icons', () => ({
+    Ionicons: () => {
+        const React = require('react');
+        const { View } = require('react-native');
+        return React.createElement(View, { testID: 'mock-ionicon' });
+    },
+}));
+
 describe('Automated Acceptance Test: US10 - Tabela Bloqueada', () => {
 
     it('Scenario: User has 0 trips and views Locked Leaderboard', () => {

@@ -4,10 +4,16 @@ This document defines manual UAT scenarios for features that already have automa
 
 ## Scope
 
+- App bootstrap redirect
+- Login
 - Register
+- Home dashboard
 - Log Trip
+- Register Trip confirmation screen
+- Rewards screen
 - Invites
 - Challenges
+- History
 - Rankings (locked state)
 
 ## Execution Info
@@ -43,6 +49,36 @@ This document defines manual UAT scenarios for features that already have automa
 2. Mismatch: alert "As passwords não coincidem"
 3. Duplicate: alert "Email já registado"
 
+### UAT-LOGIN-01: Successful login
+
+- Precondition: user is on login screen
+- Steps:
+1. Fill Email with `teste@up.pt`
+2. Fill Password with `1234`
+3. Tap Entrar
+- Expected results:
+1. App navigates to tabs area
+
+### UAT-LOGIN-02: Login validation errors
+
+- Precondition: user is on login screen
+- Steps:
+1. Tap Entrar with empty fields
+2. Fill invalid credentials and tap Entrar
+- Expected results:
+1. Empty fields: alert "Preenche todos os campos"
+2. Invalid credentials: alert "Email ou password incorretos"
+
+### UAT-HOME-01: Dashboard navigation actions
+
+- Precondition: user is in home tab
+- Steps:
+1. Tap "Registar Viagem"
+2. Return to home and tap "Ranking"
+- Expected results:
+1. First action opens LogTrip screen
+2. Second action opens Rankings screen
+
 ### UAT-LOG-01: Successful trip logging
 
 - Precondition: user is on LogTrip screen
@@ -64,6 +100,17 @@ This document defines manual UAT scenarios for features that already have automa
 - Expected results:
 1. Save button remains disabled or submit does not proceed
 2. Validation message "Please enter a valid distance greater than 0" appears
+
+### UAT-HIS-01: History state by trip availability
+
+- Precondition: user is in history tab
+- Steps:
+1. Open history before logging any trip
+2. Log one trip
+3. Return to history
+- Expected results:
+1. Before logging: message "Nenhuma viagem registada ainda"
+2. After logging: list includes new trip with mode, distance, points, and date
 
 ### UAT-INV-01: Invite request success
 
@@ -98,6 +145,42 @@ This document defines manual UAT scenarios for features that already have automa
 1. Challenge appears in active list
 2. Invite panel opens with correct challenge name
 3. Success alert confirms invite sent
+
+### UAT-REWARD-01: Reward blocked without station validation
+
+- Precondition: user is outside station area or location unavailable
+- Steps:
+1. Open rewards screen
+- Expected results:
+1. Reward remains visually blocked
+2. User sees guidance to move closer to the station
+
+### UAT-REWARD-02: Reward QR generation at station
+
+- Precondition: user is within allowed station radius and has points
+- Steps:
+1. Open rewards screen
+2. Tap "Obter Código QR"
+- Expected results:
+1. QR code is generated and displayed
+2. Points are reduced by reward cost
+
+### UAT-REGTRIP-01: Register trip confirmation screen behavior
+
+- Precondition: user is on register-trip screen
+- Steps:
+1. Tap "CONFIRMAR REGISTO"
+- Expected results:
+1. Confirmation alert appears
+2. App navigates back to previous screen
+
+### UAT-BOOT-01: Initial redirect
+
+- Precondition: app freshly launched
+- Steps:
+1. Open app root route
+- Expected results:
+1. App redirects to login screen
 
 ### UAT-RANK-01: Locked ranking state
 

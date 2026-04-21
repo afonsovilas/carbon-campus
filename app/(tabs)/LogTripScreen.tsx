@@ -1,6 +1,13 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useTrips } from '@/contexts/TripsContext';
+import {
+    calculateTripPoints,
+    canSaveTrip as canSaveTripFn,
+    isDistanceValid,
+    parseDistance,
+    TransportMode,
+} from '@/utils/functional-requirements';
 import React, { useMemo, useState } from 'react';
 import {
     Keyboard,
@@ -14,15 +21,6 @@ import {
     View,
 } from 'react-native';
 
-type TransportMode =
-    | 'Bicycle'
-    | 'Car'
-    | 'Walking'
-    | 'Train'
-    | 'Bus'
-    | 'Metro'
-    | 'Electric Scooter'
-
 const TRANSPORT_MODES: TransportMode[] = [
     'Bicycle',
     'Car',
@@ -33,17 +31,6 @@ const TRANSPORT_MODES: TransportMode[] = [
     'Electric Scooter',
 ];
 
-// Pontos por km para cada modo de transporte
-const POINTS_PER_KM: Record<TransportMode, number> = {
-    'Bicycle': 20,
-    'Car': 5,
-    'Walking': 15,
-    'Train': 10,
-    'Bus': 12,
-    'Metro': 10,
-    'Electric Scooter': 18,
-};
-
 export default function LogTripScreen() {
     const { addTrip } = useTrips();
     const [selectedTransport, setSelectedTransport] = useState<TransportMode | null>(null);
@@ -51,11 +38,14 @@ export default function LogTripScreen() {
     const [tripLogged, setTripLogged] = useState(false);
     const [isDistanceTouched, setIsDistanceTouched] = useState(false);
 
-    const parsedDistance = useMemo(() => Number(distance.replace(',', '.')), [distance]);
-    const isDistanceValid = distance.trim() !== '' && Number.isFinite(parsedDistance) && parsedDistance > 0;
-    const showDistanceError = isDistanceTouched && !isDistanceValid;
-    const canSaveTrip = isDistanceValid && selectedTransport !== null;
-
+    const parsedDistance = useMemo(() => parseDistance(distance), [distance]);
+    const distanceIsValid = useMemo(() => isDistanceValid(distance), [distance]);
+    const showDistanceError = isDistanceTouched && !distanceIsValid;
+    const canSaveTrip = useMemo(
+        () => canSaveTripFn(distance, selectedTransport),
+        [distance, selectedTransport]
+    );
+    
     const handleSaveTrip = () => {
         setIsDistanceTouched(true);
 
@@ -63,7 +53,7 @@ export default function LogTripScreen() {
             return;
         }
 
-        const points = calculatePoints(selectedTransport, parsedDistance);
+        const points = calculateTripPoints(selectedTransport, parsedDistance);
         const today = new Date();
         const dateString = `${today.getDate()}/${today.getMonth() + 1}`;
 

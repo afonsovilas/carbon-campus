@@ -96,8 +96,8 @@ Each User Story in our backlog includes:
 
 The project includes automated and manual testing artifacts for implemented stories:
 
-- **Acceptance tests:** `__tests__/LogTripScreen.test.tsx`, `__tests__/register.test.tsx`, `__tests__/invites.test.tsx`, `__tests__/challenge.test.tsx`, `__tests__/rankings.test.tsx`
-- **Unit tests (main functional requirements):** `__tests__/unit.functional-requirements.test.ts`
+- **Acceptance tests:** `__tests__/LogTripScreen.test.tsx`, `__tests__/register.test.tsx`, `__tests__/login.test.tsx`, `__tests__/invites.test.tsx`, `__tests__/challenge.test.tsx`, `__tests__/rankings.test.tsx`, `__tests__/history.test.tsx`, `__tests__/home.test.tsx`, `__tests__/rewardScreen.test.tsx`, `__tests__/register-trip.test.tsx`, `__tests__/index-redirect.test.tsx`
+- **Unit tests (main functional requirements):** `__tests__/unit.functional-requirements.test.ts`, `__tests__/unit.trips-context.test.tsx`
 - **Integration tests (component integrations):** `__tests__/integration.functional-flows.test.tsx`
 - **User acceptance tests (UAT plan):** `docs/testing/UAT.md`
 - **Defect tracking and verification:** `docs/testing/defect-log.md`

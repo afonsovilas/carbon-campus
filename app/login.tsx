@@ -1,18 +1,21 @@
-import { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Alert, StyleSheet } from 'react-native';
+import { validateLogin } from '@/utils/functional-requirements';
 import { router } from 'expo-router';
+import { useState } from 'react';
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function LoginScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleLogin = () => {
-        if (!email || !password) {
+        const validation = validateLogin(email, password);
+
+        if (!validation.ok && validation.reason === 'missing_fields') {
             Alert.alert('Erro', 'Preenche todos os campos');
             return;
         }
 
-        if (email === 'teste@up.pt' && password === '1234') {
+        if (validation.ok) {
             router.replace('/(tabs)');
         } else {
             Alert.alert('Erro', 'Email ou password incorretos');
