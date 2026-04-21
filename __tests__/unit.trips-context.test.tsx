@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react-native';
 import React, { useEffect } from 'react';
 import { Text } from 'react-native';
@@ -29,6 +29,14 @@ function SeedTrips({ tripsToSeed }: { tripsToSeed: Trip[] }) {
 }
 
 describe('TripsContext unit tests', () => {
+  it('throws when useTrips is called outside provider', () => {
+    const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    expect(() => render(<SnapshotConsumer />)).toThrow('useTrips deve ser usado dentro de TripsProvider');
+
+    consoleErrorSpy.mockRestore();
+  });
+
   it('starts with empty trips state', () => {
     render(
       <TripsProvider>

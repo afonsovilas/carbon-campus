@@ -166,6 +166,77 @@
 				"--",
 				"--runInBand"
 			]
+		},
+		{
+			"label": "Run targeted coverage tests",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--testPathPattern",
+				"rankings.test.tsx|unit.trips-context.test.tsx|rewardScreen.test.tsx"
+			]
+		},
+		{
+			"label": "Run rankings test improved",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--testPathPattern",
+				"rankings.test.tsx"
+			]
+		},
+		{
+			"label": "Run context unit improved",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--testPathPattern",
+				"unit.trips-context.test.tsx"
+			]
+		},
+		{
+			"label": "Run rewards test improved",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--testPathPattern",
+				"rewardScreen.test.tsx"
+			]
+		},
+		{
+			"label": "Run full coverage report",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--coverage"
+			]
+		},
+		{
+			"label": "Generate coverage json summary",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand",
+				"--coverage",
+				"--coverageReporters=json-summary"
+			]
 		}
 	]
 }

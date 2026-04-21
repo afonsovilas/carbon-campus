@@ -53,4 +53,20 @@ describe('RewardScreen acceptance tests', () => {
       expect(getByText('Mostra este código na loja:')).toBeTruthy();
     });
   });
+
+  it('shows blocked reward state when user is far from station', async () => {
+    (Location.requestForegroundPermissionsAsync as any).mockResolvedValue({ status: 'granted' });
+    (Location.getCurrentPositionAsync as any).mockResolvedValue({
+      coords: {
+        latitude: 41.2,
+        longitude: -8.7,
+      },
+    });
+
+    const { getByText } = render(<RewardScreen />);
+
+    await waitFor(() => {
+      expect(getByText('Aproxima-te da estação para desbloqueares a recompensa.')).toBeTruthy();
+    });
+  });
 });
