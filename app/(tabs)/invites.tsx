@@ -3,6 +3,7 @@ import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { findMockUserByTag } from '@/utils/functional-requirements';
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -16,8 +17,9 @@ export default function FriendsScreen() {
         setStatus('searching');
         // Simulação da lógica de pesquisa (Cenário 1 e 2)
         setTimeout(() => {
-            if (searchTag.toLowerCase() === 'user1') {
-                setFoundUser({ name: 'User1', tag: '@user1_carbon' });
+            const user = findMockUserByTag(searchTag);
+            if (user) {
+                setFoundUser(user);
                 setStatus('idle');
             } else {
                 setFoundUser(null);
@@ -42,7 +44,7 @@ export default function FriendsScreen() {
                     value={searchTag}
                     onChangeText={setSearchTag}
                 />
-                <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+                <TouchableOpacity testID="search-button" style={styles.searchButton} onPress={handleSearch}>
                     <IconSymbol name="paperplane.fill" size={20} color="white" />
                 </TouchableOpacity>
             </View>
@@ -59,6 +61,7 @@ export default function FriendsScreen() {
                         <ThemedText>{foundUser.tag}</ThemedText>
                     </View>
                     <TouchableOpacity
+                        testID="send-request-button"
                         style={[styles.actionButton, status === 'sent' && styles.disabledButton]}
                         onPress={sendRequest}
                         disabled={status === 'sent'}

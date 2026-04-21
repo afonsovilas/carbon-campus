@@ -56,10 +56,6 @@ export default function LogTripScreen() {
     const showDistanceError = isDistanceTouched && !isDistanceValid;
     const canSaveTrip = isDistanceValid && selectedTransport !== null;
 
-    const calculatePoints = (mode: TransportMode, dist: number): number => {
-        return Math.round(dist * POINTS_PER_KM[mode]);
-    };
-
     const handleSaveTrip = () => {
         setIsDistanceTouched(true);
 
@@ -190,6 +186,7 @@ export default function LogTripScreen() {
                         </ThemedView>
 
                         <TouchableOpacity
+                            testID="save-trip-button"
                             style={[styles.button, !canSaveTrip && styles.buttonDisabled]}
                             onPress={handleSaveTrip}
                             activeOpacity={canSaveTrip ? 0.7 : 1}

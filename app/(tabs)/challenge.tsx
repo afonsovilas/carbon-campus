@@ -1,6 +1,7 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { canCreateChallenge, findMockUserByTag } from '@/utils/functional-requirements';
 import React, { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -17,7 +18,7 @@ export default function ChallengesScreen() {
     const [foundUser, setFoundUser] = useState<{ name: string; tag: string } | null>(null);
 
     const createChallenge = () => {
-        if (name && startDate && endDate) {
+        if (canCreateChallenge(name, startDate, endDate)) {
             const newChallenge = { id: Date.now(), name, startDate, endDate, participants: [] };
             setChallenges([newChallenge, ...challenges]);
             setName(''); setStartDate(''); setEndDate('');
@@ -26,8 +27,9 @@ export default function ChallengesScreen() {
 
     const handleSearchFriend = () => {
         // Simulação da mesma lógica do ecrã de Invites
-        if (searchTag.toLowerCase() === 'user1') {
-            setFoundUser({ name: 'User1', tag: '@user1_carbon' });
+        const user = findMockUserByTag(searchTag);
+        if (user) {
+            setFoundUser(user);
         } else {
             setFoundUser(null);
             Alert.alert("Erro", "Username does not exist");
@@ -95,7 +97,7 @@ export default function ChallengesScreen() {
                             value={searchTag}
                             onChangeText={setSearchTag}
                         />
-                        <TouchableOpacity style={styles.searchButton} onPress={handleSearchFriend}>
+                        <TouchableOpacity testID="search-friend-button" style={styles.searchButton} onPress={handleSearchFriend}>
                             <IconSymbol name="paperplane.fill" size={20} color="white" />
                         </TouchableOpacity>
                     </View>
@@ -107,6 +109,7 @@ export default function ChallengesScreen() {
                                 <ThemedText style={{ fontSize: 12, opacity: 0.7 }}>{foundUser.tag}</ThemedText>
                             </View>
                             <TouchableOpacity
+                                testID="confirm-invite-button"
                                 style={styles.addFriendButton}
                                 onPress={() => confirmInvite(showInviteFor, foundUser.tag)}
                             >
@@ -125,6 +128,7 @@ export default function ChallengesScreen() {
                     </View>
 
                     <TouchableOpacity
+                        testID="invite-btn"
                         style={styles.inviteButton}
                         onPress={() => setShowInviteFor(item.id)}
                     >

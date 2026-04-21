@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 import InvitesScreen from '../app/(tabs)/invites';
 
@@ -16,14 +16,12 @@ describe('InvitesScreen acceptance tests', () => {
     });
 
     it('Scenario 1: finds a user and sends a request successfully', async () => {
-        const { getByPlaceholderText, getByText, queryByText } = render(<InvitesScreen />);
+        const { getByPlaceholderText, getByText, getByTestId } = render(<InvitesScreen />);
 
         // Pesquisa pelo utilizador válido definido no código
         fireEvent.changeText(getByPlaceholderText('Search by tag...'), 'user1');
 
-        // Simula o clique no botão de pesquisa (encontrado pelo texto/ícone se tiver testID)
-        // Se o botão não tiver texto, podes usar testID="search-button"
-        const searchButton = getByText('🔍'); // Assumindo que o botão tem um identificador visual ou testID
+        const searchButton = getByTestId('search-button');
         fireEvent.press(searchButton);
 
         // Avança o tempo para a simulação do "setTimeout" da pesquisa
@@ -37,10 +35,10 @@ describe('InvitesScreen acceptance tests', () => {
     });
 
     it('Scenario 2: shows error message when user tag is not found', () => {
-        const { getByPlaceholderText, getByText } = render(<InvitesScreen />);
+        const { getByPlaceholderText, getByText, getByTestId } = render(<InvitesScreen />);
 
         fireEvent.changeText(getByPlaceholderText('Search by tag...'), 'unknown_user');
-        fireEvent.press(getByText('🔍'));
+        fireEvent.press(getByTestId('search-button'));
 
         act(() => { jest.advanceTimersByTime(800); });
 
