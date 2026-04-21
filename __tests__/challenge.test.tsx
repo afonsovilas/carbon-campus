@@ -31,7 +31,7 @@ describe('ChallengesScreen acceptance tests', () => {
     });
 
     it('Scenario 2: opens the invite container when clicking the invite button', () => {
-        const { getByPlaceholderText, getByText, queryByText } = render(<ChallengesScreen />);
+        const { getByPlaceholderText, getByText, getByTestId } = render(<ChallengesScreen />);
 
         // Primeiro criamos um desafio para ter algo na lista
         fireEvent.changeText(getByPlaceholderText('Challenge Name'), 'Desafio Teste');
@@ -39,9 +39,7 @@ describe('ChallengesScreen acceptance tests', () => {
         fireEvent.changeText(getByPlaceholderText('End (DD/MM)'), '20/10');
         fireEvent.press(getByText('Create Challenge'));
 
-        // Clicar no botão de convite (ícone de avião no item da lista)
-        // Dica: Adiciona testID="invite-btn" no TouchableOpacity do item da lista
-        const inviteBtn = getByText('✈️');
+        const inviteBtn = getByTestId('invite-btn');
         fireEvent.press(inviteBtn);
 
         // Verificar se o container de convite aparece

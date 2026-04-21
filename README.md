@@ -92,6 +92,16 @@ Each User Story in our backlog includes:
 - **Estimation:** Value (Business Priority) and Effort (Story Points) defined by the whole team.
 - **Refinement:** Larger stories were broken down into technical Tasks to be "immediately actionable" as per the LEIC-ES Dashboard criteria.
 
+### Testing Artifacts
+
+The project includes automated and manual testing artifacts for implemented stories:
+
+- **Acceptance tests:** `__tests__/LogTripScreen.test.tsx`, `__tests__/register.test.tsx`, `__tests__/login.test.tsx`, `__tests__/invites.test.tsx`, `__tests__/challenge.test.tsx`, `__tests__/rankings.test.tsx`, `__tests__/history.test.tsx`, `__tests__/home.test.tsx`, `__tests__/rewardScreen.test.tsx`, `__tests__/register-trip.test.tsx`, `__tests__/index-redirect.test.tsx`
+- **Unit tests (main functional requirements):** `__tests__/unit.functional-requirements.test.ts`, `__tests__/unit.trips-context.test.tsx`
+- **Integration tests (component integrations):** `__tests__/integration.functional-flows.test.tsx`
+- **User acceptance tests (UAT plan):** `docs/testing/UAT.md`
+- **Defect tracking and verification:** `docs/testing/defect-log.md`
+
 ### Domain Model
 
 Our app allows Users to create personal accounts, enabling them to log Trips or join Challenges. It includes different types of users, such as Active Participants and Admins, and supports interactions between them.
