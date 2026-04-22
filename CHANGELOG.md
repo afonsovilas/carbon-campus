@@ -6,29 +6,31 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [v1.0.0] - Sprint 1 (2026-04-19)
+## [v1.0.0] - Sprint 1 (2026-04-22)
 
 ### Added
 
-- **US3** - Log Trip Screen: utilizador pode selecionar modo de transporte sustentável e inserir distância percorrida para registar uma deslocação.
-- **US4** - Cálculo automático de CO2: a app calcula e mostra a quantidade de CO2 poupada ao registar uma viagem.
-- **US5** - Dashboard de pontuação: o utilizador visualiza a sua pontuação total de CO2 poupado no ecrã principal.
-- **US6 / US7** - Sistema de Invites: pesquisa de utilizadores por tag, envio e receção de pedidos de ligação/amizade.
-- **US8 / US9** - Sistema de Desafios: criação de desafios com datas de início e fim, e convite de contactos da rede para participar.
-- **US10** - Leaderboard: tabela classificativa ordenada por CO2/pontos acumulados, com modo bloqueado para utilizadores sem viagens registadas.
-- **CI/CD Pipeline** (DevOps): workflow GitHub Actions que corre ESLint e todos os testes automaticamente em cada push/PR; build automático do APK Android em cada nova tag/release.
-- **Testes de Aceitação (UAT)**: cenários Gherkin/Jest para US3 (LogTrip), US6/7 (Invites), US8/9 (Challenges), US10 (Rankings), e registo de conta.
-- **Testes Unitários**: lógica de cálculo de pontos e CO2 poupado por modo de transporte (`co2.test.ts`).
+- **Features & UI / US11** - Wide Tab Navigation (Side Drawer): implementação de menu lateral deslizante com animações spring para navegação principal.
+- **Features & UI** - Manage Accounts & Profile: criação do ecrã de perfil (`app/profile.tsx`) e integração com o `UserContext`.
+- **Features & UI** - Authentication Flow: implementação de Log Out com alerta de confirmação e redirecionamento para login.
+- **Features & UI** - Leaderboard & Rankings: novo ecrã de classificações (`app/(tabs)/rankings.tsx`) e lógica de visualização de progresso.
+- **Features & UI** - CO2 Tracker: implementação inicial da lógica de cálculo de emissões de CO2 baseada no histórico de viagens.
+- **Testing (8%)** - Coverage global reportada de 94.6%.
+- **Testing (8%)** - Acceptance tests para US11 em `__tests__/SideDrawer.test.tsx` e `__tests__/ProfileButton.test.tsx`, focados em interações de utilizador.
+- **Testing (8%)** - Integration tests com fluxos funcionais completos em `__tests__/integration.functional-flows.test.tsx`.
+- **Testing (8%)** - Unit tests para requisitos funcionais e gestão de contexto em `__tests__/unit.functional-requirements.test.ts` e `__tests__/unit.trips-context.test.tsx`.
+- **DevOps & CI/CD (4%)** - Automated CI com GitHub Actions para Linter e Testes por Pull Request (`.github/workflows/ci.yml`).
+- **DevOps & CI/CD (4%)** - Automated Release para geração de APK em cada tag/release (`.github/workflows/build-apk-on-tag.yml`).
+- **DevOps & CI/CD (4%)** - Configuração e estabilização do ambiente de desenvolvimento em WSL (Ubuntu) integrado com WebStorm.
+- **Documentation & Management** - Atualização de `SprintPlanningRetrospectives.md` com decisões da equipa e análise de WiP.
+- **Documentation & Management** - Criação de `docs/testing/UAT.md` e `docs/testing/defect-log.md` para registo de testes, bugs e correções.
+- **Documentation & Management** - Tarefas com apoio de IA identificadas através da label MisterAI nas Issues.
 
 ### Fixed
 
-- Botão de pesquisa no ecrã de Invites substituído por emoji `🔍` para compatibilidade com testes automatizados.
-- Botão de convite nos Desafios substituído por emoji `✈️` para compatibilidade com testes automatizados.
-- Mensagem de sucesso no registo de conta corrigida para `'Bem-vindo ao CarbonCampus!'` e navegação imediata para tabs.
-
-### Changed
-
-- `register.tsx`: navegação pós-registo passa a ser imediata (sem aguardar callback do Alert) para garantir compatibilidade com testes Jest.
+- **Test Environment** - Resolvido erro de "out-of-scope variables" no Jest com prefixo `mock` nas variáveis de hoisting.
+- **React State Updates** - Corrigido aviso `act(...)` em testes assíncronos de componentes de UI.
+- **Visual Repairs** - Correção de erros de renderização em botões do Dashboard e histórico de viagens.
 
 ---
 
