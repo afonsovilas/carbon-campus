@@ -4,14 +4,14 @@ import { Alert } from 'react-native';
 
 import SideDrawer from '../components/SideDrawer';
 
-const closeMock = jest.fn();
-const pushMock = jest.fn();
-const replaceMock = jest.fn();
+const mockClose  = jest.fn();
+const mockPush = jest.fn();
+const mockReplace = jest.fn();
 
 jest.mock('@/contexts/DrawerContext', () => ({
     useDrawer: () => ({
         isOpen: true,
-        close: closeMock,
+        close: mockClose,
     }),
 }));
 
@@ -27,16 +27,16 @@ jest.mock('@/contexts/UserContext', () => ({
 
 jest.mock('expo-router', () => ({
     useRouter: () => ({
-        push: pushMock,
-        replace: replaceMock,
+        push: mockPush,
+        replace: mockReplace,
     }),
 }));
 
 describe('SideDrawer', () => {
     beforeEach(() => {
-        closeMock.mockClear();
-        pushMock.mockClear();
-        replaceMock.mockClear();
+        mockClose.mockClear();
+        mockPush.mockClear();
+        mockReplace.mockClear();
         jest.spyOn(Alert, 'alert').mockImplementation(() => {});
     });
 
@@ -60,8 +60,8 @@ describe('SideDrawer', () => {
 
         fireEvent.press(getByTestId('drawer-manage-accounts'));
 
-        expect(closeMock).toHaveBeenCalledTimes(1);
-        expect(pushMock).toHaveBeenCalledWith('/profile');
+        expect(mockClose).toHaveBeenCalledTimes(1);
+        expect(mockPush).toHaveBeenCalledWith('/profile');
     });
 
     it('confirms and logs out to login route', () => {
@@ -76,8 +76,8 @@ describe('SideDrawer', () => {
         expect(logOutButton).toBeTruthy();
         logOutButton?.onPress?.();
 
-        expect(closeMock).toHaveBeenCalledTimes(1);
-        expect(replaceMock).toHaveBeenCalledWith('/login');
+        expect(mockClose).toHaveBeenCalledTimes(1);
+        expect(mockReplace).toHaveBeenCalledWith('/login');
     });
 });
 
