@@ -1,0 +1,54 @@
+UML 1 — Package Diagram (Diagrama de Pacotes)
+=============================================
+
+Objetivo:
+  Mostra a organização macro do projeto em pacotes/pastas e as dependências entre eles.
+
+Pacotes:
+--------
+
+  [app/]                          expo-router screens
+    ├── [(tabs)/]                 Dashboard · Rankings · History · LogTrip · Challenge · Invites
+    └── login · register · profile · modal · _layout
+
+  [components/]                   Componentes React reutilizáveis
+    ├── ProfileButton             Botão hamburger/close no header
+    ├── SideDrawer                Painel lateral com opções de perfil
+    ├── ThemedText / ThemedView   Wrappers com suporte a dark mode
+    └── ui/                       IconSymbol · Collapsible · ParallaxScrollView
+
+  [contexts/]                     Estado global (React Context API)
+    ├── UserContext               Perfil do utilizador (nome, email, tag, bio, avatar)
+    ├── TripsContext              Histórico e total de viagens registadas
+    └── DrawerContext             Estado aberto/fechado do drawer lateral
+
+  [hooks/]                        Custom hooks
+    ├── useColorScheme            Deteta light/dark mode
+    └── useThemeColor             Resolve cor com base no tema ativo
+
+  [constants/]
+    └── theme.ts                  Paleta de cores da app
+
+  [__tests__/]                    Testes Jest (UAT + unitários)
+    ├── co2.test.ts               Testes unitários de cálculo de CO2/pontos
+    ├── LogTripScreen.test.tsx    Acceptance tests para registo de viagem (US3)
+    ├── invites.test.tsx          Acceptance tests para convites (US6/US7)
+    ├── challenge.test.tsx        Acceptance tests para desafios (US8/US9)
+    ├── rankings.test.tsx         Acceptance tests para leaderboard (US10)
+    └── register.test.tsx         Acceptance tests para registo de conta
+
+Dependências entre pacotes:
+----------------------------
+  app/           -->  contexts/       (consome UserContext, TripsContext, DrawerContext)
+  app/           -->  components/     (usa ProfileButton, SideDrawer, ThemedText, etc.)
+  components/    -->  contexts/       (ProfileButton usa DrawerContext; SideDrawer usa User+Drawer)
+  __tests__/     -->  app/            (importa screens para render nos testes)
+  __tests__/     -->  contexts/       (envolve componentes em providers nos testes)
+
+Notas:
+------
+  - A pasta app/ segue a convenção expo-router: ficheiros = rotas automaticamente.
+  - Os contexts/ são injetados no root _layout.tsx pela seguinte ordem de providers:
+      ThemeProvider > UserProvider > DrawerProvider > TripsProvider > Stack
+  - O SideDrawer é montado diretamente no tabs/_layout.tsx (fora das Tabs)
+    para conseguir sobrepor-se a todos os ecrãs com z-index 101.
