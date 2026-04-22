@@ -152,9 +152,17 @@ The detailed notes from our Sprint 1 Planning and Retrospective can be found in 
 > **Data do registo:** 20 de abril de 2026  
 > **Estado:** Finalizada
 
-![Scrumboard Final Sprint 1](docs/scrumboard.png)
+![Scrumboard Inicial Sprint 1](docs/scrumboard.png)
 
 *Nota: Esta imagem reflete a distribuição das User Stories e tarefas entre as colunas "To Do", "In Progress" e "Done" antes da conclusão formal da sprint.*
+
+Final Sprint1
+
+![Scrumboard Final Sprint 1](docs/Scrumboard_part1_final.png)
+
+![Scrumboard Final Sprint 1](docs/Scrumboard_part2_final.png)
+
+![Scrumboard Final Sprint 1](docs/Scrumboard_part3_final.png)
 
 ### Sprint 2
 
