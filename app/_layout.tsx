@@ -1,4 +1,6 @@
 import { TripsProvider } from '@/contexts/TripsContext';
+import { UserProvider } from '@/contexts/UserContext';
+import { DrawerProvider } from '@/contexts/DrawerContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
@@ -14,20 +16,20 @@ export default function RootLayout() {
 
     return (
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <TripsProvider>
-                <Stack initialRouteName="login">
-                    <Stack.Screen name="login" options={{
-                        headerShown: false,
-                    }} />
-                    <Stack.Screen name="register" options={{
-                        headerShown: true,
-                        title: 'CarbonCampus Registo'
-                    }} />
-                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                    <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-                </Stack>
-                <StatusBar style="auto" />
-            </TripsProvider>
+            <UserProvider>
+                <DrawerProvider>
+                    <TripsProvider>
+                        <Stack initialRouteName="login">
+                            <Stack.Screen name="login" options={{ headerShown: false }} />
+                            <Stack.Screen name="register" options={{ headerShown: true, title: 'CarbonCampus Registo' }} />
+                            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                            <Stack.Screen name="profile" options={{ headerShown: true, title: 'O meu perfil' }} />
+                            <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+                        </Stack>
+                        <StatusBar style="auto" />
+                    </TripsProvider>
+                </DrawerProvider>
+            </UserProvider>
         </ThemeProvider>
     );
 }
