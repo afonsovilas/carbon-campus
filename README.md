@@ -147,6 +147,15 @@ Our project management workflow is structured around the following key areas:
 
 The detailed notes from our Sprint 1 Planning and Retrospective can be found in our dedicated documentation. During this sprint, we successfully established the foundational UI and the social networking logic.
 
+
+### Sprint 1 Scrumboard
+> **Data do registo:** 20 de abril de 2026  
+> **Estado:** Finalizada
+
+![Scrumboard Final Sprint 1](docs/scrumboard.png)
+
+*Nota: Esta imagem reflete a distribuição das User Stories e tarefas entre as colunas "To Do", "In Progress" e "Done" antes da conclusão formal da sprint.*
+
 ### Sprint 2
 
 Focused on the implementation of Competitive Group Challenges and refining the automated CO2 offset calculations.
