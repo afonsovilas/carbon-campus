@@ -1,0 +1,50 @@
+UML 3 — Navigation Diagram (Diagrama de Navegação)
+====================================================
+
+Objetivo:
+  Mostra o fluxo de navegação entre os ecrãs da app usando expo-router (Stack + Tabs).
+
+Estados / Ecrãs:
+----------------
+
+  [login]            Ecrã inicial — autenticação com email/password
+  [register]         Registo de nova conta
+  [(tabs)]           Navegação por tabs (bottom navigation bar)
+    ├── Dashboard    Ecrã principal com CO2 acumulado
+    ├── Rankings     Leaderboard (bloqueado sem viagens)
+    ├── History      Histórico de viagens
+    ├── LogTrip      Registo de nova viagem
+    ├── Challenge    Criar/ver desafios
+    └── Invites      Pesquisar e convidar utilizadores
+  [profile]          Drawer lateral (overlay sobre tabs, NÃO é uma tab)
+
+Transições:
+-----------
+
+  login     ──[login OK]──────────────────────► (tabs)
+  login     ──[press "Regista-te aqui"]────────► register
+  register  ──[registo OK]────────────────────► (tabs)
+  register  ──[press "Inicia sessão"]──────────► login
+
+  (tabs)    ──[☰ hamburger press]─────────────► profile drawer (overlay, sem rota nova)
+  profile   ──[✕ ou backdrop press]───────────► (tabs) [fecha drawer]
+  profile   ──[Terminar sessão]───────────────► login    [replace]
+
+  (tabs)    ──[tab press]─────────────────────► tab ativo muda (sem stackear)
+
+Notas de implementação:
+-----------------------
+  - A navegação usa expo-router com Stack no root e Tabs aninhadas.
+  - O SideDrawer NÃO é uma rota; é um componente overlay montado no tabs/_layout.tsx
+    com posição absoluta (zIndex 101) por cima de todos os ecrãs das tabs.
+  - O botão ProfileButton no header chama DrawerContext.toggle(), não router.push().
+  - Transições entre tabs usam router.replace() ou tab press direto (sem histórico).
+  - O logout usa router.replace('/login') — não empilha, substitui toda a stack.
+  - O ecrã profile.tsx foi mantido no projecto mas está em desuso após a migração
+    para o SideDrawer overlay.
+
+Legenda:
+--------
+  ──[label]──►    transição com trigger
+  ────────────►   transição direta
+  - - - - - - ►   transição por replace (sem histórico)

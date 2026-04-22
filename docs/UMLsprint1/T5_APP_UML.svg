@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css" height="1284px" preserveAspectRatio="none" style="width:2538px;height:1284px;background:#FFFFFF;" version="1.1" viewBox="0 0 2538 1284" width="2538px" zoomAndPan="magnify"><defs/><g><rect fill="#FFFFFF" height="75.6094" id="_title" style="stroke:#FFFFFF;stroke-width:0.0;" width="621" x="954.24" y="10"/><text fill="#000000" font-family="Verdana" font-size="22" font-weight="bold" lengthAdjust="spacing" textLength="571" x="979.24" y="55.4209">T5 - Application Implementation Architecture</text><!--MD5=[812038560aa96ff2ba222966f9fbee17]
+entity ROOT--><g id="elem_ROOT"><rect fill="#FFFFFF" height="102.5938" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="162" x="1561.48" y="128.6094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1703.48" y="133.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1701.48" y="135.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1701.48" y="139.6094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="72" x="1596.48" y="181.6045">_layout.tsx</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="82" x="1596.48" y="197.9014">Root Layout</text></g><!--MD5=[0fc03e1da33312419079eb0d8329ec19]
+entity LOGIN--><g id="elem_LOGIN"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="137" x="50.98" y="686.1094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="167.98" y="691.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="165.98" y="693.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="165.98" y="697.1094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="57" x="85.98" y="739.1045">login.tsx</text></g><!--MD5=[b5e4fefb4712faab8962e9fa51bd6bca]
+entity REGISTER--><g id="elem_REGISTER"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="157" x="490.98" y="686.1094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="627.98" y="691.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="625.98" y="693.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="625.98" y="697.1094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="77" x="525.98" y="739.1045">register.tsx</text></g><!--MD5=[c77406714a0a4a0b1e067b5fa20cb94c]
+entity TABS_CONFIG--><g id="elem_TABS_CONFIG"><rect fill="#FFFFFF" height="102.5938" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="197" x="1543.98" y="311.6094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1720.98" y="316.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1718.98" y="318.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1718.98" y="322.6094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="117" x="1578.98" y="364.6045">(tabs)/_layout.tsx</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="101" x="1578.98" y="380.9014">Tab Navigation</text></g><!--MD5=[6d864ab888f49ee340611f95e3f11811]
+entity HOME--><g id="elem_HOME"><rect fill="#FFFFFF" height="102.5938" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="186" x="1055.48" y="494.6094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1221.48" y="499.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1219.48" y="501.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1219.48" y="505.6094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="106" x="1090.48" y="547.6045">(tabs)/index.tsx</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="71" x="1090.48" y="563.9014">Home Tab</text></g><!--MD5=[bd1cc92a6159904a196a7a71953c7013]
+entity EXPLORE--><g id="elem_EXPLORE"><rect fill="#FFFFFF" height="102.5938" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="200" x="748.48" y="677.6094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="928.48" y="682.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="926.48" y="684.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="926.48" y="688.6094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="120" x="783.48" y="730.6045">(tabs)/explore.tsx</text><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="81" x="783.48" y="746.9014">Explore Tab</text></g><!--MD5=[d79c2a11e5a2a085164d3bd1fc72686e]
+entity TRIP--><g id="elem_TRIP"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="184" x="1550.48" y="686.1094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1714.48" y="691.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1712.48" y="693.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1712.48" y="697.1094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="104" x="1585.48" y="739.1045">register-trip.tsx</text></g><!--MD5=[b26f4108985b4235dadc84fa7a989725]
+entity REWARD--><g id="elem_REWARD"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="200" x="2332.48" y="686.1094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="2512.48" y="691.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="2510.48" y="693.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="2510.48" y="697.1094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="120" x="2367.48" y="739.1045">rewardScreen.tsx</text></g><!--MD5=[6d2b5ec96e381727e29447e9d421c937]
+entity TV--><g id="elem_TV"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="170" x="1063.48" y="860.6094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1213.48" y="865.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1211.48" y="867.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1211.48" y="871.6094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="90" x="1098.48" y="913.6045">ThemedView</text></g><!--MD5=[d5b990657b755b3990e29dd75f2a2198]
+entity TT--><g id="elem_TT"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="168" x="764.48" y="860.6094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="912.48" y="865.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="910.48" y="867.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="910.48" y="871.6094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="88" x="799.48" y="913.6045">ThemedText</text></g><!--MD5=[fc6f31aade88d6c65a9fb10d999cd4a8]
+entity HT--><g id="elem_HT"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="149" x="1543.98" y="503.1094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1672.98" y="508.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1670.98" y="510.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1670.98" y="514.1094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="69" x="1578.98" y="556.1045">HapticTab</text></g><!--MD5=[7842cb4300efb401920d8f72ebe921e6]
+entity PS--><g id="elem_PS"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="200" x="1048.48" y="686.1094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1228.48" y="691.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1226.48" y="693.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1226.48" y="697.1094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="120" x="1083.48" y="739.1045">ParallaxScrollView</text></g><!--MD5=[62e43bbec3da0a8e3edd1560198742d1]
+entity UC--><g id="elem_UC"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="199" x="913.98" y="1192.6094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1092.98" y="1197.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1090.98" y="1199.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1090.98" y="1203.6094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="119" x="948.98" y="1245.6045">useColorScheme</text></g><!--MD5=[2351bbbb3f6d0a84cf05e128b2a0f454]
+entity UT--><g id="elem_UT"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="191" x="1052.98" y="1026.6094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1223.98" y="1031.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1221.98" y="1033.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1221.98" y="1037.6094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="111" x="1087.98" y="1079.6045">useThemeColor</text></g><!--MD5=[07b4f906f95ec892e51da51788090087]
+entity THEME_CONST--><g id="elem_THEME_CONST"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="142" x="1213.48" y="1192.6094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1335.48" y="1197.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1333.48" y="1199.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1333.48" y="1203.6094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="62" x="1248.48" y="1245.6045">theme.ts</text></g><!--MD5=[8c1440b79ef5bbd6f37a05708dd9d26e]
+entity LOGIN_STATE--><g id="elem_LOGIN_STATE"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="157" x="265.98" y="860.6094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="402.98" y="865.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="400.98" y="867.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="400.98" y="871.6094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="77" x="300.98" y="913.6045">Login State</text></g><!--MD5=[9598647687edf83ca412735ecff260a9]
+entity REWARD_STATE--><g id="elem_REWARD_STATE"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="172" x="2346.48" y="860.6094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="2498.48" y="865.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="2496.48" y="867.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="2496.48" y="871.6094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="92" x="2381.48" y="913.6045">Reward State</text></g><!--MD5=[0f2b2bd01a5e494150577f591d5cab71]
+entity TRIP_STATE--><g id="elem_TRIP_STATE"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="146" x="1578.48" y="860.6094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1704.48" y="865.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1702.48" y="867.6094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1702.48" y="871.6094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="66" x="1613.48" y="913.6045">Trip State</text></g><!--MD5=[696f72ad6f458517c03f576e60825baa]
+entity ROUTER--><g id="elem_ROUTER"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="165" x="2020.98" y="320.1094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="2165.98" y="325.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="2163.98" y="327.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="2163.98" y="331.1094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="85" x="2055.98" y="373.1045">Expo Router</text></g><!--MD5=[c2f9a5f16af39a4fb7b037d91a83e01a]
+entity RNAV--><g id="elem_RNAV"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="195" x="2036.98" y="686.1094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="2211.98" y="691.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="2209.98" y="693.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="2209.98" y="697.1094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="115" x="2071.98" y="739.1045">React Navigation</text></g><!--MD5=[720540cd660a188db03d29bf85e2abdf]
+entity BTABS--><g id="elem_BTABS"><rect fill="#FFFFFF" height="86.2969" rx="2.5" ry="2.5" style="stroke:#000000;stroke-width:1.0;" width="169" x="1792.98" y="503.1094"/><rect fill="#FFFFFF" height="10" style="stroke:#000000;stroke-width:1.0;" width="15" x="1941.98" y="508.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1939.98" y="510.1094"/><rect fill="#FFFFFF" height="2" style="stroke:#000000;stroke-width:1.0;" width="4" x="1939.98" y="514.1094"/><text fill="#000000" font-family="Verdana" font-size="14" lengthAdjust="spacing" textLength="89" x="1827.98" y="556.1045">Bottom Tabs</text></g><!--MD5=[bb0683d93dac604a3afbbd1a20b008e1]
+link ROOT to ROUTER--><g id="link_ROOT_ROUTER"><path d="M1723.57,180.6094 C1855.85,180.6094 2103.48,180.6094 2103.48,180.6094 C2103.48,180.6094 2103.48,314.8594 2103.48,314.8594 " fill="none" id="ROOT-to-ROUTER" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="2103.48,319.8594,2107.48,310.8594,2103.48,314.8594,2099.48,310.8594,2103.48,319.8594" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="50" x="1909.65" y="141.6763">enables</text><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="45" x="1912.15" y="156.8091">routing</text></g><!--MD5=[2d755e81bdbf46ae08479764b3b54b2e]
+link ROOT to LOGIN--><g id="link_ROOT_LOGIN"><path d="M1561.4,180.6094 C1246.17,180.6094 119.48,180.6094 119.48,180.6094 C119.48,180.6094 119.48,681.0694 119.48,681.0694 " fill="none" id="ROOT-to-LOGIN" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="119.48,686.0694,123.48,677.0694,119.48,681.0694,115.48,677.0694,119.48,686.0694" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="33" x="536.21" y="156.6763">initial</text></g><!--MD5=[bfc5949b963da09a44890f527aeae512]
+link ROOT to TABS_CONFIG--><g id="link_ROOT_TABS_CONFIG"><path d="M1642.48,232.0594 C1642.48,232.0594 1642.48,306.3494 1642.48,306.3494 " fill="none" id="ROOT-to-TABS_CONFIG" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1642.48,311.3494,1646.48,302.3494,1642.48,306.3494,1638.48,302.3494,1642.48,311.3494" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="34" x="1587.48" y="302.2663">stack</text></g><!--MD5=[3588de583fb3dd6ecc5b9e527461badd]
+link ROOT to TRIP--><g id="link_ROOT_TRIP"><path d="M1723.78,206.6094 C1747.41,206.6094 1766.98,206.6094 1766.98,206.6094 C1766.98,206.6094 1766.98,729.6094 1766.98,729.6094 C1766.98,729.6094 1739.59,729.6094 1739.59,729.6094 " fill="none" id="ROOT-to-TRIP" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1734.59,729.6094,1743.59,733.6094,1739.59,729.6094,1743.59,725.6094,1734.59,729.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="34" x="1787.98" y="436.2763">stack</text></g><!--MD5=[2d660ea2c246dc50575f1328513a6f50]
+link ROOT to REWARD--><g id="link_ROOT_REWARD"><path d="M1723.68,154.6094 C1925.27,154.6094 2432.48,154.6094 2432.48,154.6094 C2432.48,154.6094 2432.48,680.9294 2432.48,680.9294 " fill="none" id="ROOT-to-REWARD" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="2432.48,685.9294,2436.48,676.9294,2432.48,680.9294,2428.48,676.9294,2432.48,685.9294" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="34" x="2286.24" y="130.6763">stack</text></g><!--MD5=[bb7d7e00a95e54153e9b01a0281b1609]
+link LOGIN to LOGIN_STATE--><g id="link_LOGIN_LOGIN_STATE"><path d="M96.64,772.2394 C96.64,823.9194 96.64,903.6094 96.64,903.6094 C96.64,903.6094 260.72,903.6094 260.72,903.6094 " fill="none" id="LOGIN-to-LOGIN_STATE" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="265.72,903.6094,256.72,899.6094,260.72,903.6094,256.72,907.6094,265.72,903.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="60" x="32" y="879.6763">manages</text></g><!--MD5=[a42e18d62112dcf87498fea9e35f535f]
+link REGISTER to LOGIN_STATE--><g id="link_REGISTER_LOGIN_STATE"><path d="M530.23,772.2394 C530.23,823.9194 530.23,903.6094 530.23,903.6094 C530.23,903.6094 427.98,903.6094 427.98,903.6094 " fill="none" id="REGISTER-to-LOGIN_STATE" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="422.98,903.6094,431.98,907.6094,427.98,903.6094,431.98,899.6094,422.98,903.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="60" x="449.23" y="922.1163">manages</text></g><!--MD5=[b4382bfb2df7434787f8a3c5b492c877]
+link LOGIN to TV--><g id="link_LOGIN_TV"><path d="M142.31,772.2194 C142.31,803.5894 142.31,840.6094 142.31,840.6094 C142.31,840.6094 1097.48,840.6094 1097.48,840.6094 C1097.48,840.6094 1097.48,855.5394 1097.48,855.5394 " fill="none" id="LOGIN-to-TV" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1097.48,860.5394,1101.48,851.5394,1097.48,855.5394,1093.48,851.5394,1097.48,860.5394" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="49" x="523.17" y="816.6763">renders</text></g><!--MD5=[05290846c808ea2c26f7843694df007c]
+link LOGIN to TT--><g id="link_LOGIN_TT"><path d="M188.18,729.6094 C286.86,729.6094 456.98,729.6094 456.98,729.6094 C456.98,729.6094 456.98,925.6094 456.98,925.6094 C456.98,925.6094 759.01,925.6094 759.01,925.6094 " fill="none" id="LOGIN-to-TT" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="764.01,925.6094,755.01,921.6094,759.01,925.6094,755.01,929.6094,764.01,925.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="49" x="386.98" y="820.2963">renders</text></g><!--MD5=[e37de053d7c4b20d835c811dcf0c313e]
+link REGISTER to TV--><g id="link_REGISTER_TV"><path d="M608.73,772.1794 C608.73,795.9094 608.73,820.6094 608.73,820.6094 C608.73,820.6094 1131.48,820.6094 1131.48,820.6094 C1131.48,820.6094 1131.48,855.1694 1131.48,855.1694 " fill="none" id="REGISTER-to-TV" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1131.48,860.1694,1135.48,851.1694,1131.48,855.1694,1127.48,851.1694,1131.48,860.1694" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="49" x="884.17" y="853.6763">renders</text></g><!--MD5=[f6fbeec40548079afc8b036517af9fd1]
+link REGISTER to TT--><g id="link_REGISTER_TT"><path d="M569.48,772.2794 C569.48,817.6794 569.48,882.6094 569.48,882.6094 C569.48,882.6094 759.39,882.6094 759.39,882.6094 " fill="none" id="REGISTER-to-TT" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="764.39,882.6094,755.39,878.6094,759.39,882.6094,755.39,886.6094,764.39,882.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="49" x="630.27" y="858.6763">renders</text></g><!--MD5=[fb4fda33af013b7d57b61bd2d0b460b8]
+link TABS_CONFIG to RNAV--><g id="link_TABS_CONFIG_RNAV"><path d="M1741.08,410.6094 C1878.64,410.6094 2111.48,410.6094 2111.48,410.6094 C2111.48,410.6094 2111.48,680.8194 2111.48,680.8194 " fill="none" id="TABS_CONFIG-to-RNAV" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="2111.48,685.8194,2115.48,676.8194,2111.48,680.8194,2107.48,676.8194,2111.48,685.8194" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="47" x="1993.39" y="443.6763">built on</text></g><!--MD5=[42a4545a3e31c906bbf0c63b715a56f7]
+link TABS_CONFIG to BTABS--><g id="link_TABS_CONFIG_BTABS"><path d="M1713.73,414.7094 C1713.73,468.9894 1713.73,546.6094 1713.73,546.6094 C1713.73,546.6094 1787.72,546.6094 1787.72,546.6094 " fill="none" id="TABS_CONFIG-to-BTABS" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1792.72,546.6094,1783.72,542.6094,1787.72,546.6094,1783.72,550.6094,1792.72,546.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="76" x="1705.23" y="550.7263">implements</text></g><!--MD5=[fe2b704154a7c2642f298d68a7d75030]
+link TABS_CONFIG to HOME--><g id="link_TABS_CONFIG_HOME"><path d="M1593.64,414.7094 C1593.64,453.3694 1593.64,499.6094 1593.64,499.6094 C1593.64,499.6094 1246.53,499.6094 1246.53,499.6094 " fill="none" id="TABS_CONFIG-to-HOME" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1241.53,499.6094,1250.53,503.6094,1246.53,499.6094,1250.53,495.6094,1241.53,499.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="33" x="1408.53" y="475.6763">tab 0</text></g><!--MD5=[2a8a887d411426c1e1df8ed7f4655942]
+link TABS_CONFIG to EXPLORE--><g id="link_TABS_CONFIG_EXPLORE"><path d="M1543.92,363.6094 C1331.28,363.6094 848.48,363.6094 848.48,363.6094 C848.48,363.6094 848.48,672.5194 848.48,672.5194 " fill="none" id="TABS_CONFIG-to-EXPLORE" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="848.48,677.5194,852.48,668.5194,848.48,672.5194,844.48,668.5194,848.48,677.5194" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="33" x="987.75" y="339.6763">tab 1</text></g><!--MD5=[b9840425504e8cb6637c0ac112b47e33]
+link TABS_CONFIG to HT--><g id="link_TABS_CONFIG_HT"><path d="M1643.31,415.0594 C1643.31,415.0594 1643.31,497.9894 1643.31,497.9894 " fill="none" id="TABS_CONFIG-to-HT" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1643.31,502.9894,1647.31,493.9894,1643.31,497.9894,1639.31,493.9894,1643.31,502.9894" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="51" x="1664.31" y="489.5963">controls</text></g><!--MD5=[0c5573f9922e6dff34d3958bfcf436ec]
+link HOME to TV--><g id="link_HOME_TV"><path d="M1241.59,593.6094 C1265.26,593.6094 1284.14,593.6094 1284.14,593.6094 C1284.14,593.6094 1284.14,889.6094 1284.14,889.6094 C1284.14,889.6094 1238.63,889.6094 1238.63,889.6094 " fill="none" id="HOME-to-TV" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1233.63,889.6094,1242.63,893.6094,1238.63,889.6094,1242.63,885.6094,1233.63,889.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="49" x="1305.14" y="776.1563">renders</text></g><!--MD5=[c28cca44fef6ca8eef7dca2675f4d40f]
+link HOME to TT--><g id="link_HOME_TT"><path d="M1055.19,546.6094 C1024.68,546.6094 998.48,546.6094 998.48,546.6094 C998.48,546.6094 998.48,878.6094 998.48,878.6094 C998.48,878.6094 937.69,878.6094 937.69,878.6094 " fill="none" id="HOME-to-TT" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="932.69,878.6094,941.69,882.6094,937.69,878.6094,941.69,874.6094,932.69,878.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="49" x="973.98" y="747.7163">renders</text></g><!--MD5=[a049484d9ea970399d8ac6281867d743]
+link HOME to PS--><g id="link_HOME_PS"><path d="M1148.48,598.0594 C1148.48,598.0594 1148.48,680.9894 1148.48,680.9894 " fill="none" id="HOME-to-PS" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1148.48,685.9894,1152.48,676.9894,1148.48,680.9894,1144.48,676.9894,1148.48,685.9894" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="51" x="1076.48" y="672.5963">displays</text></g><!--MD5=[36c07df9f8c3a62ab09e6e879ef404ca]
+link EXPLORE to TV--><g id="link_EXPLORE_TV"><path d="M940.48,780.7094 C940.48,834.9894 940.48,912.6094 940.48,912.6094 C940.48,912.6094 1058.28,912.6094 1058.28,912.6094 " fill="none" id="EXPLORE-to-TV" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1063.28,912.6094,1054.28,908.6094,1058.28,912.6094,1054.28,916.6094,1063.28,912.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="49" x="961.48" y="938.6263">renders</text></g><!--MD5=[b0d924e219f736e3f12fe02a881c6492]
+link EXPLORE to TT--><g id="link_EXPLORE_TT"><path d="M820.48,780.9894 C820.48,780.9894 820.48,855.4494 820.48,855.4494 " fill="none" id="EXPLORE-to-TT" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="820.48,860.4494,824.48,851.4494,820.48,855.4494,816.48,851.4494,820.48,860.4494" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="49" x="750.48" y="851.2863">renders</text></g><!--MD5=[c6eef6543197589e760ff67075fa8461]
+link TRIP to TV--><g id="link_TRIP_TV"><path d="M1569.14,772.1094 C1569.14,828.0194 1569.14,918.6094 1569.14,918.6094 C1569.14,918.6094 1238.61,918.6094 1238.61,918.6094 " fill="none" id="TRIP-to-TV" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1233.61,918.6094,1242.61,922.6094,1238.61,918.6094,1242.61,914.6094,1233.61,918.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="49" x="1407.12" y="894.6763">renders</text></g><!--MD5=[708d6d5a0f809b48acc8807ffad04b66]
+link TRIP to TT--><g id="link_TRIP_TT"><path d="M1559.81,772.3494 C1559.81,787.4094 1559.81,800.6094 1559.81,800.6094 C1559.81,800.6094 876.48,800.6094 876.48,800.6094 C876.48,800.6094 876.48,855.5294 876.48,855.5294 " fill="none" id="TRIP-to-TT" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="876.48,860.5294,880.48,851.5294,876.48,855.5294,872.48,851.5294,876.48,860.5294" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="49" x="1225.82" y="833.6763">renders</text></g><!--MD5=[f21b0edd504bb617b187ad7fb6f16578]
+link TRIP to TRIP_STATE--><g id="link_TRIP_TRIP_STATE"><path d="M1651.48,772.2394 C1651.48,772.2394 1651.48,855.3694 1651.48,855.3694 " fill="none" id="TRIP-to-TRIP_STATE" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1651.48,860.3694,1655.48,851.3694,1651.48,855.3694,1647.48,851.3694,1651.48,860.3694" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="60" x="1672.48" y="846.8763">manages</text></g><!--MD5=[e4abea853b1d5c48c7bf3931f8a31d79]
+link REWARD to TV--><g id="link_REWARD_TV"><path d="M2337.14,772.2294 C2337.14,774.9394 2337.14,776.6094 2337.14,776.6094 C2337.14,776.6094 1199.48,776.6094 1199.48,776.6094 C1199.48,776.6094 1199.48,855.2594 1199.48,855.2594 " fill="none" id="REWARD-to-TV" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1199.48,860.2594,1203.48,851.2594,1199.48,855.2594,1195.48,851.2594,1199.48,860.2594" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="49" x="1752.18" y="752.6763">renders</text></g><!--MD5=[3805de5c15a4ed4c60d4c3a8868e3fef]
+link REWARD to REWARD_STATE--><g id="link_REWARD_REWARD_STATE"><path d="M2432.48,772.2394 C2432.48,772.2394 2432.48,855.3694 2432.48,855.3694 " fill="none" id="REWARD-to-REWARD_STATE" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="2432.48,860.3694,2436.48,851.3694,2432.48,855.3694,2428.48,851.3694,2432.48,860.3694" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="60" x="2351.48" y="846.8763">manages</text></g><!--MD5=[b68feb0ee2ba2cd306008b6271dec964]
+link REWARD to TRIP_STATE--><g id="link_REWARD_TRIP_STATE"><path d="M2341.81,772.2394 C2341.81,823.9194 2341.81,903.6094 2341.81,903.6094 C2341.81,903.6094 1729.7,903.6094 1729.7,903.6094 " fill="none" id="REWARD-to-TRIP_STATE" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1724.7,903.6094,1733.7,907.6094,1729.7,903.6094,1733.7,899.6094,1724.7,903.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="36" x="2044.44" y="879.6763">reads</text></g><!--MD5=[a620e01ea7e2c6161eb1735923e61ebf]
+link TV to UT--><g id="link_TV_UT"><path d="M1148.48,946.7894 C1148.48,946.7894 1148.48,1021.3594 1148.48,1021.3594 " fill="none" id="TV-to-UT" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1148.48,1026.3594,1152.48,1017.3594,1148.48,1021.3594,1144.48,1017.3594,1148.48,1026.3594" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="66" x="1061.48" y="1017.1363">consumes</text></g><!--MD5=[00a6f58acad55389b2c4a3633cbb5086]
+link TT to UT--><g id="link_TT_UT"><path d="M932.68,929.6094 C991.66,929.6094 1059.98,929.6094 1059.98,929.6094 C1059.98,929.6094 1059.98,1021.4594 1059.98,1021.4594 " fill="none" id="TT-to-UT" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1059.98,1026.4594,1063.98,1017.4594,1059.98,1021.4594,1055.98,1017.4594,1059.98,1026.4594" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="66" x="1063.25" y="962.6763">consumes</text></g><!--MD5=[3c030e9d705c4cc872dec662a9d617d7]
+link HT to UT--><g id="link_HT_UT"><path d="M1543.88,546.6094 C1455.42,546.6094 1319.81,546.6094 1319.81,546.6094 C1319.81,546.6094 1319.81,1069.6094 1319.81,1069.6094 C1319.81,1069.6094 1249.16,1069.6094 1249.16,1069.6094 " fill="none" id="HT-to-UT" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1244.16,1069.6094,1253.16,1073.6094,1249.16,1069.6094,1253.16,1065.6094,1244.16,1069.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="66" x="1340.81" y="707.4663">consumes</text></g><!--MD5=[b8c24d8c440619a4631005329d77e2f9]
+link UT to THEME_CONST--><g id="link_UT_THEME_CONST"><path d="M1228.73,1112.7894 C1228.73,1112.7894 1228.73,1187.3594 1228.73,1187.3594 " fill="none" id="UT-to-THEME_CONST" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1228.73,1192.3594,1232.73,1183.3594,1228.73,1187.3594,1224.73,1183.3594,1228.73,1192.3594" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="68" x="1249.73" y="1126.1363">references</text></g><!--MD5=[a2b08764f4208e446e07ab84b18362e9]
+link UT to UC--><g id="link_UT_UC"><path d="M1082.98,1112.7894 C1082.98,1112.7894 1082.98,1187.3594 1082.98,1187.3594 " fill="none" id="UT-to-UC" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1082.98,1192.3594,1086.98,1183.3594,1082.98,1187.3594,1078.98,1183.3594,1082.98,1192.3594" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="30" x="1103.98" y="1183.1363">uses</text></g><!--MD5=[d85cfd5d03f8da27c7f6c6183da1b87b]
+link PS to TV--><g id="link_PS_TV"><path d="M1165.48,772.2394 C1165.48,772.2394 1165.48,855.3694 1165.48,855.3694 " fill="none" id="PS-to-TV" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="1165.48,860.3694,1169.48,851.3694,1165.48,855.3694,1161.48,851.3694,1165.48,860.3694" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="54" x="1090.48" y="846.8763">contains</text></g><!--MD5=[f76800f2974fd9e0134c73618e31d347]
+link PS to TT--><g id="link_PS_TT"><path d="M1056.48,772.4194 C1056.48,821.7494 1056.48,895.6094 1056.48,895.6094 C1056.48,895.6094 937.48,895.6094 937.48,895.6094 " fill="none" id="PS-to-TT" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="932.48,895.6094,941.48,899.6094,937.48,895.6094,941.48,891.6094,932.48,895.6094" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="54" x="981.48" y="869.5763">contains</text></g><!--MD5=[4437b551dee08981e984ebcbd13d599a]
+link ROUTER to RNAV--><g id="link_ROUTER_RNAV"><path d="M2148.73,406.1694 C2148.73,406.1694 2148.73,680.9294 2148.73,680.9294 " fill="none" id="ROUTER-to-RNAV" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="2148.73,685.9294,2152.73,676.9294,2148.73,680.9294,2144.73,676.9294,2148.73,685.9294" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="30" x="2097.73" y="519.6163">uses</text></g><!--MD5=[e98d42fd73e86008f074acf4f88be926]
+link BTABS to RNAV--><g id="link_BTABS_RNAV"><path d="M1962.06,546.6094 C2015.39,546.6094 2074.23,546.6094 2074.23,546.6094 C2074.23,546.6094 2074.23,680.8594 2074.23,680.8594 " fill="none" id="BTABS-to-RNAV" style="stroke:#333333;stroke-width:1.0;"/><polygon fill="#333333" points="2074.23,685.8594,2078.23,676.8594,2074.23,680.8594,2070.23,676.8594,2074.23,685.8594" style="stroke:#333333;stroke-width:1.0;"/><text fill="#000000" font-family="Verdana" font-size="13" lengthAdjust="spacing" textLength="51" x="2002.23" y="533.7163">extends</text></g><!--MD5=[c8fe412ff0a5b1aeca61bf0656bdae1b]
+@startuml
+!theme plain
+skinparam linetype ortho
+skinparam arrow {
+  thickness 1
+  color #333333
+}
+skinparam padding 20
+skinparam ranksep 80
+skinparam nodesep 100
+
+title T5 - Application Implementation Architecture
+
+[_layout.tsx\nRoot Layout] as ROOT
+[login.tsx] as LOGIN
+[register.tsx] as REGISTER
+[(tabs)/_layout.tsx\nTab Navigation] as TABS_CONFIG
+[(tabs)/index.tsx\nHome Tab] as HOME
+[(tabs)/explore.tsx\nExplore Tab] as EXPLORE
+[register-trip.tsx] as TRIP
+[rewardScreen.tsx] as REWARD
+
+[ThemedView] as TV
+[ThemedText] as TT
+[HapticTab] as HT
+[ParallaxScrollView] as PS
+
+[useColorScheme] as UC
+[useThemeColor] as UT
+[theme.ts] as THEME_CONST
+
+[Login State] as LOGIN_STATE
+[Reward State] as REWARD_STATE
+[Trip State] as TRIP_STATE
+
+[Expo Router] as ROUTER
+[React Navigation] as RNAV
+[Bottom Tabs] as BTABS
+
+ROOT - -> ROUTER : enables\nrouting
+ROOT - -> LOGIN : initial
+ROOT - -> TABS_CONFIG : stack
+ROOT - -> TRIP : stack
+ROOT - -> REWARD : stack
+
+LOGIN - -> LOGIN_STATE : manages
+REGISTER - -> LOGIN_STATE : manages
+LOGIN - -> TV : renders
+LOGIN - -> TT : renders
+REGISTER - -> TV : renders
+REGISTER - -> TT : renders
+
+TABS_CONFIG - -> RNAV : built on
+TABS_CONFIG - -> BTABS : implements
+TABS_CONFIG - -> HOME : tab 0
+TABS_CONFIG - -> EXPLORE : tab 1
+TABS_CONFIG - -> HT : controls
+
+HOME - -> TV : renders
+HOME - -> TT : renders
+HOME - -> PS : displays
+EXPLORE - -> TV : renders
+EXPLORE - -> TT : renders
+
+TRIP - -> TV : renders
+TRIP - -> TT : renders
+TRIP - -> TRIP_STATE : manages
+
+REWARD - -> TV : renders
+REWARD - -> REWARD_STATE : manages
+REWARD - -> TRIP_STATE : reads
+
+TV - -> UT : consumes
+TT - -> UT : consumes
+HT - -> UT : consumes
+
+UT - -> THEME_CONST : references
+UT - -> UC : uses
+
+PS - -> TV : contains
+PS - -> TT : contains
+
+ROUTER - -> RNAV : uses
+BTABS - -> RNAV : extends
+@enduml
+
+@startuml
+
+
+
+
+
+
+
+<style>
+  root {
+    BackgroundColor white
+    FontColor black
+    FontName Verdana
+    HyperLinkColor blue
+    LineColor black
+    LineThickness 1
+    Margin 5
+  }
+  caption {
+    LineThickness 0
+  }
+  footer {
+    LineThickness 0
+  }
+  header {
+    LineThickness 0
+  }
+  node {
+    MaximumWidth 300
+  }
+  title {
+    FontSize 22
+    LineThickness 0
+  }
+</style>
+
+skinparam ArrowLollipopColor black
+skinparam BackgroundColor white
+skinparam DefaultFontName Verdana
+skinparam DefaultMonospacedFontName Courier
+skinparam LifelineStrategy nosolid
+skinparam ParticipantPadding 10
+skinparam SequenceLifeLineBorderColor black
+skinparam Shadowing false
+skinparam UseBetaStyle true
+
+skinparam Activity {
+  BackgroundColor white
+  BarColor black
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam Boundary {
+  FontColor black
+}
+skinparam Box {
+  Padding 5
+}
+skinparam CircledCharacter {
+  FontColor black
+  FontName Courier
+  Radius 9
+}
+skinparam Class {
+  BackgroundColor white
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam ClassAttribute {
+  FontColor black
+  FontName Verdana
+}
+skinparam ClassStereotype {
+  FontColor black
+  FontName Verdana
+}
+skinparam Footer {
+  FontColor black
+  FontName Verdana
+}
+skinparam Header {
+  FontColor black
+  FontName Verdana
+}
+skinparam Hyperlink {
+  Color blue
+}
+skinparam IconPackage {
+  Color black
+  BackgroundColor white
+}
+skinparam IconPrivate {
+  Color black
+  BackgroundColor white
+}
+skinparam IconProtected {
+  Color black
+  BackgroundColor white
+}
+skinparam IconPublic {
+  Color black
+  BackgroundColor white
+}
+skinparam Note {
+  FontColor black
+  FontName Verdana
+}
+skinparam Object {
+  BorderColor black
+}
+skinparam Package {
+  BorderColor black
+  FontColor black
+  FontName Verdana
+}
+skinparam State {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeA {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeC {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeE {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeI {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam StereotypeN {
+  BackgroundColor white
+  BorderColor black
+}
+skinparam UseCaseStereoType {
+  FontColor black
+  FontName Verdana
+}
+skinparam linetype ortho
+skinparam arrow {
+  thickness 1
+  color #333333
+}
+skinparam padding 20
+skinparam ranksep 80
+skinparam nodesep 100
+
+title T5 - Application Implementation Architecture
+
+[_layout.tsx\nRoot Layout] as ROOT
+[login.tsx] as LOGIN
+[register.tsx] as REGISTER
+[(tabs)/_layout.tsx\nTab Navigation] as TABS_CONFIG
+[(tabs)/index.tsx\nHome Tab] as HOME
+[(tabs)/explore.tsx\nExplore Tab] as EXPLORE
+[register-trip.tsx] as TRIP
+[rewardScreen.tsx] as REWARD
+
+[ThemedView] as TV
+[ThemedText] as TT
+[HapticTab] as HT
+[ParallaxScrollView] as PS
+
+[useColorScheme] as UC
+[useThemeColor] as UT
+[theme.ts] as THEME_CONST
+
+[Login State] as LOGIN_STATE
+[Reward State] as REWARD_STATE
+[Trip State] as TRIP_STATE
+
+[Expo Router] as ROUTER
+[React Navigation] as RNAV
+[Bottom Tabs] as BTABS
+
+ROOT - -> ROUTER : enables\nrouting
+ROOT - -> LOGIN : initial
+ROOT - -> TABS_CONFIG : stack
+ROOT - -> TRIP : stack
+ROOT - -> REWARD : stack
+
+LOGIN - -> LOGIN_STATE : manages
+REGISTER - -> LOGIN_STATE : manages
+LOGIN - -> TV : renders
+LOGIN - -> TT : renders
+REGISTER - -> TV : renders
+REGISTER - -> TT : renders
+
+TABS_CONFIG - -> RNAV : built on
+TABS_CONFIG - -> BTABS : implements
+TABS_CONFIG - -> HOME : tab 0
+TABS_CONFIG - -> EXPLORE : tab 1
+TABS_CONFIG - -> HT : controls
+
+HOME - -> TV : renders
+HOME - -> TT : renders
+HOME - -> PS : displays
+EXPLORE - -> TV : renders
+EXPLORE - -> TT : renders
+
+TRIP - -> TV : renders
+TRIP - -> TT : renders
+TRIP - -> TRIP_STATE : manages
+
+REWARD - -> TV : renders
+REWARD - -> REWARD_STATE : manages
+REWARD - -> TRIP_STATE : reads
+
+TV - -> UT : consumes
+TT - -> UT : consumes
+HT - -> UT : consumes
+
+UT - -> THEME_CONST : references
+UT - -> UC : uses
+
+PS - -> TV : contains
+PS - -> TT : contains
+
+ROUTER - -> RNAV : uses
+BTABS - -> RNAV : extends
+@enduml
+
+PlantUML version 1.2022.7(Mon Aug 22 17:01:30 UTC 2022)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

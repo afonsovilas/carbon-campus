@@ -1,0 +1,72 @@
+UML 4 — Component Diagram (Diagrama de Componentes)
+=====================================================
+
+Objetivo:
+  Mostra como os providers envolvem a app em camadas (nesting de React Context)
+  e como os componentes ProfileButton e SideDrawer acedem aos contextos em runtime.
+
+Hierarquia de Providers (root _layout.tsx):
+-------------------------------------------
+
+  ThemeProvider
+  └── UserProvider                        (fornece UserContext)
+      └── DrawerProvider                  (fornece DrawerContext)
+          └── TripsProvider               (fornece TripsContext)
+              └── Stack (expo-router)
+                  ├── login
+                  ├── register
+                  ├── profile (desuso)
+                  └── (tabs) _layout
+                      ├── Tabs (Dashboard · Rankings · History
+                      │         LogTrip · Challenge · Invites)
+                      └── SideDrawer          ← overlay, z=101
+
+Interfaces fornecidas / requeridas:
+------------------------------------
+
+  UserProvider
+    fornece:   UserContext { user, updateUser }
+    consome:   —
+
+  DrawerProvider
+    fornece:   DrawerContext { isOpen, open, close, toggle }
+    consome:   —
+
+  TripsProvider
+    fornece:   TripsContext { trips, tripsCount, addTrip }
+    consome:   —
+
+  ProfileButton (no header de cada tab via tabs/_layout.tsx)
+    fornece:   botão visual no header
+    consome:   DrawerContext.toggle()
+
+  SideDrawer (montado no tabs/_layout.tsx, fora das Tabs)
+    fornece:   painel de perfil + modais de editar/convidar/logout
+    consome:   DrawerContext.isOpen
+               DrawerContext.close()
+               UserContext.user
+               UserContext.updateUser()
+
+  LogTripScreen
+    fornece:   formulário de registo de viagem
+    consome:   TripsContext.addTrip()
+
+  Dashboard (index)
+    fornece:   resumo de CO2 e pontos
+    consome:   TripsContext.trips
+               TripsContext.tripsCount
+
+  Rankings
+    fornece:   leaderboard
+    consome:   TripsContext.trips
+
+  History
+    fornece:   lista de viagens passadas
+    consome:   TripsContext.trips
+
+Dependências externas:
+----------------------
+  expo-router      → navegação (Stack, Tabs, router.push/replace)
+  @expo/vector-icons (Ionicons)  → ícones no drawer e tabs
+  react-native Animated          → animação slide do drawer
+  react-native Modal             → sub-modais dentro do drawer

@@ -1,0 +1,98 @@
+UML 2 — Class Diagram (Diagrama de Classes)
+============================================
+
+Objetivo:
+  Mostra as interfaces TypeScript (modelos de dados) e os contextos React,
+  bem como as relações de uso e composição entre eles.
+
+Classes / Interfaces:
+---------------------
+
+  ┌─────────────────────────────┐
+  │       <<interface>>         │
+  │        UserProfile          │
+  ├─────────────────────────────┤
+  │ + name       : string       │
+  │ + email      : string       │
+  │ + tag        : string       │
+  │ + bio        : string       │
+  │ + avatarEmoji: string       │
+  └─────────────────────────────┘
+           △ uses
+           │
+  ┌─────────────────────────────┐
+  │       <<context>>           │
+  │        UserContext          │
+  ├─────────────────────────────┤
+  │ + user       : UserProfile  │
+  ├─────────────────────────────┤
+  │ + updateUser(fields): void  │
+  └─────────────────────────────┘
+
+  ┌─────────────────────────────┐
+  │       <<interface>>         │
+  │            Trip             │
+  ├─────────────────────────────┤
+  │ + id         : string       │
+  │ + mode       : string       │
+  │ + distance   : number       │
+  │ + points     : number       │
+  │ + date       : string       │
+  └─────────────────────────────┘
+           △ uses
+           │
+  ┌─────────────────────────────┐
+  │       <<context>>           │
+  │        TripsContext         │
+  ├─────────────────────────────┤
+  │ + trips      : Trip[]       │
+  │ + tripsCount : number       │
+  ├─────────────────────────────┤
+  │ + addTrip(trip: Trip): void │
+  └─────────────────────────────┘
+           ◇ composta por (0..*)
+           │
+         [Trip]
+
+  ┌─────────────────────────────┐
+  │       <<context>>           │
+  │        DrawerContext        │
+  ├─────────────────────────────┤
+  │ + isOpen     : boolean      │
+  ├─────────────────────────────┤
+  │ + open()  : void            │
+  │ + close() : void            │
+  │ + toggle(): void            │
+  └─────────────────────────────┘
+
+  ┌─────────────────────────────┐
+  │       <<component>>         │
+  │        ProfileButton        │
+  ├─────────────────────────────┤
+  │ (usa DrawerContext.toggle)  │
+  └─────────────────────────────┘
+
+  ┌─────────────────────────────┐
+  │       <<component>>         │
+  │         SideDrawer          │
+  ├─────────────────────────────┤
+  │ (usa DrawerContext.isOpen)  │
+  │ (usa UserContext.user)      │
+  │ (usa UserContext.updateUser)│
+  └─────────────────────────────┘
+
+Relações:
+---------
+  UserContext     -->  UserProfile      (usa / composta por 1)
+  TripsContext    -->  Trip             (composta por 0..*)
+  ProfileButton   ..>  DrawerContext    (dependência — chama toggle())
+  SideDrawer      ..>  DrawerContext    (dependência — lê isOpen, chama close())
+  SideDrawer      ..>  UserContext      (dependência — lê user, chama updateUser())
+
+Legenda:
+--------
+  -->    associação / uso
+  ..>    dependência (linha tracejada)
+  ◇      composição
+  △      realização / herança
+  <<>>   estereótipo UML

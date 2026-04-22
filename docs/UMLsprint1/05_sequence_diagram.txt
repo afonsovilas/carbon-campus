@@ -1,0 +1,85 @@
+UML 5 — Sequence Diagram (Diagrama de Sequência)
+==================================================
+
+Objetivo:
+  Detalha as interações passo a passo ao registar uma viagem sustentável,
+  desde a ação do utilizador até à atualização do estado global.
+
+Participantes:
+--------------
+  User              →  Utilizador humano
+  LogTripScreen     →  Ecrã de registo (app/(tabs)/LogTripScreen.tsx)
+  TripsContext      →  Contexto global de viagens (contexts/TripsContext.tsx)
+
+Fluxo principal (Happy Path):
+------------------------------
+
+  User            LogTripScreen       TripsContext
+   │                    │                  │
+   │──[1]──────────────►│                  │
+   │  selecionar modo   │                  │
+   │  (e.g. Bicycle)    │                  │
+   │                    │                  │
+   │──[2]──────────────►│                  │
+   │  inserir distância │                  │
+   │  (e.g. 5 km)       │                  │
+   │                    │                  │
+   │                    ├──[validar]       │
+   │                    │  isDistanceValid │
+   │                    │  = true          │
+   │                    │                  │
+   │──[3]──────────────►│                  │
+   │  press "Save Trip" │                  │
+   │                    │                  │
+   │                    ├──[calcular]      │
+   │                    │  points = 5 × 20 = 100
+   │                    │  CO2saved = 5×0.21=1.05
+   │                    │                  │
+   │                    │──[4]────────────►│
+   │                    │  addTrip({       │
+   │                    │    id, mode,     │
+   │                    │    distance,     │
+   │                    │    points, date  │
+   │                    │  })              │
+   │                    │                  │
+   │                    │                  ├──[5] setTrips
+   │                    │                  │  [newTrip, ...prev]
+   │                    │                  │
+   │                    │◄─[6]─────────────│
+   │                    │  trips updated   │
+   │                    │                  │
+   │◄──[7]──────────────│                  │
+   │  "Trip logged      │                  │
+   │   successfully!"   │                  │
+   │                    │                  │
+
+Fluxo alternativo (distância inválida):
+-----------------------------------------
+
+  User            LogTripScreen
+   │                    │
+   │──[1]──────────────►│
+   │  inserir -2 km     │
+   │                    │
+   │                    ├──[validar]
+   │                    │  isDistanceValid = false
+   │                    │
+   │──[2]──────────────►│
+   │  press "Save Trip" │
+   │  (botão disabled   │
+   │   NÃO dispara      │
+   │   handleSaveTrip)  │
+   │                    │
+   │◄──[3]──────────────│
+   │  "Please enter a   │
+   │   valid distance   │
+   │   greater than 0"  │
+
+Notas:
+------
+  - O botão "Save Trip" fica disabled={!canSaveTrip}, onde:
+      canSaveTrip = isDistanceValid && selectedTransport !== null
+  - O cálculo de pontos usa POINTS_PER_KM: Bicycle=20, Walking=15, Car=5, etc.
+  - O cálculo de CO2 usa CAR_CO2_KG_PER_KM = 0.21 kg/km.
+  - addTrip() faz setState com [newTrip, ...prevTrips] — a viagem mais recente fica no topo.
+  - O TripsContext não persiste dados (in-memory apenas); reinicia ao fechar a app.
