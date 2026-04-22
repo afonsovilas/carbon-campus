@@ -3,6 +3,10 @@ import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { getCurrentUserUid } from '@/services/auth.service';
+import { isFirebaseConfigured } from '@/services/firebase';
+import { sendFriendRequestToCloud } from '@/services/invites.service';
+import { findUserByTagFromCloud } from '@/services/users.service';
 import { findMockUserByTag } from '@/utils/functional-requirements';
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
@@ -10,26 +14,64 @@ import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 export default function FriendsScreen() {
     const theme = useColorScheme() ?? 'light';
     const [searchTag, setSearchTag] = useState('');
-    const [foundUser, setFoundUser] = useState<{ name: string; tag: string } | null>(null);
+    const [foundUser, setFoundUser] = useState<{ uid?: string; name: string; tag: string } | null>(null);
     const [status, setStatus] = useState<'idle' | 'searching' | 'error' | 'sent'>('idle');
 
     const handleSearch = () => {
         setStatus('searching');
-        // Simulação da lógica de pesquisa (Cenário 1 e 2)
-        setTimeout(() => {
-            const user = findMockUserByTag(searchTag);
-            if (user) {
-                setFoundUser(user);
-                setStatus('idle');
-            } else {
+        setTimeout(async () => {
+            const normalizedTag = searchTag.trim();
+
+            if (!normalizedTag) {
+                setFoundUser(null);
+                setStatus('error');
+                return;
+            }
+
+            try {
+                let user: { uid?: string; name: string; tag: string } | null = null;
+
+                if (isFirebaseConfigured && process.env.NODE_ENV !== 'test') {
+                    user = await findUserByTagFromCloud(normalizedTag);
+
+                    // Avoid inviting yourself when logged in.
+                    const currentUid = getCurrentUserUid();
+                    if (user && currentUid && user.uid === currentUid) {
+                        user = null;
+                    }
+                }
+
+                if (!user) {
+                    user = findMockUserByTag(normalizedTag);
+                }
+
+                if (user) {
+                    setFoundUser(user);
+                    setStatus('idle');
+                } else {
+                    setFoundUser(null);
+                    setStatus('error');
+                }
+            } catch (error) {
                 setFoundUser(null);
                 setStatus('error');
             }
         }, 800);
     };
 
-    const sendRequest = () => {
-        setStatus('sent');
+    const sendRequest = async () => {
+        if (!foundUser) {
+            return;
+        }
+
+        try {
+            if (isFirebaseConfigured && process.env.NODE_ENV !== 'test') {
+                await sendFriendRequestToCloud(foundUser);
+            }
+            setStatus('sent');
+        } catch (error) {
+            setStatus('error');
+        }
     };
 
     return (
