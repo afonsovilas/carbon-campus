@@ -1,7 +1,5 @@
 # CarbonCampus Development Report
 
-![CI](https://github.com/your-org/your-repo/actions/workflows/ci.yml/badge.svg)
-
 Welcome to the documentation of **CarbonCampus**!
 
 This Software Development Report, tailored for LEIC-ES-2025-26, provides comprehensive details about **CarbonCampus**, starting from a high-level vision and going into low-level implementation decisions.
@@ -94,6 +92,16 @@ Each User Story in our backlog includes:
 - **Estimation:** Value (Business Priority) and Effort (Story Points) defined by the whole team.
 - **Refinement:** Larger stories were broken down into technical Tasks to be "immediately actionable" as per the LEIC-ES Dashboard criteria.
 
+### Testing Artifacts
+
+The project includes automated and manual testing artifacts for implemented stories:
+
+- **Acceptance tests:** `__tests__/LogTripScreen.test.tsx`, `__tests__/register.test.tsx`, `__tests__/login.test.tsx`, `__tests__/invites.test.tsx`, `__tests__/challenge.test.tsx`, `__tests__/rankings.test.tsx`, `__tests__/history.test.tsx`, `__tests__/home.test.tsx`, `__tests__/rewardScreen.test.tsx`, `__tests__/register-trip.test.tsx`, `__tests__/index-redirect.test.tsx`
+- **Unit tests (main functional requirements):** `__tests__/unit.functional-requirements.test.ts`, `__tests__/unit.trips-context.test.tsx`
+- **Integration tests (component integrations):** `__tests__/integration.functional-flows.test.tsx`
+- **User acceptance tests (UAT plan):** `docs/testing/UAT.md`
+- **Defect tracking and verification:** `docs/testing/defect-log.md`
+
 ### Domain Model
 
 Our app allows Users to create personal accounts, enabling them to log Trips or join Challenges. It includes different types of users, such as Active Participants and Admins, and supports interactions between them.
@@ -137,23 +145,7 @@ Our project management workflow is structured around the following key areas:
 
 ### Sprint 1
 
-The detailed notes from our Sprint 1 Planning and Retrospective can be found in [SprintPlanningRetrospectives.md](./SprintPlanningRetrospectives.md). During this sprint, we successfully established the foundational UI and the social networking logic.
-
-**Delivered in Sprint 1 (v1.0.0):**
-
-| User Story | Description | Acceptance Tests |
-|---|---|---|
-| US3 | Log sustainable trip (transport + distance) | `__tests__/LogTripScreen.test.tsx` |
-| US4 | Automatic CO2 calculation & display | `__tests__/co2.test.ts` |
-| US5 | CO2 score on main dashboard | `__tests__/rankings.test.tsx` |
-| US6/US7 | Friend invite system (search + accept/reject) | `__tests__/invites.test.tsx` |
-| US8/US9 | Create challenges & invite friends | `__tests__/challenge.test.tsx` |
-| US10 | Leaderboard (locked until first trip) | `__tests__/rankings.test.tsx` |
-
-**DevOps:**
-- GitHub Actions CI pipeline: ESLint + Jest (with coverage) on every push/PR.
-- Automatic Android APK build on every new git tag/release.
-- See [CHANGELOG.md](./CHANGELOG.md) for full release notes.
+The detailed notes from our Sprint 1 Planning and Retrospective can be found in our dedicated documentation. During this sprint, we successfully established the foundational UI and the social networking logic.
 
 ### Sprint 2
 
@@ -170,3 +162,9 @@ Focused on the implementation of Competitive Group Challenges and refining the a
 - Guilherme Pinho and up202406596@up.pt
 - Luís Castanheira and up202404122@up.pt
 - Pedro Cunha and up202403358@up.pt
+
+## DevOps Status
+
+[![CI - Code Quality & Tests](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/actions/workflows/ci.yml/badge.svg)](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/actions/workflows/ci.yml)
+
+[![CD - Build Android APK](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/actions/workflows/build-apk.yml/badge.svg)](https://github.com/lfscastanheira/LEIC-ES-2025-26-2LEIC02/actions/workflows/build-apk.yml)

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, render } from '@testing-library/react-native';
-import { Alert } from 'react-native';
 import React from 'react';
+import { Alert } from 'react-native';
 
 import RegisterScreen from '../app/register';
 
@@ -36,6 +36,7 @@ describe('RegisterScreen acceptance tests', () => {
 
         expect(getByTestId('email-input')).toBeTruthy();
         expect(getByTestId('password-input')).toBeTruthy();
+        expect(getByTestId('confirm-password-input')).toBeTruthy();
         expect(getByTestId('submit-button')).toBeTruthy();
         expect(getByText(/Registar/i)).toBeTruthy();
     });
@@ -45,9 +46,23 @@ describe('RegisterScreen acceptance tests', () => {
 
         fireEvent.changeText(getByTestId('email-input'), 'up202012345@fe.up.pt');
         fireEvent.changeText(getByTestId('password-input'), 'password123');
+        fireEvent.changeText(getByTestId('confirm-password-input'), 'password123');
         fireEvent.press(getByTestId('submit-button'));
 
-        expect(alertSpy).toHaveBeenCalledWith('Sucesso', 'Bem-vindo ao CarbonCampus!');
+        expect(alertSpy).toHaveBeenCalledWith(
+            'Sucesso',
+            'Conta criada com sucesso!',
+            expect.any(Array)
+        );
+
+        const alertButtons = alertSpy.mock.calls[0][2] as Array<{ text: string; onPress?: () => void }>;
+        const okButton = alertButtons.find((button) => button.text === 'OK');
+        expect(okButton).toBeTruthy();
+
+        act(() => {
+            okButton?.onPress?.();
+        });
+
         expect(router.replace).toHaveBeenCalledWith('/(tabs)');
     });
 
@@ -56,6 +71,7 @@ describe('RegisterScreen acceptance tests', () => {
 
         fireEvent.changeText(getByTestId('email-input'), 'duplicado@teste.pt');
         fireEvent.changeText(getByTestId('password-input'), 'qualquerpassword');
+        fireEvent.changeText(getByTestId('confirm-password-input'), 'qualquerpassword');
         fireEvent.press(getByTestId('submit-button'));
 
         expect(alertSpy).toHaveBeenCalledWith('Erro', 'Email já registado');

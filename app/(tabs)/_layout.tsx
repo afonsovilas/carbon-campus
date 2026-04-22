@@ -9,7 +9,7 @@ export default function TabLayout() {
         <View style={styles.root}>
             <Tabs screenOptions={{
                 headerShown: true,
-                headerRight: () => <ProfileButton />,
+                headerRight: ({ tintColor }) => <ProfileButton iconColor={tintColor} />,
                 tabBarActiveTintColor: '#4CAF50',
                 tabBarInactiveTintColor: '#999',
             }}>

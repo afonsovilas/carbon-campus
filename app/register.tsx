@@ -1,6 +1,7 @@
-import { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Alert, StyleSheet } from 'react-native';
+import { validateRegister } from '@/utils/functional-requirements';
 import { router } from 'expo-router';
+import { useState } from 'react';
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function RegisterScreen() {
     const [email, setEmail] = useState('');
@@ -8,18 +9,26 @@ export default function RegisterScreen() {
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const handleRegister = () => {
-        if (!email || !password) {
+        const validation = validateRegister(email, password, confirmPassword);
+
+        if (!validation.ok && validation.reason === 'missing_fields') {
             Alert.alert('Erro', 'Preenche todos os campos');
             return;
         }
 
-        if (email === 'duplicado@teste.pt') {
+        if (!validation.ok && validation.reason === 'password_mismatch') {
+            Alert.alert('Erro', 'As passwords não coincidem');
+            return;
+        }
+
+        if (!validation.ok && validation.reason === 'duplicate_email') {
             Alert.alert('Erro', 'Email já registado');
             return;
         }
 
-        Alert.alert('Sucesso', 'Bem-vindo ao CarbonCampus!');
-        router.replace('/(tabs)' as any);
+        Alert.alert('Sucesso', 'Conta criada com sucesso!', [
+            { text: 'OK', onPress: () => router.replace('/(tabs)' as any) }
+        ]);
     };
 
     return (
