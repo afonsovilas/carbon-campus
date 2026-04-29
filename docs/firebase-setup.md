@@ -27,7 +27,7 @@ service cloud.firestore {
 }
 ```
 
-## Opção B: Firebase Emulator Suite (recomendado para desenvolvimento)
+## Opção B: Firebase Emulator Suite (apenas para teste local)
 
 Pré-requisitos:
 
@@ -76,11 +76,14 @@ npm run firebase:emulators:import
 - `EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`
 - `EXPO_PUBLIC_FIREBASE_APP_ID`
 
-3. Para usar emulador no app:
+3. Para usar emulador no app (apenas no teu computador, não para partilhar dados com telemóveis/outros PCs):
 
 - `EXPO_PUBLIC_USE_FIREBASE_EMULATOR=true`
-- `EXPO_PUBLIC_FIREBASE_EMULATOR_HOST=127.0.0.1`
+- `EXPO_PUBLIC_FIREBASE_EMULATOR_HOST=127.0.0.1` (padrão; cuidado em dispositivos físicos)
 - `EXPO_PUBLIC_FIREBASE_EMULATOR_PORT=8080`
+- `EXPO_PUBLIC_FIREBASE_EMULATOR_MOBILE_HOST=192.168.1.42` (opcional: use o IP LAN da sua máquina para dispositivos físicos)
+
+Aviso: se usar um dispositivo físico (iPhone/Android), `127.0.0.1` apontará para o próprio dispositivo e não para o seu computador. Isso serve apenas para desenvolvimento local. Para ter a mesma base de dados no PC, iPhone e computadores dos colegas, deixe `EXPO_PUBLIC_USE_FIREBASE_EMULATOR=false` e use diretamente o Firebase cloud. Se precisar mesmo do emulador em telemóvel físico, defina `EXPO_PUBLIC_FIREBASE_EMULATOR_HOST` ou `EXPO_PUBLIC_FIREBASE_EMULATOR_MOBILE_HOST` para o IP LAN da sua máquina (por exemplo `192.168.1.42`) ou use o modo "Tunnel" do Expo.
 
 Depois, reiniciar o Expo completamente:
 
