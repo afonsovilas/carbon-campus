@@ -55,7 +55,9 @@ export default function RegisterScreen() {
 
             if (isFirebaseConfigured && process.env.NODE_ENV !== 'test') {
                 const { uid } = await registerWithEmail(email, password);
-                await upsertUserProfile(uid, email);
+                upsertUserProfile(uid, email).catch((err) =>
+                    console.warn('Failed to create user profile:', err)
+                );
             }
 
             showSuccess('Conta criada com sucesso!');

@@ -62,6 +62,35 @@ export async function fetchTripsFromCloud(): Promise<Trip[]> {
   });
 }
 
+export async function redeemPointsInCloud(cost: number): Promise<void> {
+  if (!isFirebaseConfigured || !db) {
+    return;
+  }
+
+  const uid = getCurrentUserUid();
+  if (!uid) {
+    return;
+  }
+
+  const { addDoc, collection, doc, increment, setDoc } = require('firebase/firestore');
+
+  await setDoc(doc(db, 'users', uid), {
+    points: increment(-cost),
+    updatedAt: Date.now(),
+  }, { merge: true });
+
+  await setDoc(doc(db, 'leaderboardEntries', uid), {
+    points: increment(-cost),
+    updatedAt: Date.now(),
+  }, { merge: true });
+
+  await addDoc(collection(db, 'users', uid, 'redemptions'), {
+    cost,
+    type: 'cafe',
+    createdAt: Date.now(),
+  });
+}
+
 export async function fetchTripsFromCloudForUser(uid: string): Promise<Trip[]> {
   if (!isFirebaseConfigured || !db) {
     return [];

@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import * as Location from 'expo-location';
 import QRCode from 'react-native-qrcode-svg';
+import { useTrips } from '@/contexts/TripsContext';
+import { redeemPointsInCloud } from '@/services/trips.service';
+import { emitLeaderboardRefresh } from '@/services/leaderboard-events';
 
 export default function RewardScreen() {
-
-    const [points, setPoints] = useState(500);
+    const { trips } = useTrips();
+    const earnedPoints = useMemo(() => trips.reduce((total, trip) => total + trip.points, 0), [trips]);
+    const [spent, setSpent] = useState(0);
+    const points = earnedPoints - spent;
     const rewardCost = 200;
 
     const [locationStatus, setLocationStatus] = useState('A verificar localização...');
@@ -62,14 +67,19 @@ export default function RewardScreen() {
     }, []);
 
     // QR handling
-    const handleGetReward = () => {
+    const handleGetReward = async () => {
         if (!isAtStation) return;
 
-        // Test - Verifica os pontos
         if (points >= rewardCost) {
-            // Aplicação deduz os teus pontos
-            setPoints(points - rewardCost);
-            setQrCodeData(`REWARD-CAFE-${Date.now()}`); // Gera um código único
+            const qrValue = `REWARD-CAFE-${Date.now()}`;
+            try {
+                await redeemPointsInCloud(rewardCost);
+                emitLeaderboardRefresh('reward-redeemed');
+            } catch (error) {
+                console.warn('Failed to save redemption to Firebase:', error);
+            }
+            setSpent(prev => prev + rewardCost);
+            setQrCodeData(qrValue);
         } else {
             alert('Pontos insuficientes para esta recompensa.');
         }

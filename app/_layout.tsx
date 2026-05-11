@@ -6,7 +6,7 @@ import { onAuthStateChange } from '@/services/auth.service';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack, usePathname, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 
 export const unstable_settings = {
@@ -17,22 +17,22 @@ export default function RootLayout() {
     const colorScheme = useColorScheme();
     const router = useRouter();
     const pathname = usePathname();
-    const authReadyRef = useRef(false);
+    const [navigatorReady, setNavigatorReady] = useState(false);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChange((uid) => {
-            if (!authReadyRef.current) {
-                authReadyRef.current = true;
-            }
+        setNavigatorReady(true);
+    }, []);
 
+    useEffect(() => {
+        if (!navigatorReady) return;
+
+        return onAuthStateChange((uid) => {
             const isAuthRoute = pathname === '/login' || pathname === '/register';
             if (!uid && !isAuthRoute) {
                 router.replace('/login' as any);
             }
         });
-
-        return unsubscribe;
-    }, [pathname, router]);
+    }, [navigatorReady, pathname, router]);
 
     return (
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
