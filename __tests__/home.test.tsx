@@ -3,6 +3,8 @@ import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 
 import HomeScreen from '../app/(tabs)/index';
+import { TripsProvider } from '../contexts/TripsContext';
+import { UserProvider } from '../contexts/UserContext';
 
 const mockPush = jest.fn();
 
@@ -22,7 +24,13 @@ describe('HomeScreen acceptance tests', () => {
   });
 
   it('renders dashboard CTA elements', () => {
-    const { getByText } = render(<HomeScreen />);
+    const { getByText } = render(
+      <UserProvider>
+        <TripsProvider>
+          <HomeScreen />
+        </TripsProvider>
+      </UserProvider>
+    );
 
     expect(getByText('🌿 CarbonCampus')).toBeTruthy();
     expect(getByText('Reduz a pegada de carbono')).toBeTruthy();
@@ -31,7 +39,13 @@ describe('HomeScreen acceptance tests', () => {
   });
 
   it('navigates to LogTrip and Rankings from main buttons', () => {
-    const { getByText } = render(<HomeScreen />);
+    const { getByText } = render(
+      <UserProvider>
+        <TripsProvider>
+          <HomeScreen />
+        </TripsProvider>
+      </UserProvider>
+    );
 
     fireEvent.press(getByText('➕ Registar Viagem'));
     fireEvent.press(getByText('🏆 Ranking'));

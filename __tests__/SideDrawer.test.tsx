@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native';
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import React from 'react';
 import { Alert } from 'react-native';
 
@@ -21,8 +21,13 @@ jest.mock('@/contexts/UserContext', () => ({
             name: 'Gui',
             tag: '@gui',
             avatarEmoji: ':)',
+            course: 'Engenharia Informática',
         },
     }),
+}));
+
+jest.mock('@/services/auth.service', () => ({
+    signOutUser: jest.fn(),
 }));
 
 jest.mock('expo-router', () => ({
@@ -71,13 +76,17 @@ describe('SideDrawer', () => {
 
         const alertCall = (Alert.alert as jest.Mock).mock.calls[0];
         const buttons = alertCall[2] as Array<{ text: string; onPress?: () => void }>;
-        const logOutButton = buttons.find((button) => button.text === 'Log Out');
+        const logOutButton = buttons.find((button) => button.text === 'Sair');
 
         expect(logOutButton).toBeTruthy();
-        logOutButton?.onPress?.();
-
-        expect(mockClose).toHaveBeenCalledTimes(1);
-        expect(mockReplace).toHaveBeenCalledWith('/login');
+        return act(async () => {
+            await logOutButton?.onPress?.();
+        }).then(() =>
+            waitFor(() => {
+                expect(mockClose).toHaveBeenCalledTimes(1);
+                expect(mockReplace).toHaveBeenCalledWith('/login');
+            })
+        );
     });
 });
 

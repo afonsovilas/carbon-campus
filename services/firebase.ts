@@ -1,4 +1,3 @@
-import { createAsyncStorage } from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import { Platform } from 'react-native';
 
@@ -54,9 +53,9 @@ if (isFirebaseConfigured && process.env.NODE_ENV !== 'test') {
   if (Platform.OS === 'web') {
     auth = getAuth(app);
   } else {
-    const appStorage = createAsyncStorage('carboncampus-auth');
+    const AsyncStorage = require('@react-native-async-storage/async-storage').default;
     auth = initializeAuth(app, {
-      persistence: getReactNativePersistence(appStorage),
+      persistence: getReactNativePersistence(AsyncStorage),
     });
   }
 

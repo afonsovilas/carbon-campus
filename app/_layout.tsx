@@ -1,10 +1,12 @@
+import { DrawerProvider } from '@/contexts/DrawerContext';
 import { TripsProvider } from '@/contexts/TripsContext';
 import { UserProvider } from '@/contexts/UserContext';
-import { DrawerProvider } from '@/contexts/DrawerContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { onAuthStateChange } from '@/services/auth.service';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import { Stack, usePathname, useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect, useRef } from 'react';
 import 'react-native-reanimated';
 
 export const unstable_settings = {
@@ -13,6 +15,24 @@ export const unstable_settings = {
 
 export default function RootLayout() {
     const colorScheme = useColorScheme();
+    const router = useRouter();
+    const pathname = usePathname();
+    const authReadyRef = useRef(false);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChange((uid) => {
+            if (!authReadyRef.current) {
+                authReadyRef.current = true;
+            }
+
+            const isAuthRoute = pathname === '/login' || pathname === '/register';
+            if (!uid && !isAuthRoute) {
+                router.replace('/login' as any);
+            }
+        });
+
+        return unsubscribe;
+    }, [pathname, router]);
 
     return (
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
@@ -24,7 +44,6 @@ export default function RootLayout() {
                             <Stack.Screen name="register" options={{ headerShown: true, title: 'CarbonCampus Registo' }} />
                             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                             <Stack.Screen name="profile" options={{ headerShown: true, title: 'O meu perfil' }} />
-                            <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
                         </Stack>
                         <StatusBar style="auto" />
                     </TripsProvider>

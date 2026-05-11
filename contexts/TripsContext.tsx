@@ -1,4 +1,5 @@
 import { onAuthStateChange } from '@/services/auth.service';
+import { emitLeaderboardRefresh } from '@/services/leaderboard-events';
 import { fetchTripsFromCloud, saveTripToCloud } from '@/services/trips.service';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
@@ -51,9 +52,15 @@ export const TripsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const addTrip = (trip: Trip) => {
         setTrips(prevTrips => [trip, ...prevTrips]);
-        saveTripToCloud(trip).catch((error) => {
-            console.warn('Failed to save trip to Firebase:', error);
-        });
+        emitLeaderboardRefresh('trip-added');
+        saveTripToCloud(trip)
+            .then(() => {
+                // Refresh again after cloud write is committed to avoid stale ranking values.
+                emitLeaderboardRefresh('trip-added');
+            })
+            .catch((error) => {
+                console.warn('Failed to save trip to Firebase:', error);
+            });
     };
 
     return (

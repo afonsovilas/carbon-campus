@@ -15,6 +15,7 @@ export async function saveTripToCloud(trip: Trip): Promise<void> {
   }
 
   const { addDoc, collection } = require('firebase/firestore');
+  const { getDoc, doc, setDoc, increment } = require('firebase/firestore');
 
   const payload: TripDocument = {
     ...trip,
@@ -22,6 +23,16 @@ export async function saveTripToCloud(trip: Trip): Promise<void> {
   };
 
   await addDoc(collection(db, 'users', uid, 'trips'), payload);
+
+  await setDoc(doc(db, 'users', uid), {
+    points: increment(trip.points),
+    updatedAt: Date.now(),
+  }, { merge: true });
+
+  const leaderboardRef = doc(db, 'leaderboardEntries', uid);
+  const leaderboardSnapshot = await getDoc(leaderboardRef);
+  const currentPoints = leaderboardSnapshot.exists() ? Number(leaderboardSnapshot.data()?.points || 0) : 0;
+  await setDoc(leaderboardRef, { uid, points: currentPoints + trip.points, updatedAt: Date.now() }, { merge: true });
 }
 
 export async function fetchTripsFromCloud(): Promise<Trip[]> {
@@ -31,6 +42,28 @@ export async function fetchTripsFromCloud(): Promise<Trip[]> {
 
   const uid = getCurrentUserUid();
   if (!uid) {
+    return [];
+  }
+
+  const { collection, getDocs, orderBy, query } = require('firebase/firestore');
+
+  const tripsQuery = query(collection(db, 'users', uid, 'trips'), orderBy('createdAt', 'desc'));
+  const snapshot = await getDocs(tripsQuery);
+
+  return snapshot.docs.map((doc: any) => {
+    const data = doc.data() as TripDocument;
+    return {
+      id: data.id ?? doc.id,
+      mode: data.mode,
+      distance: data.distance,
+      points: data.points,
+      date: data.date,
+    };
+  });
+}
+
+export async function fetchTripsFromCloudForUser(uid: string): Promise<Trip[]> {
+  if (!isFirebaseConfigured || !db) {
     return [];
   }
 
