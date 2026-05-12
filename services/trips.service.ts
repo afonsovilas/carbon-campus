@@ -1,6 +1,7 @@
 import { Trip } from '@/contexts/TripsContext';
 import { getCurrentUserUid } from '@/services/auth.service';
 import { db, isFirebaseConfigured } from '@/services/firebase';
+import { fetchUserProfileFromCloud } from '@/services/users.service';
 
 type TripDocument = Trip & { createdAt: number };
 
@@ -14,8 +15,7 @@ export async function saveTripToCloud(trip: Trip): Promise<void> {
     return;
   }
 
-  const { addDoc, collection } = require('firebase/firestore');
-  const { getDoc, doc, setDoc, increment } = require('firebase/firestore');
+  const { addDoc, collection, doc, increment, setDoc } = require('firebase/firestore');
 
   const payload: TripDocument = {
     ...trip,
@@ -29,10 +29,13 @@ export async function saveTripToCloud(trip: Trip): Promise<void> {
     updatedAt: Date.now(),
   }, { merge: true });
 
-  const leaderboardRef = doc(db, 'leaderboardEntries', uid);
-  const leaderboardSnapshot = await getDoc(leaderboardRef);
-  const currentPoints = leaderboardSnapshot.exists() ? Number(leaderboardSnapshot.data()?.points || 0) : 0;
-  await setDoc(leaderboardRef, { uid, points: currentPoints + trip.points, updatedAt: Date.now() }, { merge: true });
+  const profile = await fetchUserProfileFromCloud(uid);
+  await setDoc(doc(db, 'leaderboardEntries', uid), {
+    uid,
+    points: increment(trip.points),
+    updatedAt: Date.now(),
+    ...(profile ? { name: profile.name, tag: profile.tag, course: profile.course } : {}),
+  }, { merge: true });
 }
 
 export async function fetchTripsFromCloud(): Promise<Trip[]> {

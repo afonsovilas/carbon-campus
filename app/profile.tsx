@@ -1,5 +1,6 @@
 import { useUser } from '@/contexts/UserContext';
 import { signOutUser } from '@/services/auth.service';
+import { COURSES, getCourseLabel } from '@/utils/courses';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -15,22 +16,13 @@ import {
 } from 'react-native';
 
 const AVATAR_OPTIONS = ['🧑', '👩', '🧔', '👩‍💻', '🧑‍🎓', '👨‍🎓', '🌱', '🚴', '🌍'];
-const COURSE_OPTIONS = [
-    'Engenharia Informática',
-    'Engenharia Ambiental',
-    'Administração',
-    'Gestão',
-    'Contabilidade',
-    'Marketing',
-    'Recursos Humanos',
-    'Sem curso',
-];
 
 export default function ProfileScreen() {
     const router = useRouter();
     const { user, updateUser } = useUser();
 
     const [editVisible, setEditVisible] = useState(false);
+    const [coursePickerVisible, setCoursePickerVisible] = useState(false);
     const [inviteAppVisible, setInviteAppVisible] = useState(false);
     const [inviteChallengeVisible, setInviteChallengeVisible] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -142,7 +134,7 @@ export default function ProfileScreen() {
                 <Text style={styles.avatarLarge}>{user.avatarEmoji}</Text>
                 <Text style={styles.name}>{user.name}</Text>
                 <Text style={styles.tag}>{user.tag}</Text>
-                <Text style={styles.course}>{user.course}</Text>
+                <Text style={styles.course}>{user.course || 'Sem curso'}</Text>
                 {user.bio ? <Text style={styles.bio}>{user.bio}</Text> : null}
             </View>
 
@@ -181,79 +173,93 @@ export default function ProfileScreen() {
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalBox}>
                         <Text style={styles.modalTitle}>Gerir conta</Text>
-
-                        <Text style={styles.label}>Avatar</Text>
-                        <View style={styles.avatarGrid}>
-                            {AVATAR_OPTIONS.map((avatar) => (
-                                <TouchableOpacity
-                                    key={avatar}
-                                    style={[styles.avatarOption, draftAvatar === avatar && styles.avatarSelected]}
-                                    onPress={() => setDraftAvatar(avatar)}
-                                >
-                                    <Text style={{ fontSize: 26 }}>{avatar}</Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-
-                        <Text style={styles.label}>Nome</Text>
-                        <TextInput
-                            style={styles.input}
-                            value={draftName}
-                            onChangeText={setDraftName}
-                            placeholder="Nome"
-                            placeholderTextColor="#9ca3af"
-                        />
-
-                        <Text style={styles.label}>Email</Text>
-                        <TextInput
-                            style={[styles.input, styles.inputLocked]}
-                            value={draftEmail}
-                            placeholder="email@fe.up.pt"
-                            placeholderTextColor="#9ca3af"
-                            keyboardType="email-address"
-                            autoCapitalize="none"
-                            editable={false}
-                        />
-
-                        <Text style={styles.label}>Tag</Text>
-                        <TextInput
-                            style={styles.input}
-                            value={draftTag}
-                            onChangeText={setDraftTag}
-                            placeholder="@tag"
-                            placeholderTextColor="#9ca3af"
-                            autoCapitalize="none"
-                        />
-
-                        <Text style={styles.label}>Bio</Text>
-                        <TextInput
-                            style={[styles.input, styles.bioInput]}
-                            value={draftBio}
-                            onChangeText={setDraftBio}
-                            placeholder="Escreve algo sobre ti..."
-                            placeholderTextColor="#9ca3af"
-                            multiline
-                        />
-
-                        <Text style={styles.label}>Curso</Text>
-                        <View style={styles.courseGrid}>
-                            {COURSE_OPTIONS.map((course) => (
-                                <TouchableOpacity
-                                    key={course}
-                                    style={[styles.courseChip, draftCourse === course && styles.courseChipSelected]}
-                                    onPress={() => setDraftCourse(course)}
-                                >
-                                    <Text
-                                        style={[
-                                            styles.courseChipText,
-                                            draftCourse === course && styles.courseChipTextSelected,
-                                        ]}
+                        <ScrollView showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+                            <Text style={styles.label}>Avatar</Text>
+                            <View style={styles.avatarGrid}>
+                                {AVATAR_OPTIONS.map((avatar) => (
+                                    <TouchableOpacity
+                                        key={avatar}
+                                        style={[styles.avatarOption, draftAvatar === avatar && styles.avatarSelected]}
+                                        onPress={() => setDraftAvatar(avatar)}
                                     >
-                                        {course}
+                                        <Text style={{ fontSize: 26 }}>{avatar}</Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+
+                            <Text style={styles.label}>Nome</Text>
+                            <TextInput
+                                style={styles.input}
+                                value={draftName}
+                                onChangeText={setDraftName}
+                                placeholder="Nome"
+                                placeholderTextColor="#9ca3af"
+                            />
+
+                            <Text style={styles.label}>Email</Text>
+                            <TextInput
+                                style={[styles.input, styles.inputLocked]}
+                                value={draftEmail}
+                                placeholder="email@fe.up.pt"
+                                placeholderTextColor="#9ca3af"
+                                keyboardType="email-address"
+                                autoCapitalize="none"
+                                editable={false}
+                            />
+
+                            <Text style={styles.label}>Tag</Text>
+                            <TextInput
+                                style={styles.input}
+                                value={draftTag}
+                                onChangeText={setDraftTag}
+                                placeholder="@tag"
+                                placeholderTextColor="#9ca3af"
+                                autoCapitalize="none"
+                            />
+
+                            <Text style={styles.label}>Bio</Text>
+                            <TextInput
+                                style={[styles.input, styles.bioInput]}
+                                value={draftBio}
+                                onChangeText={setDraftBio}
+                                placeholder="Escreve algo sobre ti..."
+                                placeholderTextColor="#9ca3af"
+                                multiline
+                            />
+
+                            <Text style={styles.label}>Curso</Text>
+                            <TouchableOpacity
+                                style={styles.pickerButton}
+                                onPress={() => setCoursePickerVisible(v => !v)}
+                            >
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <Text style={draftCourse && draftCourse !== 'Sem curso' ? styles.pickerText : styles.pickerPlaceholder}>
+                                        {draftCourse && draftCourse !== 'Sem curso'
+                                            ? getCourseLabel(draftCourse)
+                                            : 'Seleciona o teu curso'}
                                     </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
+                                    <Ionicons name={coursePickerVisible ? 'chevron-up' : 'chevron-down'} size={16} color="#6b7280" />
+                                </View>
+                            </TouchableOpacity>
+                            {coursePickerVisible && (
+                                <ScrollView style={styles.inlineCourseList} nestedScrollEnabled showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+                                    {COURSES.map((c) => (
+                                        <TouchableOpacity
+                                            key={c.code}
+                                            style={[styles.courseOption, draftCourse === c.code && styles.courseOptionSelected]}
+                                            onPress={() => {
+                                                setDraftCourse(c.code);
+                                                setCoursePickerVisible(false);
+                                            }}
+                                        >
+                                            <Text style={[styles.courseOptionText, draftCourse === c.code && styles.courseOptionTextSelected]}>
+                                                {c.label}
+                                            </Text>
+                                        </TouchableOpacity>
+                                    ))}
+                                </ScrollView>
+                            )}
+                        </ScrollView>
 
                         <View style={styles.modalActions}>
                             <TouchableOpacity
@@ -274,6 +280,7 @@ export default function ProfileScreen() {
                     </View>
                 </View>
             </Modal>
+
 
             <Modal visible={inviteAppVisible} animationType="fade" transparent>
                 <View style={styles.modalOverlay}>
@@ -413,6 +420,7 @@ const styles = StyleSheet.create({
         padding: 24,
         width: '100%',
         maxWidth: 420,
+        maxHeight: '90%',
         gap: 6,
     },
     modalTitle: { fontSize: 18, fontWeight: '700', color: '#111827', marginBottom: 4 },
@@ -454,32 +462,36 @@ const styles = StyleSheet.create({
         borderColor: '#4CAF50',
         backgroundColor: '#e8f5e9',
     },
-    courseGrid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 10,
-        marginBottom: 4,
-    },
-    courseChip: {
-        paddingVertical: 10,
-        paddingHorizontal: 12,
-        borderRadius: 999,
-        backgroundColor: '#eef2ff',
+    pickerButton: {
         borderWidth: 1,
-        borderColor: '#dbeafe',
+        borderColor: '#d1d5db',
+        borderRadius: 10,
+        padding: 12,
+        backgroundColor: '#f9fafb',
+        justifyContent: 'center',
+        marginTop: 4,
     },
-    courseChipSelected: {
-        backgroundColor: '#16a34a',
-        borderColor: '#16a34a',
+    pickerText: { color: '#111827', fontSize: 14 },
+    pickerPlaceholder: { color: '#9ca3af', fontSize: 14 },
+    inlineCourseList: {
+        borderWidth: 1,
+        borderColor: '#d1d5db',
+        borderRadius: 10,
+        backgroundColor: '#fff',
+        marginTop: 4,
+        maxHeight: 220,
     },
-    courseChipText: {
-        color: '#1f2937',
-        fontSize: 12,
-        fontWeight: '600',
+    courseOption: {
+        paddingVertical: 14,
+        paddingHorizontal: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f0f0f0',
     },
-    courseChipTextSelected: {
-        color: '#ffffff',
+    courseOptionSelected: {
+        backgroundColor: '#e8f5e9',
     },
+    courseOptionText: { fontSize: 14, color: '#374151' },
+    courseOptionTextSelected: { color: '#166534', fontWeight: '600' },
     modalActions: {
         flexDirection: 'row',
         gap: 10,

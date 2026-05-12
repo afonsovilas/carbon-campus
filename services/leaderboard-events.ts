@@ -1,4 +1,4 @@
-export type LeaderboardRefreshReason = 'trip-added' | 'profile-updated';
+export type LeaderboardRefreshReason = 'trip-added' | 'profile-updated' | 'reward-redeemed';
 
 type Listener = (reason: LeaderboardRefreshReason) => void;
 

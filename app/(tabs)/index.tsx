@@ -21,7 +21,7 @@ export default function HomeScreen() {
             <ThemedView style={styles.card}>
                 <ThemedText type="title">📊 {points} pontos</ThemedText>
                 <ThemedText>{carbonSaved}kg CO₂ evitados</ThemedText>
-                <ThemedText>{user.course}</ThemedText>
+                <ThemedText>{user.course || 'Sem curso'}</ThemedText>
                 <Link href="../rewardScreen" asChild>
                     <TouchableOpacity style={styles.smallButton} activeOpacity={0.7}>
                         <ThemedText type="title" style={{fontSize:20}}>Levantar</ThemedText>
@@ -47,7 +47,13 @@ export default function HomeScreen() {
 
             <ThemedView style={styles.card}>
                 <ThemedText type="title">🎓 {user.course || 'Sem curso'}</ThemedText>
-                <ThemedText>{trips.length} viagens registadas</ThemedText>
+                {trips.length === 0 ? (
+                    <ThemedText style={styles.hintText}>
+                        Regista a tua primeira viagem para descobrir o rank do teu curso!
+                    </ThemedText>
+                ) : (
+                    <ThemedText>{trips.length} viagens registadas</ThemedText>
+                )}
             </ThemedView>
         </ThemedView>
     );
@@ -81,5 +87,12 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         backgroundColor: '#4CAF50',
         alignItems: 'center',
+    },
+    hintText: {
+        textAlign: 'center',
+        opacity: 0.75,
+        marginTop: 4,
+        fontSize: 13,
+        lineHeight: 18,
     },
 });

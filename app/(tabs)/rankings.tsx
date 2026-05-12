@@ -15,14 +15,22 @@ export default function RankingScreen() {
     const [activeTab, setActiveTab] = useState<LeaderboardType>('courses');
     const [leaderboard, setLeaderboard] = useState<LeaderboardPayload>({ students: [], courses: [] });
     const [isLoading, setIsLoading] = useState(false);
+    const [loadError, setLoadError] = useState<string | null>(null);
 
-    const loadLeaderboard = useCallback(async () => {
+    const loadLeaderboard = useCallback(async (attempt = 0) => {
         try {
             setIsLoading(true);
+            setLoadError(null);
             const data = await fetchLeaderboardFromCloud();
             setLeaderboard(data);
-        } catch (error) {
+        } catch (error: any) {
+            const isPermission = error?.code === 'permission-denied' || error?.message?.includes('permissions');
+            if (isPermission && attempt < 3) {
+                await new Promise(res => setTimeout(res, 1500 * (attempt + 1)));
+                return loadLeaderboard(attempt + 1);
+            }
             console.warn('Failed to load leaderboard from Firebase:', error);
+            setLoadError(error?.message ?? 'Erro ao carregar leaderboard');
         } finally {
             setIsLoading(false);
         }
@@ -138,6 +146,14 @@ export default function RankingScreen() {
                 <View style={styles.loadingBox}>
                     <ActivityIndicator size="large" color="#4CAF50" />
                     <ThemedText style={styles.loadingText}>A carregar leaderboard...</ThemedText>
+                </View>
+            ) : null}
+
+            {loadError ? (
+                <View style={styles.loadingBox}>
+                    <ThemedText style={{ color: '#ef4444', textAlign: 'center', fontSize: 13 }}>
+                        ⚠ {loadError}
+                    </ThemedText>
                 </View>
             ) : null}
 

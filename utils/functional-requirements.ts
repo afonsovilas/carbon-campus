@@ -48,9 +48,10 @@ export function calculateTripPoints(mode: TransportMode, distance: number): numb
 export function validateRegister(
   email: string,
   password: string,
-  confirmPassword: string
+  confirmPassword: string,
+  course: string = ''
 ): RegisterValidation {
-  if (!email || !password || !confirmPassword) {
+  if (!email || !password || !confirmPassword || !course) {
     return { ok: false, reason: 'missing_fields' };
   }
 

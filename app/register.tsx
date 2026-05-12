@@ -1,15 +1,20 @@
 import { registerWithEmail } from '@/services/auth.service';
+import { useUser } from '@/contexts/UserContext';
 import { isFirebaseConfigured } from '@/services/firebase';
 import { upsertUserProfile } from '@/services/users.service';
 import { validateRegister } from '@/utils/functional-requirements';
+import { COURSES } from '@/utils/courses';
 import { router } from 'expo-router';
 import { useState } from 'react';
-import { Alert, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Modal, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function RegisterScreen() {
+    const { updateUser } = useUser();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [course, setCourse] = useState('');
+    const [coursePickerVisible, setCoursePickerVisible] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [feedbackType, setFeedbackType] = useState<'success' | 'error' | null>(null);
@@ -33,7 +38,7 @@ export default function RegisterScreen() {
         setFeedbackType(null);
         setFeedbackMessage('');
 
-        const validation = validateRegister(email, password, confirmPassword);
+        const validation = validateRegister(email, password, confirmPassword, course);
 
         if (!validation.ok && validation.reason === 'missing_fields') {
             showError('Preenche todos os campos');
@@ -55,9 +60,10 @@ export default function RegisterScreen() {
 
             if (isFirebaseConfigured && process.env.NODE_ENV !== 'test') {
                 const { uid } = await registerWithEmail(email, password);
-                upsertUserProfile(uid, email).catch((err) =>
-                    console.warn('Failed to create user profile:', err)
-                );
+                await upsertUserProfile(uid, { email, course });
+                // Force UserContext to reflect the chosen course immediately,
+                // bypassing the auth state change race condition.
+                await updateUser({ course });
             }
 
             showSuccess('Conta criada com sucesso!');
@@ -114,7 +120,7 @@ export default function RegisterScreen() {
     };
 
     return (
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.title}>🌿 CarbonCampus</Text>
             <Text style={styles.subtitle}>Cria a tua conta</Text>
 
@@ -148,6 +154,51 @@ export default function RegisterScreen() {
             />
 
             <TouchableOpacity
+                style={styles.pickerButton}
+                onPress={() => setCoursePickerVisible(true)}
+                testID="course-picker-button"
+            >
+                <Text style={course ? styles.pickerText : styles.pickerPlaceholder}>
+                    {course ? (COURSES.find((c) => c.code === course)?.label ?? course) : 'Seleciona o teu curso'}
+                </Text>
+            </TouchableOpacity>
+
+            <Modal
+                visible={coursePickerVisible}
+                transparent
+                animationType="slide"
+                onRequestClose={() => setCoursePickerVisible(false)}
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        <Text style={styles.modalTitle}>Seleciona o teu curso</Text>
+                        <ScrollView>
+                            {COURSES.map((c) => (
+                                <TouchableOpacity
+                                    key={c.code}
+                                    style={styles.courseOption}
+                                    onPress={() => {
+                                        setCourse(c.code);
+                                        setCoursePickerVisible(false);
+                                    }}
+                                    testID={`course-option-${c.code}`}
+                                >
+                                    <Text style={styles.courseOptionText}>{c.label}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+                        <TouchableOpacity
+                            style={styles.modalCancel}
+                            onPress={() => setCoursePickerVisible(false)}
+                            testID="course-picker-cancel"
+                        >
+                            <Text style={styles.modalCancelText}>Cancelar</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
+
+            <TouchableOpacity
                 style={[styles.button, isSubmitting && styles.buttonDisabled]}
                 onPress={handleRegister}
                 testID="submit-button"
@@ -171,15 +222,18 @@ export default function RegisterScreen() {
             <TouchableOpacity onPress={() => router.replace('/login' as any)}>
                 <Text style={styles.linkText}>Já tens conta? <Text style={styles.linkBold}>Inicia sessão</Text></Text>
             </TouchableOpacity>
-        </View>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 30, justifyContent: 'center', gap: 20 },
+    container: { flexGrow: 1, padding: 30, justifyContent: 'center', gap: 20 },
     title: { fontSize: 28, fontWeight: 'bold', textAlign: 'center', color: '#2e7d32' },
     subtitle: { fontSize: 14, textAlign: 'center', color: '#555', marginTop: -10 },
     input: { borderWidth: 1, borderColor: '#ccc', padding: 15, borderRadius: 8, color: '#000', backgroundColor: '#fff' },
+    pickerButton: { borderWidth: 1, borderColor: '#ccc', padding: 15, borderRadius: 8, backgroundColor: '#fff', justifyContent: 'center' },
+    pickerText: { color: '#000', fontSize: 16 },
+    pickerPlaceholder: { color: '#999', fontSize: 16 },
     button: { backgroundColor: '#4CAF50', padding: 15, borderRadius: 8 },
     buttonDisabled: { backgroundColor: '#93c5a5' },
     buttonText: { color: 'white', textAlign: 'center', fontWeight: 'bold', fontSize: 16 },
@@ -188,4 +242,11 @@ const styles = StyleSheet.create({
     feedbackSuccess: { color: '#166534' },
     linkText: { textAlign: 'center', color: '#555', fontSize: 14 },
     linkBold: { color: '#4CAF50', fontWeight: 'bold' },
+    modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' },
+    modalContainer: { backgroundColor: '#fff', borderTopLeftRadius: 16, borderTopRightRadius: 16, maxHeight: '70%', padding: 16 },
+    modalTitle: { fontSize: 16, fontWeight: 'bold', color: '#2e7d32', marginBottom: 12, textAlign: 'center' },
+    courseOption: { paddingVertical: 14, paddingHorizontal: 8, borderBottomWidth: 1, borderBottomColor: '#f0f0f0' },
+    courseOptionText: { fontSize: 14, color: '#333' },
+    modalCancel: { marginTop: 12, padding: 14, alignItems: 'center' },
+    modalCancelText: { color: '#b91c1c', fontWeight: 'bold', fontSize: 15 },
 });

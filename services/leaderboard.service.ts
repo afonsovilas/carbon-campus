@@ -3,6 +3,7 @@ import {
   fetchAllUserProfilesFromCloud,
   fetchPublicLeaderboardEntriesFromCloud,
 } from '@/services/users.service';
+import { COURSES } from '@/utils/courses';
 
 export type StudentLeaderboardItem = {
   pos: number;
@@ -64,8 +65,9 @@ export async function fetchLeaderboardFromCloud(): Promise<LeaderboardPayload> {
     points: pointsByUid.get(profile.uid) ?? (profile as any).points ?? 0,
   }));
 
-  if (users.length === 0) {
-    return { students: [], courses: [] };
+  const courseTotals = new Map<string, CourseLeaderboardItem>();
+  for (const { code } of COURSES) {
+    courseTotals.set(code, { pos: 0, course: code, points: 0, students: 0 });
   }
 
   const students = applyPositions(sortByPointsThenName(users.map((user) => ({
@@ -77,11 +79,8 @@ export async function fetchLeaderboardFromCloud(): Promise<LeaderboardPayload> {
     points: user.points,
   }))));
 
-  const courseTotals = new Map<string, CourseLeaderboardItem>();
-
   for (const user of users) {
     const course = user.course || DEFAULT_COURSE;
-    // Skip the default placeholder course (e.g. 'Sem curso') — only count registered courses
     if (!course || course === DEFAULT_COURSE) {
       continue;
     }

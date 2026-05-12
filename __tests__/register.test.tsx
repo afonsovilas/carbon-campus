@@ -47,6 +47,8 @@ describe('RegisterScreen acceptance tests', () => {
         fireEvent.changeText(getByTestId('email-input'), 'up202012345@fe.up.pt');
         fireEvent.changeText(getByTestId('password-input'), 'password123');
         fireEvent.changeText(getByTestId('confirm-password-input'), 'password123');
+        fireEvent.press(getByTestId('course-picker-button'));
+        fireEvent.press(getByTestId('course-option-LEIC'));
         fireEvent.press(getByTestId('submit-button'));
 
         expect(alertSpy).toHaveBeenCalledWith(
@@ -72,6 +74,8 @@ describe('RegisterScreen acceptance tests', () => {
         fireEvent.changeText(getByTestId('email-input'), 'duplicado@teste.pt');
         fireEvent.changeText(getByTestId('password-input'), 'qualquerpassword');
         fireEvent.changeText(getByTestId('confirm-password-input'), 'qualquerpassword');
+        fireEvent.press(getByTestId('course-picker-button'));
+        fireEvent.press(getByTestId('course-option-LEIC'));
         fireEvent.press(getByTestId('submit-button'));
 
         expect(alertSpy).toHaveBeenCalledWith('Erro', 'Email já registado');
