@@ -1,4 +1,5 @@
 import { DrawerProvider } from '@/contexts/DrawerContext';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 import { TripsProvider } from '@/contexts/TripsContext';
 import { UserProvider } from '@/contexts/UserContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -36,19 +37,21 @@ export default function RootLayout() {
 
     return (
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <UserProvider>
-                <DrawerProvider>
-                    <TripsProvider>
-                        <Stack initialRouteName="login">
-                            <Stack.Screen name="login" options={{ headerShown: false }} />
-                            <Stack.Screen name="register" options={{ headerShown: true, title: 'CarbonCampus Registo' }} />
-                            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                            <Stack.Screen name="profile" options={{ headerShown: true, title: 'O meu perfil' }} />
-                        </Stack>
-                        <StatusBar style="auto" />
-                    </TripsProvider>
-                </DrawerProvider>
-            </UserProvider>
+            <LanguageProvider>
+                <UserProvider>
+                    <DrawerProvider>
+                        <TripsProvider>
+                            <Stack initialRouteName="login">
+                                <Stack.Screen name="login" options={{ headerShown: false }} />
+                                <Stack.Screen name="register" options={{ headerShown: true, title: 'CarbonCampus' }} />
+                                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                                <Stack.Screen name="profile" options={{ headerShown: true, title: 'CarbonCampus' }} />
+                            </Stack>
+                            <StatusBar style="auto" />
+                        </TripsProvider>
+                    </DrawerProvider>
+                </UserProvider>
+            </LanguageProvider>
         </ThemeProvider>
     );
 }

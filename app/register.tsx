@@ -1,5 +1,6 @@
 import { registerWithEmail } from '@/services/auth.service';
 import { useUser } from '@/contexts/UserContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { isFirebaseConfigured } from '@/services/firebase';
 import { upsertUserProfile } from '@/services/users.service';
 import { validateRegister } from '@/utils/functional-requirements';
@@ -10,6 +11,7 @@ import { Alert, Modal, Platform, ScrollView, StyleSheet, Text, TextInput, Toucha
 
 export default function RegisterScreen() {
     const { updateUser } = useUser();
+    const { t } = useLanguage();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -22,7 +24,7 @@ export default function RegisterScreen() {
     const showError = (message: string) => {
         setFeedbackType('error');
         setFeedbackMessage(message);
-        Alert.alert('Erro', message);
+        Alert.alert(t.error, message);
     };
 
     const showSuccess = (message: string) => {
@@ -31,9 +33,7 @@ export default function RegisterScreen() {
     };
 
     const handleRegister = async () => {
-        if (isSubmitting) {
-            return;
-        }
+        if (isSubmitting) return;
 
         setFeedbackType(null);
         setFeedbackMessage('');
@@ -41,17 +41,15 @@ export default function RegisterScreen() {
         const validation = validateRegister(email, password, confirmPassword, course);
 
         if (!validation.ok && validation.reason === 'missing_fields') {
-            showError('Preenche todos os campos');
+            showError(t.fill_all_fields);
             return;
         }
-
         if (!validation.ok && validation.reason === 'password_mismatch') {
-            showError('As passwords não coincidem');
+            showError(t.passwords_dont_match);
             return;
         }
-
         if (!validation.ok && validation.reason === 'duplicate_email') {
-            showError('Email já registado');
+            showError(t.email_already_in_use);
             return;
         }
 
@@ -61,59 +59,29 @@ export default function RegisterScreen() {
             if (isFirebaseConfigured && process.env.NODE_ENV !== 'test') {
                 const { uid } = await registerWithEmail(email, password);
                 await upsertUserProfile(uid, { email, course });
-                // Force UserContext to reflect the chosen course immediately,
-                // bypassing the auth state change race condition.
                 await updateUser({ course });
             }
 
-            showSuccess('Conta criada com sucesso!');
+            showSuccess(t.account_created);
 
             if (Platform.OS === 'web') {
                 router.replace('/(tabs)' as any);
                 return;
             }
 
-            Alert.alert('Sucesso', 'Conta criada com sucesso!', [
+            Alert.alert(t.success, t.account_created, [
                 { text: 'OK', onPress: () => router.replace('/(tabs)' as any) }
             ]);
         } catch (error: any) {
-            if (error?.code === 'auth/email-already-in-use') {
-                showError('Email já registado');
-                return;
-            }
-
-            if (error?.code === 'auth/operation-not-allowed') {
-                showError('Registo por Email/Password não está ativo no Firebase Auth.');
-                return;
-            }
-
-            if (error?.code === 'auth/invalid-email') {
-                showError('Email inválido');
-                return;
-            }
-
-            if (error?.code === 'auth/weak-password') {
-                showError('Password fraca. Usa pelo menos 6 caracteres.');
-                return;
-            }
-
-            if (error?.code === 'auth/network-request-failed') {
-                showError('Falha de rede ao criar conta. Verifica a ligação.');
-                return;
-            }
-
-            if (error?.code === 'auth/too-many-requests') {
-                showError('Demasiadas tentativas. Tenta novamente mais tarde.');
-                return;
-            }
-
-            if (error?.code === 'auth/invalid-api-key') {
-                showError('Configuração Firebase inválida (API key).');
-                return;
-            }
-
+            if (error?.code === 'auth/email-already-in-use') { showError(t.email_already_in_use); return; }
+            if (error?.code === 'auth/operation-not-allowed') { showError('Email/Password sign-up is not enabled in Firebase Auth.'); return; }
+            if (error?.code === 'auth/invalid-email') { showError(t.invalid_email); return; }
+            if (error?.code === 'auth/weak-password') { showError(t.weak_password); return; }
+            if (error?.code === 'auth/network-request-failed') { showError(t.network_error); return; }
+            if (error?.code === 'auth/too-many-requests') { showError(t.too_many_requests); return; }
+            if (error?.code === 'auth/invalid-api-key') { showError(t.invalid_api_key); return; }
             const code = typeof error?.code === 'string' ? error.code : null;
-            showError(code ? `Não foi possível criar conta (${code}).` : 'Não foi possível criar conta. Tenta novamente.');
+            showError(code ? `${t.cannot_create_account} (${code})` : t.cannot_create_account);
         } finally {
             setIsSubmitting(false);
         }
@@ -122,7 +90,7 @@ export default function RegisterScreen() {
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.title}>🌿 CarbonCampus</Text>
-            <Text style={styles.subtitle}>Cria a tua conta</Text>
+            <Text style={styles.subtitle}>{t.create_account_subtitle}</Text>
 
             <TextInput
                 style={styles.input}
@@ -136,7 +104,7 @@ export default function RegisterScreen() {
             />
             <TextInput
                 style={styles.input}
-                placeholder="Password"
+                placeholder={t.password}
                 placeholderTextColor="#999"
                 value={password}
                 onChangeText={setPassword}
@@ -145,7 +113,7 @@ export default function RegisterScreen() {
             />
             <TextInput
                 style={styles.input}
-                placeholder="Confirmar Password"
+                placeholder={t.confirm_password}
                 placeholderTextColor="#999"
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
@@ -159,7 +127,7 @@ export default function RegisterScreen() {
                 testID="course-picker-button"
             >
                 <Text style={course ? styles.pickerText : styles.pickerPlaceholder}>
-                    {course ? (COURSES.find((c) => c.code === course)?.label ?? course) : 'Seleciona o teu curso'}
+                    {course ? (COURSES.find((c) => c.code === course)?.label ?? course) : t.select_course}
                 </Text>
             </TouchableOpacity>
 
@@ -171,16 +139,13 @@ export default function RegisterScreen() {
             >
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalContainer}>
-                        <Text style={styles.modalTitle}>Seleciona o teu curso</Text>
+                        <Text style={styles.modalTitle}>{t.select_course}</Text>
                         <ScrollView>
                             {COURSES.map((c) => (
                                 <TouchableOpacity
                                     key={c.code}
                                     style={styles.courseOption}
-                                    onPress={() => {
-                                        setCourse(c.code);
-                                        setCoursePickerVisible(false);
-                                    }}
+                                    onPress={() => { setCourse(c.code); setCoursePickerVisible(false); }}
                                     testID={`course-option-${c.code}`}
                                 >
                                     <Text style={styles.courseOptionText}>{c.label}</Text>
@@ -192,7 +157,7 @@ export default function RegisterScreen() {
                             onPress={() => setCoursePickerVisible(false)}
                             testID="course-picker-cancel"
                         >
-                            <Text style={styles.modalCancelText}>Cancelar</Text>
+                            <Text style={styles.modalCancelText}>{t.cancel}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -204,23 +169,20 @@ export default function RegisterScreen() {
                 testID="submit-button"
                 disabled={isSubmitting}
             >
-                <Text style={styles.buttonText}>{isSubmitting ? 'A registar...' : 'Registar'}</Text>
+                <Text style={styles.buttonText}>{isSubmitting ? t.registering : t.register_btn}</Text>
             </TouchableOpacity>
 
             {feedbackMessage ? (
                 <Text
                     testID="register-feedback"
-                    style={[
-                        styles.feedback,
-                        feedbackType === 'error' ? styles.feedbackError : styles.feedbackSuccess,
-                    ]}
+                    style={[styles.feedback, feedbackType === 'error' ? styles.feedbackError : styles.feedbackSuccess]}
                 >
                     {feedbackMessage}
                 </Text>
             ) : null}
 
             <TouchableOpacity onPress={() => router.replace('/login' as any)}>
-                <Text style={styles.linkText}>Já tens conta? <Text style={styles.linkBold}>Inicia sessão</Text></Text>
+                <Text style={styles.linkText}>{t.already_have_account} <Text style={styles.linkBold}>{t.sign_in_link}</Text></Text>
             </TouchableOpacity>
         </ScrollView>
     );
