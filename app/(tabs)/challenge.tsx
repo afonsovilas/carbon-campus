@@ -1,8 +1,17 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { getCurrentUserUid } from '@/services/auth.service';
+import {
+    createChallengeInCloud,
+    fetchChallengesFromCloud,
+    sendChallengeInviteToCloud,
+    UserChallenge,
+} from '@/services/challenges.service';
+import { isFirebaseConfigured } from '@/services/firebase';
+import { findUserByTagFromCloud } from '@/services/users.service';
 import { canCreateChallenge, findMockUserByTag } from '@/utils/functional-requirements';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function ChallengesScreen() {
@@ -10,35 +19,124 @@ export default function ChallengesScreen() {
     const [name, setName] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
-    const [challenges, setChallenges] = useState<any[]>([]);
+    const [challenges, setChallenges] = useState<UserChallenge[]>([]);
 
     // --- Estados para Convites (User Story 1 adaptada) ---
-    const [showInviteFor, setShowInviteFor] = useState<number | null>(null);
+    const [showInviteFor, setShowInviteFor] = useState<string | null>(null);
     const [searchTag, setSearchTag] = useState('');
-    const [foundUser, setFoundUser] = useState<{ name: string; tag: string } | null>(null);
+    const [foundUser, setFoundUser] = useState<{ uid?: string; name: string; tag: string } | null>(null);
 
-    const createChallenge = () => {
+    useEffect(() => {
+        let mounted = true;
+
+        const loadChallenges = async () => {
+            if (!isFirebaseConfigured || process.env.NODE_ENV === 'test') {
+                return;
+            }
+
+            try {
+                const cloudChallenges = await fetchChallengesFromCloud();
+                if (mounted) {
+                    setChallenges(cloudChallenges);
+                }
+            } catch (error) {
+                console.warn('Failed to load challenges from Firebase:', error);
+            }
+        };
+
+        loadChallenges();
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
+
+    const createChallenge = async () => {
         if (canCreateChallenge(name, startDate, endDate)) {
-            const newChallenge = { id: Date.now(), name, startDate, endDate, participants: [] };
-            setChallenges([newChallenge, ...challenges]);
+            let newChallenge: UserChallenge = {
+                id: String(Date.now()),
+                name,
+                startDate,
+                endDate,
+                participants: [],
+                createdAt: Date.now(),
+            };
+
+            if (isFirebaseConfigured && process.env.NODE_ENV !== 'test') {
+                try {
+                    const createdCloudChallenge = await createChallengeInCloud({
+                        name,
+                        startDate,
+                        endDate,
+                    });
+
+                    if (createdCloudChallenge) {
+                        newChallenge = createdCloudChallenge;
+                    }
+                } catch (error) {
+                    console.warn('Failed to save challenge to Firebase:', error);
+                }
+            }
+
+            setChallenges((prev) => [newChallenge, ...prev]);
             setName(''); setStartDate(''); setEndDate('');
         }
     };
 
-    const handleSearchFriend = () => {
-        // Simulação da mesma lógica do ecrã de Invites
-        const user = findMockUserByTag(searchTag);
-        if (user) {
-            setFoundUser(user);
-        } else {
+    const handleSearchFriend = async () => {
+        const normalizedTag = searchTag.trim();
+        if (!normalizedTag) {
             setFoundUser(null);
-            Alert.alert("Erro", "Username does not exist");
+            Alert.alert('Erro', 'Username does not exist');
+            return;
+        }
+
+        try {
+            let user: { uid?: string; name: string; tag: string } | null = null;
+
+            if (isFirebaseConfigured && process.env.NODE_ENV !== 'test') {
+                user = await findUserByTagFromCloud(normalizedTag);
+
+                const currentUid = getCurrentUserUid();
+                if (user && currentUid && user.uid === currentUid) {
+                    user = null;
+                }
+            }
+
+            if (!user) {
+                user = findMockUserByTag(normalizedTag);
+            }
+
+            if (user) {
+                setFoundUser(user);
+            } else {
+                setFoundUser(null);
+                Alert.alert('Erro', 'Username does not exist');
+            }
+        } catch (error) {
+            setFoundUser(null);
+            Alert.alert('Erro', 'Username does not exist');
         }
     };
 
-    const confirmInvite = (challengeId: number, friendTag: string) => {
+    const confirmInvite = async (challengeId: string, friendTag: string) => {
         const challengeName = challenges.find(c => c.id === challengeId)?.name;
-        Alert.alert("Success", `Invite to ${challengeName} sent to ${friendTag}`);
+
+        if (isFirebaseConfigured && process.env.NODE_ENV !== 'test' && foundUser && challengeName) {
+            try {
+                await sendChallengeInviteToCloud({
+                    challengeId,
+                    challengeName,
+                    friendTag,
+                    friendName: foundUser.name,
+                    friendUid: foundUser.uid,
+                });
+            } catch (error) {
+                console.warn('Failed to save challenge invite to Firebase:', error);
+            }
+        }
+
+        Alert.alert('Success', `Invite to ${challengeName} sent to ${friendTag}`);
         setShowInviteFor(null);
         setSearchTag('');
         setFoundUser(null);

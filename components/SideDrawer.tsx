@@ -1,5 +1,6 @@
 import { useDrawer } from '@/contexts/DrawerContext';
 import { useUser } from '@/contexts/UserContext';
+import { signOutUser } from '@/services/auth.service';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
@@ -7,6 +8,7 @@ import {
     Alert,
     Animated,
     Dimensions,
+    Platform,
     Pressable,
     StyleSheet,
     Text,
@@ -52,14 +54,39 @@ export default function SideDrawer() {
     };
 
     const handleLogout = () => {
-        Alert.alert('Log Out', 'Are you sure you want to log out?', [
+        if (Platform.OS === 'web' && typeof window !== 'undefined') {
+            const ok = window.confirm('Tens a certeza que queres sair?');
+            if (!ok) return;
+
+            close();
+            (async () => {
+                try {
+                    await signOutUser();
+                } catch (error) {
+                    console.warn('Failed to sign out cleanly:', error);
+                } finally {
+                    router.replace('/login' as any);
+                }
+            })();
+
+            return;
+        }
+
+        Alert.alert('Terminar sessão', 'Tens a certeza que queres sair?', [
             { text: 'Cancel', style: 'cancel' },
             {
-                text: 'Log Out',
+                text: 'Sair',
                 style: 'destructive',
-                onPress: () => {
+                onPress: async () => {
                     close();
-                    router.replace('/login' as any);
+
+                    try {
+                        await signOutUser();
+                    } catch (error) {
+                        console.warn('Failed to sign out cleanly:', error);
+                    } finally {
+                        router.replace('/login' as any);
+                    }
                 },
             },
         ]);
@@ -100,7 +127,7 @@ export default function SideDrawer() {
                     />
                     <DrawerItem
                         icon="log-out-outline"
-                        label="Log Out"
+                        label="Terminar sessão"
                         danger
                         onPress={handleLogout}
                         testID="drawer-log-out"

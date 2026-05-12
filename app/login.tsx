@@ -1,3 +1,5 @@
+import { loginWithEmail } from '@/services/auth.service';
+import { isFirebaseConfigured } from '@/services/firebase';
 import { validateLogin } from '@/utils/functional-requirements';
 import { router } from 'expo-router';
 import { useState } from 'react';
@@ -7,7 +9,7 @@ export default function LoginScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         const validation = validateLogin(email, password);
 
         if (!validation.ok && validation.reason === 'missing_fields') {
@@ -15,10 +17,25 @@ export default function LoginScreen() {
             return;
         }
 
-        if (validation.ok) {
-            router.replace('/(tabs)');
-        } else {
-            Alert.alert('Erro', 'Email ou password incorretos');
+        try {
+            if (isFirebaseConfigured && process.env.NODE_ENV !== 'test') {
+                await loginWithEmail(email, password);
+                router.replace('/(tabs)');
+                return;
+            }
+
+            if (validation.ok) {
+                router.replace('/(tabs)');
+            } else {
+                Alert.alert('Erro', 'Email ou password incorretos');
+            }
+        } catch (error: any) {
+            if (error?.code === 'auth/invalid-credential' || error?.code === 'auth/user-not-found') {
+                Alert.alert('Erro', 'Email ou password incorretos');
+                return;
+            }
+
+            Alert.alert('Erro', 'Não foi possível iniciar sessão. Tenta novamente.');
         }
     };
 

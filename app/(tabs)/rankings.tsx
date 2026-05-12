@@ -1,38 +1,98 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useTrips } from '@/contexts/TripsContext';
+import { onLeaderboardRefresh } from '@/services/leaderboard-events';
+import { fetchLeaderboardFromCloud, LeaderboardPayload } from '@/services/leaderboard.service';
 import { Ionicons } from '@expo/vector-icons';
-import { router } from 'expo-router';
-import { useState } from 'react';
-import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
+import { ActivityIndicator, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 type LeaderboardType = 'courses' | 'students';
-
-// Dados mock de cursos
-const COURSES_LEADERBOARD = [
-    { pos: 1, course: 'Engenharia Informática', points: 8250 },
-    { pos: 2, course: 'Engenharia Ambiental', points: 8000 },
-    { pos: 3, course: 'Administração', points: 7400 },
-    { pos: 4, course: 'Gestão', points: 7200 },
-    { pos: 5, course: 'Contabilidade', points: 6250 },
-    { pos: 6, course: 'Marketing', points: 6000 },
-    { pos: 7, course: 'Recursos Humanos', points: 5400 },
-];
-
-// Dados mock de alunos
-const STUDENTS_LEADERBOARD = [
-    { pos: 1, name: 'João Silva', points: 8250 },
-    { pos: 2, name: 'Maria Santos', points: 8000 },
-    { pos: 3, name: 'Pedro Oliveira', points: 7400 },
-    { pos: 4, name: 'Ana Costa', points: 7200 },
-    { pos: 5, name: 'Carlos Mendes', points: 6250 },
-    { pos: 6, name: 'Lucia Ferreira', points: 6000 },
-    { pos: 7, name: 'Roberto Alves', points: 5400 },
-];
 
 export default function RankingScreen() {
     const { tripsCount } = useTrips();
     const [activeTab, setActiveTab] = useState<LeaderboardType>('courses');
+    const [leaderboard, setLeaderboard] = useState<LeaderboardPayload>({ students: [], courses: [] });
+    const [isLoading, setIsLoading] = useState(false);
+
+    const loadLeaderboard = useCallback(async () => {
+        try {
+            setIsLoading(true);
+            const data = await fetchLeaderboardFromCloud();
+            setLeaderboard(data);
+        } catch (error) {
+            console.warn('Failed to load leaderboard from Firebase:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (process.env.NODE_ENV === 'test') {
+            let mounted = true;
+
+            const loadLeaderboardForTest = async () => {
+                try {
+                    setIsLoading(true);
+                    const data = await fetchLeaderboardFromCloud();
+                    if (mounted) {
+                        setLeaderboard(data);
+                    }
+                } catch (error) {
+                    console.warn('Failed to load leaderboard from Firebase:', error);
+                } finally {
+                    if (mounted) {
+                        setIsLoading(false);
+                    }
+                }
+            };
+
+            loadLeaderboardForTest();
+
+            return () => {
+                mounted = false;
+            };
+        }
+
+        let mounted = true;
+
+        const { onAuthStateChange } = require('@/services/auth.service');
+
+        const unsubscribe = onAuthStateChange((uid: string | null) => {
+            if (!uid) {
+                if (mounted) {
+                    setLeaderboard({ students: [], courses: [] });
+                    setIsLoading(false);
+                }
+                return;
+            }
+
+            loadLeaderboard();
+        });
+
+        const unsubscribeLeaderboardRefresh = onLeaderboardRefresh(() => {
+            if (mounted) {
+                loadLeaderboard();
+            }
+        });
+
+        return () => {
+            mounted = false;
+            unsubscribe();
+            unsubscribeLeaderboardRefresh();
+        };
+    }, [loadLeaderboard]);
+
+    useFocusEffect(
+        useCallback(() => {
+            if (process.env.NODE_ENV === 'test' || tripsCount === 0) {
+                return;
+            }
+
+            loadLeaderboard();
+        }, [loadLeaderboard, tripsCount])
+    );
 
     // Se não houver viagens, mostra a tela bloqueada
     if (tripsCount === 0) {
@@ -67,11 +127,19 @@ export default function RankingScreen() {
     }
 
     // Se houver viagens, mostra a leaderboard
-    const leaderboardData = activeTab === 'courses' ? COURSES_LEADERBOARD : STUDENTS_LEADERBOARD;
+    const courseRows = leaderboard.courses;
+    const studentRows = leaderboard.students;
 
     return (
         <ThemedView style={styles.container}>
             <ThemedText type="title" style={styles.title}>🏆 LeaderBoards</ThemedText>
+
+            {isLoading ? (
+                <View style={styles.loadingBox}>
+                    <ActivityIndicator size="large" color="#4CAF50" />
+                    <ThemedText style={styles.loadingText}>A carregar leaderboard...</ThemedText>
+                </View>
+            ) : null}
 
             {/* Leaderboard Content */}
             <ScrollView style={styles.leaderboardContainer} showsVerticalScrollIndicator={false}>
@@ -89,19 +157,33 @@ export default function RankingScreen() {
                 </View>
 
                 {/* Rows */}
-                {leaderboardData.map((item, index) => (
-                    <View key={index} style={[styles.leaderboardRow, index === 3 && styles.highlightedRow]}>
-                        <ThemedText type="default" style={[styles.cell, styles.posColumn]}>
-                            {item.pos}
-                        </ThemedText>
-                        <ThemedText type="default" style={[styles.cell, styles.nameColumn]}>
-                            {'course' in item ? item.course : item.name}
-                        </ThemedText>
-                        <ThemedText type="default" style={[styles.cell, styles.pointsColumn]}>
-                            {item.points}
-                        </ThemedText>
-                    </View>
-                ))}
+                {activeTab === 'courses'
+                    ? courseRows.map((item, index) => (
+                        <View key={item.course} style={[styles.leaderboardRow, index === 3 && styles.highlightedRow]}>
+                            <ThemedText type="default" style={[styles.cell, styles.posColumn]}>
+                                {item.pos}
+                            </ThemedText>
+                            <ThemedText type="default" style={[styles.cell, styles.nameColumn]}>
+                                {item.course}
+                            </ThemedText>
+                            <ThemedText type="default" style={[styles.cell, styles.pointsColumn]}>
+                                {item.points}
+                            </ThemedText>
+                        </View>
+                    ))
+                    : studentRows.map((item, index) => (
+                        <View key={item.uid} style={[styles.leaderboardRow, index === 3 && styles.highlightedRow]}>
+                            <ThemedText type="default" style={[styles.cell, styles.posColumn]}>
+                                {item.pos}
+                            </ThemedText>
+                            <ThemedText type="default" style={[styles.cell, styles.nameColumn]}>
+                                {item.name}
+                            </ThemedText>
+                            <ThemedText type="default" style={[styles.cell, styles.pointsColumn]}>
+                                {item.points}
+                            </ThemedText>
+                        </View>
+                    ))}
             </ScrollView>
 
             {/* Tab Switcher */}
@@ -146,6 +228,15 @@ const styles = StyleSheet.create({
     title: {
         marginBottom: 40,
         textAlign: 'center',
+    },
+    loadingBox: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 10,
+        marginBottom: 16,
+    },
+    loadingText: {
+        opacity: 0.8,
     },
     leaderboardContainer: {
         flex: 1,

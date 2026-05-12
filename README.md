@@ -102,6 +102,11 @@ The project includes automated and manual testing artifacts for implemented stor
 - **User acceptance tests (UAT plan):** `docs/testing/UAT.md`
 - **Defect tracking and verification:** `docs/testing/defect-log.md`
 
+### Database Setup
+
+- **Firebase/Firestore setup guide:** `docs/firebase-setup.md`
+- **Environment template:** `.env.example`
+
 ### Domain Model
 
 Our app allows Users to create personal accounts, enabling them to log Trips or join Challenges. It includes different types of users, such as Active Participants and Admins, and supports interactions between them.

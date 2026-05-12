@@ -1,19 +1,30 @@
 import { useUser } from '@/contexts/UserContext';
+import { signOutUser } from '@/services/auth.service';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
+    ActivityIndicator,
     Alert,
-    Modal,
-    ScrollView,
+    Modal, Platform, ScrollView,
     StyleSheet,
     Text,
     TextInput,
     TouchableOpacity,
-    View,
+    View
 } from 'react-native';
 
 const AVATAR_OPTIONS = ['🧑', '👩', '🧔', '👩‍💻', '🧑‍🎓', '👨‍🎓', '🌱', '🚴', '🌍'];
+const COURSE_OPTIONS = [
+    'Engenharia Informática',
+    'Engenharia Ambiental',
+    'Administração',
+    'Gestão',
+    'Contabilidade',
+    'Marketing',
+    'Recursos Humanos',
+    'Sem curso',
+];
 
 export default function ProfileScreen() {
     const router = useRouter();
@@ -22,41 +33,49 @@ export default function ProfileScreen() {
     const [editVisible, setEditVisible] = useState(false);
     const [inviteAppVisible, setInviteAppVisible] = useState(false);
     const [inviteChallengeVisible, setInviteChallengeVisible] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
 
-    // Edit form state
     const [draftName, setDraftName] = useState(user.name);
-    const [draftEmail, setDraftEmail] = useState(user.email);
+    const [draftEmail] = useState(user.email);
     const [draftTag, setDraftTag] = useState(user.tag);
     const [draftBio, setDraftBio] = useState(user.bio);
     const [draftAvatar, setDraftAvatar] = useState(user.avatarEmoji);
+    const [draftCourse, setDraftCourse] = useState(user.course);
 
-    // Invite state
     const [inviteEmail, setInviteEmail] = useState('');
     const [challengeEmail, setChallengeEmail] = useState('');
 
     const openEdit = () => {
         setDraftName(user.name);
-        setDraftEmail(user.email);
         setDraftTag(user.tag);
         setDraftBio(user.bio);
         setDraftAvatar(user.avatarEmoji);
+        setDraftCourse(user.course);
         setEditVisible(true);
     };
 
-    const saveEdit = () => {
+    const saveEdit = async () => {
         if (!draftName.trim()) {
             Alert.alert('Erro', 'O nome não pode estar vazio.');
             return;
         }
-        updateUser({
-            name: draftName.trim(),
-            email: draftEmail.trim(),
-            tag: draftTag.trim(),
-            bio: draftBio.trim(),
-            avatarEmoji: draftAvatar,
-        });
-        setEditVisible(false);
-        Alert.alert('Guardado', 'Perfil atualizado com sucesso!');
+
+        try {
+            setIsSaving(true);
+            await updateUser({
+                name: draftName.trim(),
+                tag: draftTag.trim(),
+                bio: draftBio.trim(),
+                avatarEmoji: draftAvatar,
+                course: draftCourse,
+            });
+            setEditVisible(false);
+            Alert.alert('Guardado', 'Perfil atualizado com sucesso!');
+        } catch {
+            Alert.alert('Erro', 'Não foi possível guardar o perfil.');
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const sendAppInvite = () => {
@@ -64,6 +83,7 @@ export default function ProfileScreen() {
             Alert.alert('Erro', 'Insere um email.');
             return;
         }
+
         Alert.alert('📩 Convite enviado', `Convite para a app enviado para ${inviteEmail.trim()}.`);
         setInviteEmail('');
         setInviteAppVisible(false);
@@ -74,39 +94,63 @@ export default function ProfileScreen() {
             Alert.alert('Erro', 'Insere um email.');
             return;
         }
+
         Alert.alert('🏆 Convite enviado', `Convite para desafio enviado para ${challengeEmail.trim()}.`);
         setChallengeEmail('');
         setInviteChallengeVisible(false);
     };
 
     const handleLogout = () => {
+        if (Platform.OS === 'web' && typeof window !== 'undefined') {
+            const ok = window.confirm('Tens a certeza que queres sair?');
+            if (!ok) return;
+
+            (async () => {
+                try {
+                    await signOutUser();
+                } catch (error) {
+                    console.warn('Failed to sign out cleanly:', error);
+                } finally {
+                    router.replace('/login' as any);
+                }
+            })();
+
+            return;
+        }
+
         Alert.alert('Terminar sessão', 'Tens a certeza que queres sair?', [
             { text: 'Cancelar', style: 'cancel' },
             {
                 text: 'Sair',
                 style: 'destructive',
-                onPress: () => router.replace('/login' as any),
+                onPress: async () => {
+                    try {
+                        await signOutUser();
+                    } catch (error) {
+                        console.warn('Failed to sign out cleanly:', error);
+                    } finally {
+                        router.replace('/login' as any);
+                    }
+                },
             },
         ]);
     };
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={styles.content}>
-
             <View style={styles.avatarSection}>
                 <Text style={styles.avatarLarge}>{user.avatarEmoji}</Text>
                 <Text style={styles.name}>{user.name}</Text>
                 <Text style={styles.tag}>{user.tag}</Text>
+                <Text style={styles.course}>{user.course}</Text>
                 {user.bio ? <Text style={styles.bio}>{user.bio}</Text> : null}
             </View>
 
-            {/* Opções */}
             <View style={styles.menu}>
-
                 <MenuItem
                     icon="person-outline"
                     label="Gerir conta"
-                    sub="Editar nome, foto, email e bio"
+                    sub="Editar nome, foto, tag, curso e bio"
                     onPress={openEdit}
                 />
 
@@ -131,7 +175,6 @@ export default function ProfileScreen() {
                     danger
                     onPress={handleLogout}
                 />
-
             </View>
 
             <Modal visible={editVisible} animationType="slide" transparent>
@@ -141,13 +184,13 @@ export default function ProfileScreen() {
 
                         <Text style={styles.label}>Avatar</Text>
                         <View style={styles.avatarGrid}>
-                            {AVATAR_OPTIONS.map(em => (
+                            {AVATAR_OPTIONS.map((avatar) => (
                                 <TouchableOpacity
-                                    key={em}
-                                    style={[styles.avatarOption, draftAvatar === em && styles.avatarSelected]}
-                                    onPress={() => setDraftAvatar(em)}
+                                    key={avatar}
+                                    style={[styles.avatarOption, draftAvatar === avatar && styles.avatarSelected]}
+                                    onPress={() => setDraftAvatar(avatar)}
                                 >
-                                    <Text style={{ fontSize: 26 }}>{em}</Text>
+                                    <Text style={{ fontSize: 26 }}>{avatar}</Text>
                                 </TouchableOpacity>
                             ))}
                         </View>
@@ -163,13 +206,13 @@ export default function ProfileScreen() {
 
                         <Text style={styles.label}>Email</Text>
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, styles.inputLocked]}
                             value={draftEmail}
-                            onChangeText={setDraftEmail}
                             placeholder="email@fe.up.pt"
                             placeholderTextColor="#9ca3af"
                             keyboardType="email-address"
                             autoCapitalize="none"
+                            editable={false}
                         />
 
                         <Text style={styles.label}>Tag</Text>
@@ -184,7 +227,7 @@ export default function ProfileScreen() {
 
                         <Text style={styles.label}>Bio</Text>
                         <TextInput
-                            style={[styles.input, { height: 72, textAlignVertical: 'top' }]}
+                            style={[styles.input, styles.bioInput]}
                             value={draftBio}
                             onChangeText={setDraftBio}
                             placeholder="Escreve algo sobre ti..."
@@ -192,24 +235,53 @@ export default function ProfileScreen() {
                             multiline
                         />
 
+                        <Text style={styles.label}>Curso</Text>
+                        <View style={styles.courseGrid}>
+                            {COURSE_OPTIONS.map((course) => (
+                                <TouchableOpacity
+                                    key={course}
+                                    style={[styles.courseChip, draftCourse === course && styles.courseChipSelected]}
+                                    onPress={() => setDraftCourse(course)}
+                                >
+                                    <Text
+                                        style={[
+                                            styles.courseChipText,
+                                            draftCourse === course && styles.courseChipTextSelected,
+                                        ]}
+                                    >
+                                        {course}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+
                         <View style={styles.modalActions}>
-                            <TouchableOpacity style={styles.btnSecondary} onPress={() => setEditVisible(false)}>
+                            <TouchableOpacity
+                                style={styles.btnSecondary}
+                                onPress={() => setEditVisible(false)}
+                                disabled={isSaving}
+                            >
                                 <Text style={styles.btnSecondaryText}>Cancelar</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.btnPrimary} onPress={saveEdit}>
-                                <Text style={styles.btnPrimaryText}>Guardar</Text>
+                            <TouchableOpacity style={styles.btnPrimary} onPress={saveEdit} disabled={isSaving}>
+                                {isSaving ? (
+                                    <ActivityIndicator color="#ffffff" />
+                                ) : (
+                                    <Text style={styles.btnPrimaryText}>Guardar</Text>
+                                )}
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
             </Modal>
 
-            {/* ── Modal: Convidar para a app ── */}
             <Modal visible={inviteAppVisible} animationType="fade" transparent>
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalBox}>
                         <Text style={styles.modalTitle}>📩 Convidar para a app</Text>
-                        <Text style={styles.modalSub}>Insere o email da pessoa que queres convidar para o CarbonCampus.</Text>
+                        <Text style={styles.modalSub}>
+                            Insere o email da pessoa que queres convidar para o CarbonCampus.
+                        </Text>
                         <TextInput
                             style={[styles.input, { marginTop: 12 }]}
                             value={inviteEmail}
@@ -235,7 +307,9 @@ export default function ProfileScreen() {
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalBox}>
                         <Text style={styles.modalTitle}>🏆 Convidar para desafio</Text>
-                        <Text style={styles.modalSub}>Insere o email da pessoa que queres desafiar a reduzir CO₂.</Text>
+                        <Text style={styles.modalSub}>
+                            Insere o email da pessoa que queres desafiar a reduzir CO₂.
+                        </Text>
                         <TextInput
                             style={[styles.input, { marginTop: 12 }]}
                             value={challengeEmail}
@@ -246,7 +320,10 @@ export default function ProfileScreen() {
                             autoCapitalize="none"
                         />
                         <View style={styles.modalActions}>
-                            <TouchableOpacity style={styles.btnSecondary} onPress={() => setInviteChallengeVisible(false)}>
+                            <TouchableOpacity
+                                style={styles.btnSecondary}
+                                onPress={() => setInviteChallengeVisible(false)}
+                            >
                                 <Text style={styles.btnSecondaryText}>Cancelar</Text>
                             </TouchableOpacity>
                             <TouchableOpacity style={styles.btnPrimary} onPress={sendChallengeInvite}>
@@ -256,13 +333,17 @@ export default function ProfileScreen() {
                     </View>
                 </View>
             </Modal>
-
         </ScrollView>
     );
 }
 
-
-function MenuItem({ icon, label, sub, danger, onPress }: {
+function MenuItem({
+    icon,
+    label,
+    sub,
+    danger,
+    onPress,
+}: {
     icon: any;
     label: string;
     sub: string;
@@ -283,7 +364,6 @@ function MenuItem({ icon, label, sub, danger, onPress }: {
     );
 }
 
-// ── Styles ───────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#f9fafb' },
     content: { padding: 24, gap: 24, paddingBottom: 48 },
@@ -292,6 +372,7 @@ const styles = StyleSheet.create({
     avatarLarge: { fontSize: 72 },
     name: { fontSize: 22, fontWeight: '700', color: '#111827' },
     tag: { fontSize: 14, color: '#6b7280' },
+    course: { fontSize: 13, color: '#166534', fontWeight: '600' },
     bio: { fontSize: 13, color: '#6b7280', textAlign: 'center', marginTop: 4 },
 
     menu: { gap: 10 },
@@ -319,7 +400,6 @@ const styles = StyleSheet.create({
     menuLabel: { fontSize: 15, fontWeight: '600', color: '#111827' },
     menuSub: { fontSize: 12, color: '#9ca3af', marginTop: 2 },
 
-    // Modals
     modalOverlay: {
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.45)',
@@ -347,6 +427,13 @@ const styles = StyleSheet.create({
         color: '#111827',
         backgroundColor: '#f9fafb',
     },
+    inputLocked: {
+        opacity: 0.75,
+    },
+    bioInput: {
+        minHeight: 72,
+        textAlignVertical: 'top',
+    },
     avatarGrid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
@@ -366,6 +453,32 @@ const styles = StyleSheet.create({
     avatarSelected: {
         borderColor: '#4CAF50',
         backgroundColor: '#e8f5e9',
+    },
+    courseGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 10,
+        marginBottom: 4,
+    },
+    courseChip: {
+        paddingVertical: 10,
+        paddingHorizontal: 12,
+        borderRadius: 999,
+        backgroundColor: '#eef2ff',
+        borderWidth: 1,
+        borderColor: '#dbeafe',
+    },
+    courseChipSelected: {
+        backgroundColor: '#16a34a',
+        borderColor: '#16a34a',
+    },
+    courseChipText: {
+        color: '#1f2937',
+        fontSize: 12,
+        fontWeight: '600',
+    },
+    courseChipTextSelected: {
+        color: '#ffffff',
     },
     modalActions: {
         flexDirection: 'row',

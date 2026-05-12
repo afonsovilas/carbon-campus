@@ -1,10 +1,17 @@
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { useTrips } from '@/contexts/TripsContext';
+import { useUser } from '@/contexts/UserContext';
 import { Link, useRouter } from 'expo-router';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 
 export default function HomeScreen() {
     const router = useRouter();
+    const { trips } = useTrips();
+    const { user } = useUser();
+
+    const points = trips.reduce((total, trip) => total + trip.points, 0);
+    const carbonSaved = (points / 15).toFixed(1);
 
     return (
         <ThemedView style={styles.container}>
@@ -12,8 +19,9 @@ export default function HomeScreen() {
             <ThemedText type="subtitle">Reduz a pegada de carbono</ThemedText>
 
             <ThemedView style={styles.card}>
-                <ThemedText type="title">📊 1.247 pontos</ThemedText>
-                <ThemedText>23kg CO₂ evitados</ThemedText>
+                <ThemedText type="title">📊 {points} pontos</ThemedText>
+                <ThemedText>{carbonSaved}kg CO₂ evitados</ThemedText>
+                <ThemedText>{user.course}</ThemedText>
                 <Link href="../rewardScreen" asChild>
                     <TouchableOpacity style={styles.smallButton} activeOpacity={0.7}>
                         <ThemedText type="title" style={{fontSize:20}}>Levantar</ThemedText>
@@ -38,8 +46,8 @@ export default function HomeScreen() {
             </TouchableOpacity>
 
             <ThemedView style={styles.card}>
-                <ThemedText type="title">🎓 MIEIC #3</ThemedText>
-                <ThemedText>Ranking geral fim do ano</ThemedText>
+                <ThemedText type="title">🎓 {user.course || 'Sem curso'}</ThemedText>
+                <ThemedText>{trips.length} viagens registadas</ThemedText>
             </ThemedView>
         </ThemedView>
     );

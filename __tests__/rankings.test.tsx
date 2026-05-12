@@ -1,5 +1,5 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, render, screen } from '@testing-library/react-native';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import React, { useEffect } from 'react';
 import RankingScreen from '../app/(tabs)/rankings';
@@ -7,7 +7,8 @@ import { TripsProvider, useTrips } from '../contexts/TripsContext';
 
 
 jest.mock('expo-router', () => ({
-    router: { push: jest.fn() }
+    router: { push: jest.fn() },
+    useFocusEffect: (effect: () => void) => effect(),
 }));
 
 jest.mock('@expo/vector-icons', () => ({
@@ -16,6 +17,19 @@ jest.mock('@expo/vector-icons', () => ({
         const { View } = require('react-native');
         return React.createElement(View, { testID: 'mock-ionicon' });
     },
+}));
+
+jest.mock('../services/leaderboard.service', () => ({
+    fetchLeaderboardFromCloud: jest.fn(() => Promise.resolve({
+        courses: [
+            { pos: 1, course: 'Engenharia Informática', points: 8250, students: 2 },
+            { pos: 2, course: 'Gestão', points: 7200, students: 1 },
+        ],
+        students: [
+            { pos: 1, uid: 'u1', name: 'João Silva', tag: '@joao', course: 'Engenharia Informática', points: 8250 },
+            { pos: 2, uid: 'u2', name: 'Maria Santos', tag: '@maria', course: 'Gestão', points: 7200 },
+        ],
+    })),
 }));
 
 function SeedOneTrip() {
@@ -63,13 +77,18 @@ describe('Automated Acceptance Test: US10 - Tabela Bloqueada', () => {
         );
 
         expect(screen.getByText('🏆 LeaderBoards')).toBeTruthy();
-        expect(screen.getByText('Curso')).toBeTruthy();
-        expect(screen.getByText('Engenharia Informática')).toBeTruthy();
 
-        fireEvent.press(screen.getByText('Alunos'));
+        return waitFor(() => {
+            expect(screen.getByText('Curso')).toBeTruthy();
+            expect(screen.getByText('Engenharia Informática')).toBeTruthy();
+        }).then(async () => {
+            fireEvent.press(screen.getByText('Alunos'));
 
-        expect(screen.getByText('Nome')).toBeTruthy();
-        expect(screen.getByText('João Silva')).toBeTruthy();
+            await waitFor(() => {
+                expect(screen.getByText('Nome')).toBeTruthy();
+                expect(screen.getByText('João Silva')).toBeTruthy();
+            });
+        });
     });
 
 });

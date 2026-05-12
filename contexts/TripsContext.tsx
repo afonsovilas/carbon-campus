@@ -1,4 +1,7 @@
-import React, { createContext, useContext, useState } from 'react';
+import { onAuthStateChange } from '@/services/auth.service';
+import { emitLeaderboardRefresh } from '@/services/leaderboard-events';
+import { fetchTripsFromCloud, saveTripToCloud } from '@/services/trips.service';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export interface Trip {
     id: string;
@@ -19,8 +22,45 @@ const TripsContext = createContext<TripsContextType | undefined>(undefined);
 export const TripsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [trips, setTrips] = useState<Trip[]>([]);
 
+    useEffect(() => {
+        if (process.env.NODE_ENV === 'test') {
+            return;
+        }
+
+        let mounted = true;
+
+        const loadTrips = async () => {
+            try {
+                const cloudTrips = await fetchTripsFromCloud();
+                if (mounted) {
+                    setTrips(cloudTrips);
+                }
+            } catch (error) {
+                console.warn('Failed to load trips from Firebase:', error);
+            }
+        };
+
+        const unsubscribe = onAuthStateChange(() => {
+            loadTrips();
+        });
+
+        return () => {
+            mounted = false;
+            unsubscribe();
+        };
+    }, []);
+
     const addTrip = (trip: Trip) => {
         setTrips(prevTrips => [trip, ...prevTrips]);
+        emitLeaderboardRefresh('trip-added');
+        saveTripToCloud(trip)
+            .then(() => {
+                // Refresh again after cloud write is committed to avoid stale ranking values.
+                emitLeaderboardRefresh('trip-added');
+            })
+            .catch((error) => {
+                console.warn('Failed to save trip to Firebase:', error);
+            });
     };
 
     return (

@@ -237,6 +237,46 @@
 				"--coverage",
 				"--coverageReporters=json-summary"
 			]
+		},
+		{
+			"label": "Run tests after firebase setup",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand"
+			]
+		},
+		{
+			"label": "Run tests after firebase jest fix",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand"
+			]
+		},
+		{
+			"label": "Run tests after emulator setup",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand"
+			]
+		},
+		{
+			"label": "Run tests after env and register web fix",
+			"type": "shell",
+			"command": "npm.cmd",
+			"args": [
+				"test",
+				"--",
+				"--runInBand"
+			]
 		}
 	]
 }

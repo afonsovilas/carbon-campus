@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Permite leitura global do ranking apenas para utilizadores autenticados.
+    match /leaderboardEntries/{docId} {
+      allow get, list: if request.auth != null;
+      // Permite escrever se o ID do documento for o UID do user (garante 1 entrada por user)
+      allow write: if request.auth != null && request.auth.uid == docId;
+    }
+    
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == userId;
+
+      match /trips/{tripId} {
+        // Apenas o dono da conta pode ler ou gravar as suas próprias viagens 
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      
+      match /{allChildren=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+  }
+}
