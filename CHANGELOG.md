@@ -6,6 +6,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [v1.1.0] - Sprint 2 (2026-05-12)
+
+### Added
+
+- **Firebase Integration** - configuração do Firebase com Firestore e Auth, incluindo suporte a variáveis de ambiente e Emulator Suite.
+- **Authentication** - serviços de registo, login, logout e monitorização do estado da sessão com Firebase Auth.
+- **Persistence / User Profiles** - persistência de perfis de utilizador no Firestore, com sincronização do perfil público e pesquisa por tag.
+- **Persistence / Trips** - gravação e leitura de viagens na cloud, com atualização automática de pontos do utilizador.
+- **Persistence / Invites** - envio e registo de friend requests no Firestore.
+- **Persistence / Challenges** - criação, listagem e envio de convites para desafios com armazenamento na cloud.
+- **Leaderboard** - agregação do ranking a partir dos dados do Firestore, com classificação de estudantes e cursos.
+- **Documentation** - adição de `docs/firebase-setup.md` com instruções de configuração local e uso do emulador.
+- **Testing & Stability** - reforço dos testes de integração, unitários e acceptance para suportar o novo backend e os fluxos da app.
+
+### Fixed
+
+- **Firebase / Emulator** - suporte melhorado para execução local em web, Android emulator, iOS simulator e dispositivo físico.
+- **Auth Session Cleanup** - limpeza da sessão Firebase no web após logout.
+- **Leaderboard Consistency** - uso das entradas públicas do leaderboard como fonte de verdade para pontos.
+
+---
+
 ## [v1.0.0] - Sprint 1 (2026-04-22)
 
 ### Added

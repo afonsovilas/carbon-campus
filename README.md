@@ -107,18 +107,117 @@ The project includes automated and manual testing artifacts for implemented stor
 - **Firebase/Firestore setup guide:** `docs/firebase-setup.md`
 - **Environment template:** `.env.example`
 
-### Domain Model
+### Quick Start (development)
 
-Our app allows Users to create personal accounts, enabling them to log Trips or join Challenges. It includes different types of users, such as Active Participants and Admins, and supports interactions between them.
+Follow these steps to get a development environment running locally (copy/paste):
 
-- **User:** Stores information about the user with their statistics (id, handle, email, password, points).
-- **Trip Log:** Represents a sustainable activity that earns points.
-- **Social Invite:** Manages invitations between users.
-- **Challenge:** Stores information about a challenge, including timeframe (Start/End), title, and participants.
-- **Eco-Metric:** Stores the carbon offset related to specific transport modes.
-- **Leaderboard:** Ranks each user by the amount of points accumulated within their department.
+Prerequisites (see next section for recommended versions):
 
-[Image Placeholder for Domain Model]
+1. Install Node.js (LTS) and npm.
+2. Install Java JDK (for Android emulator) if you plan to run Android emulators.
+3. Install Expo CLI and Firebase CLI globally (optional but convenient):
+
+```bash
+npm install -g expo-cli
+npm install -g firebase-tools
+```
+
+4. Clone the repository and install dependencies:
+
+```bash
+git clone <your-repo-url>
+cd T5
+npm install
+```
+
+5. Configure environment variables:
+
+- Copy `.env.example` to `.env` and fill in your Firebase credentials (or use the provided local emulator settings).
+
+```bash
+cp .env.example .env
+# then edit .env
+```
+
+6. (Optional) Start the Firestore emulator locally (recommended for safe development):
+
+```bash
+npm run firebase:login      # once, to authenticate the Firebase CLI
+npm run firebase:emulators  # starts the Firestore emulator
+```
+
+7. Start the app with Expo:
+
+```bash
+npm run start
+# or run directly on a platform
+npm run android
+npm run ios
+npm run web
+```
+
+8. Run tests locally (see Testing & Coverage below).
+
+---
+
+### Prerequisites & Recommended Versions
+
+- Node.js: use an active LTS (recommended: 18.x or 20.x). Verify with:
+
+```bash
+node -v
+```
+
+- Java JDK: required for Android emulators (OpenJDK 11+ recommended).
+- npm: bundled with Node.js (or use yarn if preferred).
+- Expo SDK: project uses Expo SDK and packages pinned in `package.json` (see `expo` version there).
+- Firebase CLI: latest stable version recommended for emulator commands.
+
+Notes:
+- If you run the app on a physical device and use the Firebase emulator, set `EXPO_PUBLIC_FIREBASE_EMULATOR_MOBILE_HOST` to your machine LAN IP (see `docs/firebase-setup.md`).
+- Follow `docs/firebase-setup.md` for emulator configuration and environment variables.
+
+---
+
+### Running Tests & Coverage
+
+The project includes unit, integration and acceptance tests. Use the npm scripts defined in `package.json`:
+
+- Run the full test suite:
+
+```bash
+npm run test
+```
+
+- Run tests with coverage report (Jest):
+
+```bash
+npm run test -- --coverage
+```
+
+- Run linting:
+
+```bash
+npm run lint
+```
+
+CI runs linting and the test suite automatically on PRs.
+
+Troubleshooting:
+- If tests that interact with Firebase or native modules fail locally, ensure `NODE_ENV=test` is set (Jest does this) and emulators are either enabled or mocked as appropriate.
+- For flaky UI tests, try running with `--runInBand` or increasing Jest timeouts in `jest.setTimeout` when debugging locally.
+
+---
+
+### Device & Emulator Notes (physical devices)
+
+- Android emulator: use Android Studio AVD or `expo start --android`. The Android emulator loopback host is `10.0.2.2` — the code handles this automatically, but when running on a physical Android device you must set `EXPO_PUBLIC_FIREBASE_EMULATOR_MOBILE_HOST` to your machine LAN IP.
+
+- iOS simulator: uses local loopback (`127.0.0.1`) by default; physical iOS devices require tunnel or LAN configuration via Expo.
+
+- Expo Tunnel: when working across devices and teammates, using the Expo "tunnel" mode can simplify connectivity but may have performance implications. Use `npm run start` and choose the Tunnel option in the Expo DevTools if needed.
+
+---
 
 ## Architecture and Design
 
@@ -143,7 +242,7 @@ To ensure a smooth, transparent, and iterative development process for **CarbonC
 Our project management workflow is structured around the following key areas:
 
 - **Backlog Management:** We manage both our Product Backlog and Sprint Backlogs using our GitHub Projects board. This board acts as our single source of truth for tracking User Stories, Tasks, estimations, and priorities.
-- **Release Management:** We align our releases with the end of our Sprints. Code increments are systematically tagged (e.g., `v1` for Sprint 1) in our GitHub repository to mark stable milestones.
+- **Release Management:** We align our releases with the end of our Sprints. Code increments are systematically tagged (e.g., `v1.0.0` for Sprint 1) in our GitHub repository to mark stable milestones. See `CHANGELOG.md` for the full release notes.
 - **Sprint Planning & Retrospectives:**
   - **Plans:** At the beginning of each Sprint, we select User Stories and break them down into actionable tasks.
   - **Retrospectives:** At the end of every Sprint, the team inspects our workflow. We address what we did well, what to do differently, open puzzles, and future improvements.
@@ -154,6 +253,7 @@ The detailed notes from our Sprint 1 Planning and Retrospective can be found in 
 
 
 ### Sprint 1 Scrumboard
+
 > **Data do registo:** 20 de abril de 2026  
 > **Estado:** Finalizada
 
@@ -171,7 +271,20 @@ Final Sprint1
 
 ### Sprint 2
 
-Focused on the implementation of Competitive Group Challenges and refining the automated CO2 offset calculations.
+Focused on transforming the application from a prototype to a cloud-backed increment. The sprint introduced Firebase as the primary backend for authentication and persistence, and connected the app features to Firestore.
+
+Key accomplishments in Sprint 2 (v1.1.0):
+
+- Firebase integration and emulator support (`services/firebase.ts`, `docs/firebase-setup.md`).
+- Authentication flow with Firebase Auth (`services/auth.service.ts`).
+- User profile persistence and public leaderboard synchronization (`services/users.service.ts`).
+- Trips persistence with automatic points update and leaderboard write-through (`services/trips.service.ts`).
+- Invites and challenge invite persistence (`services/invites.service.ts`, `services/challenges.service.ts`).
+- Cloud-based leaderboard aggregation and ranking (`services/leaderboard.service.ts`).
+- Documentation for local emulator and cloud setup (`docs/firebase-setup.md`).
+- Tests extended to cover the new cloud flows and edge cases.
+
+These items are listed in full in `CHANGELOG.md` under `v1.1.0`.
 
 ### Final Release
 
@@ -184,6 +297,59 @@ Focused on the implementation of Competitive Group Challenges and refining the a
 - Guilherme Pinho and up202406596@up.pt
 - Luís Castanheira and up202404122@up.pt
 - Pedro Cunha and up202403358@up.pt
+
+## Tech Stack
+
+- React Native + Expo
+- `expo-router` for navigation
+- Firebase (Auth + Firestore) for backend persistence
+- Jest + React Native Testing Library for tests
+- GitHub Actions for CI/CD
+- AsyncStorage for mobile persistence fallback
+
+## Backend / Firebase (Executive summary)
+
+The Sprint 2 increment introduced Firebase to provide authentication and durable storage for the app. The implementation includes:
+
+- `services/firebase.ts`: initialization, emulator support and environment-driven configuration.
+- `services/auth.service.ts`: register/login/logout and auth state handling.
+- `services/users.service.ts`: create/update/fetch user profiles, leaderboard sync.
+- `services/trips.service.ts`: save and fetch trips, update user points and leaderboard.
+- `services/invites.service.ts` and `services/challenges.service.ts`: persist social interactions and invites.
+- `services/leaderboard.service.ts`: compute rankings using Firestore entries as source-of-truth.
+
+Developers can follow `docs/firebase-setup.md` to run the Firebase Emulator Suite locally or connect to a real Firebase project. Use `.env.example` as template for required environment variables.
+
+## Testing & Quality
+
+- Unit, integration and acceptance tests are present in `__tests__/` and executed through CI.
+- The CI pipeline (`.github/workflows/ci.yml`) runs linting and test suites on every PR.
+- Test coverage reports are generated as part of the CI; see `CHANGELOG.md` and CI logs for historical values.
+- Defects and verification steps are recorded in `docs/testing/defect-log.md` and UAT scenarios are in `docs/testing/UAT.md`.
+
+## Release Management & Tags
+
+Releases are documented in `CHANGELOG.md`. Current stable tags:
+
+- `v0.1.0` - Sprint 0
+- `v1.0.0` - Sprint 1
+- `v1.1.0` - Sprint 2
+
+When creating a new release, ensure the changelog and sprint retrospective are updated and the CI pipeline builds and publishes artifacts (APK) on tagged releases.
+
+## Known limitations & Next steps
+
+- Emulator vs cloud: decide a consistent approach for team members (emulator for local dev, cloud for team-wide shared data).
+- GPS automation: still debated — Sprint 3 may target optional GPS tracking with privacy-conscious defaults.
+- Persistence stability: continue improving error handling and retry strategies for offline/online transitions.
+
+## Links & References
+
+- `CHANGELOG.md` - release notes and important changes
+- `SprintPlanningRetrospectives.md` - sprint planning and retrospectives
+- `docs/firebase-setup.md` - Firebase setup and emulator instructions
+- `docs/testing/UAT.md` - user acceptance tests
+- `docs/testing/defect-log.md` - tracked defects and fixes
 
 ## DevOps Status
 

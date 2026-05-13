@@ -78,3 +78,42 @@
 - Add persistent storage (AsyncStorage or lightweight backend).
 - Implement real US registration flow (replace mock with actual auth).
 - Continue logging all defects as GitHub Issues with `bug` label and screenshots.
+
+## Sprint 2 (Start: 22-Apr | End: 12-May)
+
+### 1) Sprint Planning
+
+**Goal:** Transform the application from a mostly prototype/in-memory solution into a cloud-backed increment with Firebase authentication, Firestore persistence, and consolidated leaderboard data.
+
+**Selected PBIs:**
+- Firebase configuration and emulator support
+- Firebase authentication flow
+- Persist user profiles in Firestore
+- Persist trips in Firestore
+- Persist friend requests and challenge invites
+- Cloud-based leaderboard aggregation
+- Firebase setup documentation
+
+### 2) Sprint Retrospective
+
+**Did well:**
+- Firebase integration was successfully introduced as the backend foundation for the application.
+- Authentication, profile persistence, trips, invites, and challenges were connected to Firestore.
+- The leaderboard was refactored to use cloud data as the source of truth.
+- The project documentation was extended with Firebase setup instructions.
+- Test coverage and automation continued to support the increment.
+
+**Do differently:**
+- Introduce Firebase-related features earlier in the sprint to allow more time for integration testing.
+- Keep backend/data-model changes more tightly coupled with documentation updates.
+- Validate emulator/device configuration earlier to avoid environment-specific issues.
+
+**Puzzles:**
+- Balancing emulator usage versus real Firebase cloud usage for local development and team collaboration.
+- Ensuring consistent synchronization between user profiles, trips, and leaderboard entries.
+- Managing the transition from local/prototype flows to persistent cloud-backed flows.
+
+**Action points for Sprint 3:**
+- Further stabilize Firebase flows across platforms.
+- Improve environment setup for new team members.
+- Continue refining tests around cloud persistence and auth state changes.
