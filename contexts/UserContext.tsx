@@ -1,6 +1,6 @@
 import { getCurrentUserEmail, getCurrentUserUid, onAuthStateChange } from '@/services/auth.service';
 import { emitLeaderboardRefresh } from '@/services/leaderboard-events';
-import { ensureUserProfile, updateUserProfile } from '@/services/users.service';
+import { ensureUserProfile, syncPublicLeaderboardEntry, updateUserProfile } from '@/services/users.service';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 export interface UserProfile {
@@ -63,6 +63,13 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     avatarEmoji: profile.avatarEmoji,
                     course: profile.course,
                 });
+
+                // Ensure leaderboard entry always has up-to-date profile info
+                syncPublicLeaderboardEntry(uid, {
+                    name: profile.name,
+                    tag: profile.tag,
+                    course: profile.course,
+                }).catch((err) => console.warn('Failed to sync leaderboard entry on login:', err));
             } catch (error) {
                 console.warn('Failed to sync user profile from Firebase:', error);
             }

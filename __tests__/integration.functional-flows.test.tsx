@@ -36,6 +36,8 @@ describe('Integration tests - component flows', () => {
     fireEvent.changeText(getByTestId('email-input'), 'up202012345@fe.up.pt');
     fireEvent.changeText(getByTestId('password-input'), 'password123');
     fireEvent.changeText(getByTestId('confirm-password-input'), 'password123');
+    fireEvent.press(getByTestId('course-picker-button'));
+    fireEvent.press(getByTestId('course-option-LEIC'));
     fireEvent.press(getByTestId('submit-button'));
 
     const buttons = alertSpy.mock.calls[0][2] as Array<{ text: string; onPress?: () => void }>;
@@ -55,22 +57,22 @@ describe('Integration tests - component flows', () => {
       </TripsProvider>
     );
 
-    fireEvent.press(getByText('Save Trip'));
-    expect(queryByText('Trip logged successfully!')).toBeNull();
+    fireEvent.press(getByText('Guardar Viagem'));
+    expect(queryByText('Viagem registada com sucesso!')).toBeNull();
 
-    fireEvent.changeText(getByPlaceholderText('Distance (km)'), '3.2');
-    fireEvent.press(getByText('Save Trip'));
-    expect(queryByText('Trip logged successfully!')).toBeNull();
+    fireEvent.changeText(getByPlaceholderText('Distância (km)'), '3.2');
+    fireEvent.press(getByText('Guardar Viagem'));
+    expect(queryByText('Viagem registada com sucesso!')).toBeNull();
 
-    fireEvent.press(getByText('Bus'));
-    fireEvent.press(getByText('Save Trip'));
-    expect(getByText('Trip logged successfully!')).toBeTruthy();
+    fireEvent.press(getByText('Autocarro'));
+    fireEvent.press(getByText('Guardar Viagem'));
+    expect(getByText('Viagem registada com sucesso!')).toBeTruthy();
   });
 
   it('Invites search flow integrates input, async search and request status', () => {
     const { getByPlaceholderText, getByTestId, getByText } = render(<FriendsScreen />);
 
-    fireEvent.changeText(getByPlaceholderText('Search by tag...'), 'user1');
+    fireEvent.changeText(getByPlaceholderText('Procurar por tag...'), 'user1');
     fireEvent.press(getByTestId('search-button'));
 
     act(() => {
@@ -79,24 +81,24 @@ describe('Integration tests - component flows', () => {
 
     expect(getByText('User1')).toBeTruthy();
     fireEvent.press(getByTestId('send-request-button'));
-    expect(getByText('Pending')).toBeTruthy();
+    expect(getByText('Pendente')).toBeTruthy();
   });
 
   it('Challenge invite flow integrates challenge creation and friend invite', () => {
     const alertSpy = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
     const { getByPlaceholderText, getByText, getByTestId } = render(<ChallengesScreen />);
 
-    fireEvent.changeText(getByPlaceholderText('Challenge Name'), 'Maratona Verde');
-    fireEvent.changeText(getByPlaceholderText('Start (DD/MM)'), '01/05');
-    fireEvent.changeText(getByPlaceholderText('End (DD/MM)'), '31/05');
-    fireEvent.press(getByText('Create Challenge'));
+    fireEvent.changeText(getByPlaceholderText('Nome do Desafio'), 'Maratona Verde');
+    fireEvent.changeText(getByPlaceholderText('Início (DD/MM)'), '01/05');
+    fireEvent.changeText(getByPlaceholderText('Fim (DD/MM)'), '31/05');
+    fireEvent.press(getByText('Criar Desafio'));
 
     fireEvent.press(getByTestId('invite-btn'));
-    fireEvent.changeText(getByPlaceholderText('Search friend by tag...'), 'user1');
+    fireEvent.changeText(getByPlaceholderText('Procurar amigo por tag...'), 'user1');
     fireEvent.press(getByTestId('search-friend-button'));
     fireEvent.press(getByTestId('confirm-invite-button'));
 
-    expect(alertSpy).toHaveBeenCalledWith('Success', 'Invite to Maratona Verde sent to @user1_carbon');
+    expect(alertSpy).toHaveBeenCalledWith('Sucesso', 'Convite para Maratona Verde enviado para @user1_carbon');
     alertSpy.mockRestore();
   });
 });

@@ -19,7 +19,7 @@ describe('InvitesScreen acceptance tests', () => {
         const { getByPlaceholderText, getByText, getByTestId } = render(<InvitesScreen />);
 
         // Pesquisa pelo utilizador válido definido no código
-        fireEvent.changeText(getByPlaceholderText('Search by tag...'), 'user1');
+        fireEvent.changeText(getByPlaceholderText('Procurar por tag...'), 'user1');
 
         const searchButton = getByTestId('search-button');
         fireEvent.press(searchButton);
@@ -30,18 +30,18 @@ describe('InvitesScreen acceptance tests', () => {
         expect(getByText('User1')).toBeTruthy();
 
         // Enviar pedido
-        fireEvent.press(getByText('Send Request'));
-        expect(getByText('Pending')).toBeTruthy();
+        fireEvent.press(getByText('Enviar Pedido'));
+        expect(getByText('Pendente')).toBeTruthy();
     });
 
     it('Scenario 2: shows error message when user tag is not found', () => {
         const { getByPlaceholderText, getByText, getByTestId } = render(<InvitesScreen />);
 
-        fireEvent.changeText(getByPlaceholderText('Search by tag...'), 'unknown_user');
+        fireEvent.changeText(getByPlaceholderText('Procurar por tag...'), 'unknown_user');
         fireEvent.press(getByTestId('search-button'));
 
         act(() => { jest.advanceTimersByTime(800); });
 
-        expect(getByText('Username does not exist')).toBeTruthy();
+        expect(getByText('Username não existe')).toBeTruthy();
     });
 });

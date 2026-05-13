@@ -29,21 +29,21 @@ describe('LogTripScreen acceptance tests', () => {
 		const { getByText, getByPlaceholderText, queryByText } = renderWithTripsProvider();
 
 		// Select a valid transport mode required by the happy path.
-		fireEvent.press(getByText('Bicycle'));
-		fireEvent.changeText(getByPlaceholderText('Distance (km)'), '5');
-		fireEvent.press(getByText('Save Trip'));
+		fireEvent.press(getByText('Bicicleta'));
+		fireEvent.changeText(getByPlaceholderText('Distância (km)'), '5');
+		fireEvent.press(getByText('Guardar Viagem'));
 
-		expect(getByText('Trip logged successfully!')).toBeTruthy();
-		expect(queryByText('Please enter a valid distance greater than 0')).toBeNull();
+		expect(getByText('Viagem registada com sucesso!')).toBeTruthy();
+		expect(queryByText('Insere uma distância válida maior que 0')).toBeNull();
 	});
 
 	it('Scenario 1.2: shows validation error for invalid distance and does not show success', () => {
 		const { getByText, getByPlaceholderText, queryByText } = renderWithTripsProvider();
 
-		fireEvent.changeText(getByPlaceholderText('Distance (km)'), '-2');
-		fireEvent.press(getByText('Save Trip'));
+		fireEvent.changeText(getByPlaceholderText('Distância (km)'), '-2');
+		fireEvent.press(getByText('Guardar Viagem'));
 
-		expect(getByText('Please enter a valid distance greater than 0')).toBeTruthy();
-		expect(queryByText('Trip logged successfully!')).toBeNull();
+		expect(getByText('Insere uma distância válida maior que 0')).toBeTruthy();
+		expect(queryByText('Viagem registada com sucesso!')).toBeNull();
 	});
 });

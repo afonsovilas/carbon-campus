@@ -45,7 +45,7 @@ function buildDefaultProfile(uid: string, email: string): UserProfile {
 function normalizeProfile(uid: string, data: Partial<UserProfile> & { email?: string }): UserProfile {
   const email = data.email || `${uid}@fe.up.pt`;
 
-  return {
+  const profile: UserProfile = {
     uid,
     email,
     tag: data.tag || buildTagFromEmail(email),
@@ -55,8 +55,13 @@ function normalizeProfile(uid: string, data: Partial<UserProfile> & { email?: st
     course: data.course || DEFAULT_COURSE,
     points: typeof data.points === 'number' ? data.points : 0,
     createdAt: typeof data.createdAt === 'number' ? data.createdAt : Date.now(),
-    updatedAt: data.updatedAt,
   };
+
+  if (typeof data.updatedAt === 'number') {
+    profile.updatedAt = data.updatedAt;
+  }
+
+  return profile;
 };
 
 function buildTagFromEmail(email: string): string {
@@ -106,9 +111,11 @@ export async function upsertUserProfile(uid: string, emailOrFields: string | Par
 
   if (!existingSnapshot.exists()) {
     const email = incoming.email || `${uid}@fe.up.pt`;
-    const profile = buildDefaultProfile(uid, email);
+    const profile = normalizeProfile(uid, { ...buildDefaultProfile(uid, email), ...incoming });
     await setDoc(doc(db, 'users', uid), profile);
-    await syncPublicLeaderboardEntry(uid, buildPublicLeaderboardEntry(profile));
+    syncPublicLeaderboardEntry(uid, buildPublicLeaderboardEntry(profile)).catch((err) =>
+      console.warn('Failed to sync leaderboard entry:', err)
+    );
     return profile;
   }
 
@@ -119,7 +126,9 @@ export async function upsertUserProfile(uid: string, emailOrFields: string | Par
   });
 
   await setDoc(doc(db, 'users', uid), profile, { merge: true });
-  await syncPublicLeaderboardEntry(uid, buildPublicLeaderboardEntry(profile));
+  syncPublicLeaderboardEntry(uid, buildPublicLeaderboardEntry(profile)).catch((err) =>
+    console.warn('Failed to sync leaderboard entry:', err)
+  );
   return profile;
 }
 

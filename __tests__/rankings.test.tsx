@@ -57,7 +57,7 @@ describe('Automated Acceptance Test: US10 - Tabela Bloqueada', () => {
         const lockedTitle = screen.getByTestId('locked-title');
         expect(lockedTitle).toBeTruthy();
         expect(lockedTitle.props.children).toBe('Tabela bloqueada!');
-        const descriptionText = screen.getByText('As LeaderBoards encontram-se bloqueadas, regista a tua primeira viagem para as desbloqueares!');
+        const descriptionText = screen.getByText('As LeaderBoards encontram-se bloqueadas. Regista a tua primeira viagem para as desbloqueares!');
         expect(descriptionText).toBeTruthy();
         const registerButton = screen.getByTestId('register-trip-button');
         expect(registerButton).toBeTruthy();
