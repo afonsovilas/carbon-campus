@@ -297,6 +297,12 @@ These items are listed in full in `CHANGELOG.md` under `v1.1.0`.
 
 *Nota: Estas imagens refletem o estado do Scrumboard no início do Sprint 2, com a distribuição das User Stories e tarefas entre as colunas "Product backlog", "Sprint backlog", "In progress", "Done" e "Accepted".*
 
+![Scrumboard Final Sprint 2 - Parte 1](docs/Scrumboard_sprint2_final_part1.png)
+
+![Scrumboard Final Sprint 2 - Parte 2](docs/Scrumboard_sprint2_final_part2.png)
+
+*Nota: Estas imagens refletem o estado do Scrumboard no fim do Sprint 2, com a distribuição das User Stories e tarefas entre as colunas "Product backlog", "Sprint backlog", "In progress", "Done" e "Accepted".*
+
 ### Final Release
 
 [Placeholder for final evaluation notes]
