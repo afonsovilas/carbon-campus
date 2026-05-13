@@ -254,7 +254,7 @@ The detailed notes from our Sprint 1 Planning and Retrospective can be found in 
 
 ### Sprint 1 Scrumboard
 
-> **Data do registo:** 20 de abril de 2026  
+![img.png](img.png)> **Data do registo:** 20 de abril de 2026  
 > **Estado:** Finalizada
 
 ![Scrumboard Inicial Sprint 1](docs/scrumboard.png)
@@ -285,6 +285,17 @@ Key accomplishments in Sprint 2 (v1.1.0):
 - Tests extended to cover the new cloud flows and edge cases.
 
 These items are listed in full in `CHANGELOG.md` under `v1.1.0`.
+
+### Sprint 2 Scrumboard
+
+> **Data do registo:** 12 de maio de 2026  
+> **Estado:** Em progresso
+
+![Scrumboard Inicial Sprint 2 - Parte 1](docs/Scrumboard_sprint2_part1.png)
+
+![Scrumboard Inicial Sprint 2 - Parte 2](docs/Scrumboard_sprint2_part2.png)
+
+*Nota: Estas imagens refletem o estado do Scrumboard no início do Sprint 2, com a distribuição das User Stories e tarefas entre as colunas "Product backlog", "Sprint backlog", "In progress", "Done" e "Accepted".*
 
 ### Final Release
 
