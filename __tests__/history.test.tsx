@@ -36,7 +36,7 @@ describe('HistoryScreen acceptance tests', () => {
       </TripsProvider>
     );
 
-    expect(getByText('Bus (2.5km)')).toBeTruthy();
+    expect(getByText(/Autocarro.*2\.5km/)).toBeTruthy();
     expect(getByText('+30 pts • 21/4')).toBeTruthy();
   });
 });

@@ -1,8 +1,9 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import RewardScreen from '../app/rewardScreen';
+import { TripsProvider, useTrips } from '../contexts/TripsContext';
 
 jest.mock('react-native-qrcode-svg', () => {
   const React = require('react');
@@ -18,6 +19,25 @@ jest.mock('expo-location', () => ({
 import * as Location from 'expo-location';
 
 describe('RewardScreen acceptance tests', () => {
+  function SeedTrips({ points }: { points: number }) {
+    const { addTrip } = useTrips();
+
+    useEffect(() => {
+      addTrip({ id: 'trip-seed-1', mode: 'Bus', distance: 10, points, date: '21/4' });
+      // Seed only once in tests.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    return null;
+  }
+
+  const renderWithTrips = (seedPoints?: number) => render(
+    <TripsProvider>
+      {seedPoints ? <SeedTrips points={seedPoints} /> : null}
+      <RewardScreen />
+    </TripsProvider>
+  );
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -25,7 +45,7 @@ describe('RewardScreen acceptance tests', () => {
   it('shows permission denied message when location permission is denied', async () => {
     (Location.requestForegroundPermissionsAsync as any).mockResolvedValue({ status: 'denied' });
 
-    const { getByText } = render(<RewardScreen />);
+    const { getByText } = renderWithTrips();
 
     await waitFor(() => {
       expect(getByText('Permissão de localização negada.')).toBeTruthy();
@@ -41,7 +61,7 @@ describe('RewardScreen acceptance tests', () => {
       },
     });
 
-    const { getByText } = render(<RewardScreen />);
+    const { getByText } = renderWithTrips(250);
 
     await waitFor(() => {
       expect(getByText('Bem-vindo!')).toBeTruthy();
@@ -63,7 +83,7 @@ describe('RewardScreen acceptance tests', () => {
       },
     });
 
-    const { getByText } = render(<RewardScreen />);
+    const { getByText } = renderWithTrips();
 
     await waitFor(() => {
       expect(getByText('Aproxima-te da estação para desbloqueares a recompensa.')).toBeTruthy();

@@ -1,12 +1,12 @@
 import {
-    calculateTripPoints,
-    canCreateChallenge,
-    canSaveTrip,
-    findMockUserByTag,
-    isDistanceValid,
-    parseDistance,
-    validateLogin,
-    validateRegister,
+  calculateTripPoints,
+  canCreateChallenge,
+  canSaveTrip,
+  findMockUserByTag,
+  isDistanceValid,
+  parseDistance,
+  validateLogin,
+  validateRegister,
 } from '../utils/functional-requirements';
 
 describe('Unit tests - functional requirements', () => {
@@ -37,25 +37,25 @@ describe('Unit tests - functional requirements', () => {
 
   describe('Register rules', () => {
     it('rejects missing fields', () => {
-      expect(validateRegister('', 'pass', 'pass')).toEqual({ ok: false, reason: 'missing_fields' });
+      expect(validateRegister('', 'pass', 'pass', 'LEI')).toEqual({ ok: false, reason: 'missing_fields' });
     });
 
     it('rejects password mismatch', () => {
-      expect(validateRegister('user@fe.up.pt', 'pass1', 'pass2')).toEqual({
+      expect(validateRegister('user@fe.up.pt', 'pass1', 'pass2', 'LEI')).toEqual({
         ok: false,
         reason: 'password_mismatch',
       });
     });
 
     it('rejects duplicate emails', () => {
-      expect(validateRegister('duplicado@teste.pt', 'pass', 'pass')).toEqual({
+      expect(validateRegister('duplicado@teste.pt', 'pass', 'pass', 'LEI')).toEqual({
         ok: false,
         reason: 'duplicate_email',
       });
     });
 
     it('accepts valid registration data', () => {
-      expect(validateRegister('up202012345@fe.up.pt', 'pass', 'pass')).toEqual({ ok: true });
+      expect(validateRegister('up202012345@fe.up.pt', 'pass', 'pass', 'LEI')).toEqual({ ok: true });
     });
   });
 

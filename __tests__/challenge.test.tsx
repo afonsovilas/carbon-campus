@@ -19,11 +19,11 @@ describe('ChallengesScreen acceptance tests', () => {
         const { getByPlaceholderText, getByText } = render(<ChallengesScreen />);
 
         // Preencher o formulário de criação
-        fireEvent.changeText(getByPlaceholderText('Challenge Name'), 'Maratona Verde');
-        fireEvent.changeText(getByPlaceholderText('Start (DD/MM)'), '01/05');
-        fireEvent.changeText(getByPlaceholderText('End (DD/MM)'), '31/05');
+        fireEvent.changeText(getByPlaceholderText('Nome do Desafio'), 'Maratona Verde');
+        fireEvent.changeText(getByPlaceholderText('Início (DD/MM)'), '01/05');
+        fireEvent.changeText(getByPlaceholderText('Fim (DD/MM)'), '31/05');
 
-        fireEvent.press(getByText('Create Challenge'));
+        fireEvent.press(getByText('Criar Desafio'));
 
         // Verificar se o desafio aparece na lista de ativos
         expect(getByText('Maratona Verde')).toBeTruthy();
@@ -34,16 +34,16 @@ describe('ChallengesScreen acceptance tests', () => {
         const { getByPlaceholderText, getByText, getByTestId } = render(<ChallengesScreen />);
 
         // Primeiro criamos um desafio para ter algo na lista
-        fireEvent.changeText(getByPlaceholderText('Challenge Name'), 'Desafio Teste');
-        fireEvent.changeText(getByPlaceholderText('Start (DD/MM)'), '10/10');
-        fireEvent.changeText(getByPlaceholderText('End (DD/MM)'), '20/10');
-        fireEvent.press(getByText('Create Challenge'));
+        fireEvent.changeText(getByPlaceholderText('Nome do Desafio'), 'Desafio Teste');
+        fireEvent.changeText(getByPlaceholderText('Início (DD/MM)'), '10/10');
+        fireEvent.changeText(getByPlaceholderText('Fim (DD/MM)'), '20/10');
+        fireEvent.press(getByText('Criar Desafio'));
 
         const inviteBtn = getByTestId('invite-btn');
         fireEvent.press(inviteBtn);
 
         // Verificar se o container de convite aparece
-        expect(getByText('Invite to: Desafio Teste')).toBeTruthy();
-        expect(getByPlaceholderText('Search friend by tag...')).toBeTruthy();
+        expect(getByText('Convidar para: Desafio Teste')).toBeTruthy();
+        expect(getByPlaceholderText('Procurar amigo por tag...')).toBeTruthy();
     });
 });
