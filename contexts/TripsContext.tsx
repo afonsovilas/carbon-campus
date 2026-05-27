@@ -23,9 +23,6 @@ export const TripsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const [trips, setTrips] = useState<Trip[]>([]);
 
     useEffect(() => {
-        if (process.env.NODE_ENV === 'test') {
-            return;
-        }
 
         let mounted = true;
 

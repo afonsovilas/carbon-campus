@@ -2,8 +2,8 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import React, { useEffect } from 'react';
-import RankingScreen from '../app/(tabs)/rankings';
-import { TripsProvider, useTrips } from '../contexts/TripsContext';
+import RankingScreen from '@/app/(tabs)/rankings';
+import { TripsProvider, useTrips } from '@/contexts/TripsContext';
 
 
 jest.mock('expo-router', () => ({
@@ -19,7 +19,7 @@ jest.mock('@expo/vector-icons', () => ({
     },
 }));
 
-jest.mock('../services/leaderboard.service', () => ({
+jest.mock('@/services/leaderboard.service', () => ({
     fetchLeaderboardFromCloud: jest.fn(() => Promise.resolve({
         courses: [
             { pos: 1, course: 'Engenharia Informática', points: 8250, students: 2 },

@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals
 import { act, render } from '@testing-library/react-native';
 import React from 'react';
 
-import Index from '../app/index';
+import Index from '@/app/index';
 
 jest.mock('expo-router', () => ({
   router: {

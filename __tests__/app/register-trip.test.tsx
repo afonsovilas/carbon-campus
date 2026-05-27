@@ -2,7 +2,7 @@ import { afterEach, beforeAll, beforeEach, describe, expect, it, jest } from '@j
 import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 
-import RegisterTripScreen from '../app/register-trip';
+import RegisterTripScreen from '@/app/register-trip';
 import { router, useLocalSearchParams } from 'expo-router';
 
 jest.mock('expo-router', () => ({

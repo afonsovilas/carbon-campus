@@ -7,7 +7,7 @@ import {
   parseDistance,
   validateLogin,
   validateRegister,
-} from '../utils/functional-requirements';
+} from '@/utils/functional-requirements';
 
 describe('Unit tests - functional requirements', () => {
   describe('LogTrip rules', () => {

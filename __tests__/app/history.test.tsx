@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { render } from '@testing-library/react-native';
 import { describe, expect, it, jest } from '@jest/globals';
-import HistoryScreen from '../app/(tabs)/history';
-import { TripsProvider, useTrips } from '../contexts/TripsContext';
+import HistoryScreen from '@/app/(tabs)/history';
+import { TripsProvider, useTrips } from '@/contexts/TripsContext';
 
 jest.mock('@expo/vector-icons', () => ({
     Ionicons: () => {

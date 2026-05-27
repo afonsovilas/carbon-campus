@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
-import { DrawerProvider, useDrawer } from '../contexts/DrawerContext';
+import { DrawerProvider, useDrawer } from '@/contexts/DrawerContext';
 
 function DrawerProbe() {
   const { isOpen, toggle, open, close } = useDrawer();

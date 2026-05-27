@@ -3,11 +3,11 @@ import { router } from 'expo-router';
 import React from 'react';
 import { Alert } from 'react-native';
 
-import ChallengesScreen from '../app/(tabs)/challenge';
-import FriendsScreen from '../app/(tabs)/invites';
-import LogTripScreen from '../app/(tabs)/LogTripScreen';
-import RegisterScreen from '../app/register';
-import { TripsProvider } from '../contexts/TripsContext';
+import ChallengesScreen from '@/app/(tabs)/challenge';
+import FriendsScreen from '@/app/(tabs)/invites';
+import LogTripScreen from '@/app/(tabs)/LogTripScreen';
+import RegisterScreen from '@/app/register';
+import { TripsProvider } from '@/contexts/TripsContext';
 
 jest.mock('expo-router', () => ({
   router: {

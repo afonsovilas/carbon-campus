@@ -20,6 +20,43 @@ import { TransportMode } from '@/utils/functional-requirements';
 
 const TRACKING_MODES: TransportMode[] = ['Bus', 'Metro', 'Bicycle', 'Electric Scooter', 'Car'];
 
+const TripTimer = ({ activeTrip }: { activeTrip: any }) => {
+    const [elapsedTime, setElapsedTime] = useState(0);
+
+    useEffect(() => {
+        if (!activeTrip) return;
+        
+        // Immediate sync on mount or activeTrip change
+        if (activeTrip.status !== 'paused') {
+            setElapsedTime(Math.floor((Date.now() - activeTrip.startTime) / 1000));
+        }
+
+        const interval = setInterval(() => {
+            if (activeTrip.status !== 'paused') {
+                const elapsed = Math.floor((Date.now() - activeTrip.startTime) / 1000);
+                setElapsedTime(elapsed);
+            }
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [activeTrip]);
+
+    const formatTime = (seconds: number): string => {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        return `${hours.toString().padStart(2, '0')}:${minutes
+            .toString()
+            .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+
+    return (
+        <ThemedText type="title" style={styles.statValue}>
+            {formatTime(elapsedTime)}
+        </ThemedText>
+    );
+};
+
 export default function LogTripScreen() {
     const { addTrip } = useTrips();
     const { t } = useLanguage();
@@ -35,26 +72,7 @@ export default function LogTripScreen() {
     } = useTripTracking();
 
     const [selectedTransport, setSelectedTransport] = useState<TransportMode | null>(null);
-    const [currentDistance, setCurrentDistance] = useState(0);
-    const [elapsedTime, setElapsedTime] = useState(0);
-
-    useEffect(() => {
-        if (activeTrip) {
-            const distance = calculateTotalDistance(activeTrip.locations);
-            setCurrentDistance(distance);
-        }
-    }, [activeTrip?.locations]);
-
-    useEffect(() => {
-        if (!activeTrip) return;
-
-        const interval = setInterval(() => {
-            const elapsed = Math.floor((Date.now() - activeTrip.startTime) / 1000);
-            setElapsedTime(elapsed);
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, [activeTrip]);
+    const currentDistance = activeTrip?.distance || 0;
 
     const handleStartTrip = async () => {
         if (!selectedTransport) return;
@@ -78,8 +96,6 @@ export default function LogTripScreen() {
             });
 
             setSelectedTransport(null);
-            setCurrentDistance(0);
-            setElapsedTime(0);
 
             router.push({
                 pathname: '/register-trip',
@@ -90,15 +106,6 @@ export default function LogTripScreen() {
                 },
             });
         }
-    };
-
-    const formatTime = (seconds: number): string => {
-        const hours = Math.floor(seconds / 3600);
-        const minutes = Math.floor((seconds % 3600) / 60);
-        const secs = seconds % 60;
-        return `${hours.toString().padStart(2, '0')}:${minutes
-            .toString()
-            .padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
 
     return (
@@ -130,7 +137,7 @@ export default function LogTripScreen() {
                         )}
 
                         <ThemedView style={styles.card}>
-                            {!isTracking && (
+                            {!activeTrip && (
                                 <>
                                     <ThemedText type="defaultSemiBold" style={styles.sectionLabel}>
                                         {t.transport_mode}
@@ -173,7 +180,7 @@ export default function LogTripScreen() {
                                 </>
                             )}
 
-                            {isTracking && activeTrip && (
+                            {activeTrip && (
                                 <>
                                     <ThemedText
                                         type="defaultSemiBold"
@@ -203,9 +210,7 @@ export default function LogTripScreen() {
                                             <ThemedText type="default" style={styles.statLabel}>
                                                 Tempo
                                             </ThemedText>
-                                            <ThemedText type="title" style={styles.statValue}>
-                                                {formatTime(elapsedTime)}
-                                            </ThemedText>
+                                            <TripTimer activeTrip={activeTrip} />
                                         </View>
                                     </View>
 
@@ -226,7 +231,7 @@ export default function LogTripScreen() {
                         </ThemedView>
 
                         <View style={styles.buttonContainer}>
-                            {!isTracking ? (
+                            {!activeTrip ? (
                                 <TouchableOpacity
                                     testID="start-trip-button"
                                     style={[

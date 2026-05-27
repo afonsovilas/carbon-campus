@@ -207,7 +207,7 @@ const pt: typeof en = {
     log_trip_btn: 'Registar Viagem',
     ranking_btn: 'Ranking',
     first_trip_hint: 'Regista a tua primeira viagem para descobrir o rank do teu curso!',
-    trips_registered: (n: number) => `${n} viagen${n === 1 ? '' : 's'} registada${n === 1 ? '' : 's'}`,
+    trips_registered: (n: number) => n === 1 ? '1 viagem registada' : `${n} viagens registadas`,
 
     // Log Trip
     log_trip_title: 'Registar Viagem',

@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 import { Text } from 'react-native';
 
-import { Collapsible } from '../components/ui/collapsible';
+import { Collapsible } from '@/components/ui/collapsible';
 
 jest.mock('@/components/ui/icon-symbol', () => ({
   IconSymbol: () => null,
