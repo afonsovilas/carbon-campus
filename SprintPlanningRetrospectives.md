@@ -154,3 +154,21 @@
 **Puzzles:**
 - How to keep GTFS data synchronized with real-world changes without bloating the repo.
 - Ensuring trip tracking accuracy across devices and emulator configurations in poor signal areas.
+
+### 3) Testing & Coverage
+
+At the end of Sprint 3, we successfully ran our full test suite and gathered code coverage metrics. All test suites pass successfully.
+
+**Key Statistics:**
+* **Total Test Suites:** 35 / 35 passed (100%)
+* **Total Tests:** 179 / 179 passed (100%)
+* **Statements Coverage:** 81.67%
+* **Branch Coverage:** 70.41%
+* **Function Coverage:** 88.18%
+* **Line Coverage:** 85.74%
+
+#### Test Suite Results
+![Test Results](./docs/sprint3_test_results.png)
+
+#### Code Coverage Report
+![Code Coverage](./docs/sprint3_coverage.png)
