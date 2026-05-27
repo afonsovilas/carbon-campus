@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [v1.2.0] - Sprint 3 (2026-05-27)
+
+### Added
+
+- **Trip Tracking Core** - novas utilidades em `utils/trip-tracking.ts` e dados de suporte em `utils/gtfs-data.ts`.
+- **GTFS Dataset** - ficheiros de dados em `docs/GTFS_data/routes.txt` e `docs/GTFS_data/stops.txt`.
+- **Trip Tracking Context** - novo estado partilhado em `contexts/TripTrackingContext.tsx`.
+- **Tracking Tests** - novos testes em `__tests__/log-trip-tracking.test.tsx` e `__tests__/trip-tracking.test.ts`.
+
+### Changed
+
+- **Log Trip Flow** - melhorias em `app/(tabs)/LogTripScreen.tsx` e `app/register-trip.tsx`.
+- **History Screen** - ajustes em `app/(tabs)/history.tsx`.
+- **Test Setup** - atualizações em `jest.setup.ts` e `__tests__/unit.trips-context.test.tsx`.
+- **Dependencies** - atualização de `package.json` e `package-lock.json`.
+
+---
+
 ## [v1.1.0] - Sprint 2 (2026-05-12)
 
 ### Added

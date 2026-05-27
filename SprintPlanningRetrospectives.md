@@ -30,6 +30,8 @@
 - **Testing first:** Prioritize writing User Acceptance Tests (UAT) and unit tests for the features already built.
 - **Document tracking:** Start formal logging of bugs and defects found during testing.
 
+---
+
 ## Sprint 1 (Start: 02-Mar | End: 19-Apr)
 
 ### 1) Sprint Planning
@@ -79,6 +81,8 @@
 - Implement real US registration flow (replace mock with actual auth).
 - Continue logging all defects as GitHub Issues with `bug` label and screenshots.
 
+---
+
 ## Sprint 2 (Start: 22-Apr | End: 12-May)
 
 ### 1) Sprint Planning
@@ -117,3 +121,36 @@
 - Further stabilize Firebase flows across platforms.
 - Improve environment setup for new team members.
 - Continue refining tests around cloud persistence and auth state changes.
+
+---
+
+## Sprint 3 (Start: 13-May | End: 27-May)
+
+### 1) Sprint Planning
+
+**Goal:** Resolve the GPS tracking debate by implementing real-time monitoring, introduce GTFS-based transport data for Porto, and consolidate the reward calculation flow.
+
+**Selected PBIs (moved to Sprint Backlog):**
+- **US14:** Monitorizar percursos de transportes públicos em tempo real (GPS) e cruzar com rede GTFS do Porto para atribuição de pontos.
+  - *Refined into technical tasks (1-3 days):*
+    - T5#15: API endpoints and End of Trip screen.
+    - T5#74: Expo Location background capture and UI controls.
+    - T5#75: GTFS parsing logic and Firestore data structure.
+    - T5#TEST: Unit and integration tests for tracking flows.
+
+### 2) Sprint Retrospective
+
+**Did well:**
+- **Decision Making:** We finally resolved the GPS puzzle from Sprint 1! Implementing Expo Location alongside GTFS proved viable without compromising user privacy.
+- **Refinement:** Breaking down US14 into granular 1-3 day technical tasks made the sprint execution much smoother and clearly satisfied the DoR criteria.
+- Trip tracking utilities and GTFS data handling were added without breaking existing flows.
+- The tracking flow was validated with new tests for log-trip and tracking scenarios.
+- Test setup improvements reduced friction when running tracking-related suites.
+
+**Do differently:**
+- Align test updates earlier with UI changes to reduce late regressions.
+- Document GTFS data update cadence to avoid stale datasets.
+
+**Puzzles:**
+- How to keep GTFS data synchronized with real-world changes without bloating the repo.
+- Ensuring trip tracking accuracy across devices and emulator configurations in poor signal areas.
