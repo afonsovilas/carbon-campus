@@ -50,23 +50,19 @@ describe('Integration tests - component flows', () => {
     alertSpy.mockRestore();
   });
 
-  it('LogTrip enables save button only when requirements are met', () => {
-    const { getByText, getByPlaceholderText, queryByText } = render(
+  it('LogTrip renders transport selection and enables start button when mode selected', () => {
+    const { getByText, getByTestId } = render(
       <TripsProvider>
         <LogTripScreen />
       </TripsProvider>
     );
 
-    fireEvent.press(getByText('Guardar Viagem'));
-    expect(queryByText('Viagem registada com sucesso!')).toBeNull();
+    expect(getByTestId('start-trip-button')).toBeTruthy();
+    expect(getByTestId('start-trip-button').props.accessibilityState?.disabled).toBe(true);
 
-    fireEvent.changeText(getByPlaceholderText('Distância (km)'), '3.2');
-    fireEvent.press(getByText('Guardar Viagem'));
-    expect(queryByText('Viagem registada com sucesso!')).toBeNull();
+    fireEvent.press(getByText('🚌 Autocarro'));
 
-    fireEvent.press(getByText('Autocarro'));
-    fireEvent.press(getByText('Guardar Viagem'));
-    expect(getByText('Viagem registada com sucesso!')).toBeTruthy();
+    expect(getByTestId('start-trip-button').props.accessibilityState?.disabled).toBe(false);
   });
 
   it('Invites search flow integrates input, async search and request status', () => {

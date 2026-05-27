@@ -1,5 +1,6 @@
 import { DrawerProvider } from '@/contexts/DrawerContext';
 import { LanguageProvider } from '@/contexts/LanguageContext';
+import { TripTrackingProvider } from '@/contexts/TripTrackingContext';
 import { TripsProvider } from '@/contexts/TripsContext';
 import { UserProvider } from '@/contexts/UserContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -40,15 +41,17 @@ export default function RootLayout() {
             <LanguageProvider>
                 <UserProvider>
                     <DrawerProvider>
-                        <TripsProvider>
-                            <Stack initialRouteName="login">
-                                <Stack.Screen name="login" options={{ headerShown: false }} />
-                                <Stack.Screen name="register" options={{ headerShown: true, title: 'CarbonCampus' }} />
-                                <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-                                <Stack.Screen name="profile" options={{ headerShown: true, title: 'CarbonCampus' }} />
-                            </Stack>
-                            <StatusBar style="auto" />
-                        </TripsProvider>
+                        <TripTrackingProvider>
+                            <TripsProvider>
+                                <Stack initialRouteName="login">
+                                    <Stack.Screen name="login" options={{ headerShown: false }} />
+                                    <Stack.Screen name="register" options={{ headerShown: true, title: 'CarbonCampus' }} />
+                                    <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+                                    <Stack.Screen name="profile" options={{ headerShown: true, title: 'CarbonCampus' }} />
+                                </Stack>
+                                <StatusBar style="auto" />
+                            </TripsProvider>
+                        </TripTrackingProvider>
                     </DrawerProvider>
                 </UserProvider>
             </LanguageProvider>

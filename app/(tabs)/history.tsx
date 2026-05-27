@@ -17,7 +17,7 @@ export default function HistoryScreen() {
             ) : (
                 trips.map((trip) => (
                     <ThemedView key={trip.id} style={styles.tripItem}>
-                        <ThemedText type="default">{(t[trip.mode as keyof typeof t] as string | undefined) ?? trip.mode} ({trip.distance}km)</ThemedText>
+                        <ThemedText type="default">{(t[trip.mode as keyof typeof t] as string | undefined) ?? trip.mode} ({Number(trip.distance).toFixed(2)}km)</ThemedText>
                         <ThemedText type="subtitle">+{trip.points} pts • {trip.date}</ThemedText>
                     </ThemedView>
                 ))
