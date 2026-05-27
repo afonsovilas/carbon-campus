@@ -3,6 +3,9 @@ import { render, screen } from '@testing-library/react-native';
 import React, { useEffect } from 'react';
 import { Text } from 'react-native';
 
+jest.unmock('../contexts/TripsContext');
+jest.unmock('@/contexts/TripsContext');
+
 import { Trip, TripsProvider, useTrips } from '../contexts/TripsContext';
 
 function SnapshotConsumer() {

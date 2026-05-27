@@ -1,9 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
-import { act, fireEvent, render } from '@testing-library/react-native';
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import React from 'react';
 
 import LogTripScreen from '../app/(tabs)/LogTripScreen';
 import { TripsProvider } from '../contexts/TripsContext';
+import { useTripTracking } from '../contexts/TripTrackingContext';
+
+const mockUseTripTracking = useTripTracking as jest.Mock;
 
 function renderWithTripsProvider() {
 	return render(
@@ -16,6 +19,17 @@ function renderWithTripsProvider() {
 describe('LogTripScreen acceptance tests', () => {
 	beforeEach(() => {
 		jest.useFakeTimers();
+		jest.clearAllMocks();
+		mockUseTripTracking.mockReturnValue({
+			activeTrip: null,
+			startTrip: jest.fn(),
+			stopTrip: jest.fn(),
+			pauseTrip: jest.fn(),
+			resumeTrip: jest.fn(),
+			isTracking: false,
+			locationError: null,
+			clearError: jest.fn(),
+		});
 	});
 
 	afterEach(() => {
@@ -23,27 +37,24 @@ describe('LogTripScreen acceptance tests', () => {
 			jest.runOnlyPendingTimers();
 		});
 		jest.useRealTimers();
+		jest.clearAllMocks();
 	});
 
-	it('Scenario 1.1: logs a trip successfully with valid input', () => {
-		const { getByText, getByPlaceholderText, queryByText } = renderWithTripsProvider();
+	it('Scenario 1.1: renderiza seleção de transporte e botão iniciar viagem', () => {
+		const { getByText, getByTestId } = renderWithTripsProvider();
 
-		// Select a valid transport mode required by the happy path.
-		fireEvent.press(getByText('Bicicleta'));
-		fireEvent.changeText(getByPlaceholderText('Distância (km)'), '5');
-		fireEvent.press(getByText('Guardar Viagem'));
-
-		expect(getByText('Viagem registada com sucesso!')).toBeTruthy();
-		expect(queryByText('Insere uma distância válida maior que 0')).toBeNull();
+		expect(getByText('🚌 Autocarro')).toBeTruthy();
+		expect(getByText('🚇 Metro')).toBeTruthy();
+		expect(getByTestId('start-trip-button')).toBeTruthy();
 	});
 
-	it('Scenario 1.2: shows validation error for invalid distance and does not show success', () => {
-		const { getByText, getByPlaceholderText, queryByText } = renderWithTripsProvider();
+	it('Scenario 1.2: abilita botão ao selecionar transporte', async () => {
+		const { getByText, getByTestId } = renderWithTripsProvider();
 
-		fireEvent.changeText(getByPlaceholderText('Distância (km)'), '-2');
-		fireEvent.press(getByText('Guardar Viagem'));
+		fireEvent.press(getByText('🚌 Autocarro'));
 
-		expect(getByText('Insere uma distância válida maior que 0')).toBeTruthy();
-		expect(queryByText('Viagem registada com sucesso!')).toBeNull();
+		await waitFor(() => {
+			expect(getByTestId('start-trip-button').props.disabled).toBeFalsy();
+		});
 	});
 });

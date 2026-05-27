@@ -20,7 +20,7 @@ export type LoginValidation =
 
 export const POINTS_PER_KM: Record<TransportMode, number> = {
   Bicycle: 20,
-  Car: 5,
+  Car: 0,
   Walking: 15,
   Train: 10,
   Bus: 12,
