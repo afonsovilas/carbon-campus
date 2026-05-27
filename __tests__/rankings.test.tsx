@@ -1,5 +1,5 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import React, { useEffect } from 'react';
 import RankingScreen from '../app/(tabs)/rankings';
@@ -32,6 +32,11 @@ jest.mock('../services/leaderboard.service', () => ({
     })),
 }));
 
+if (typeof setImmediate === 'undefined') {
+    // @ts-expect-error - ensure test helper exists in Jest env.
+    global.setImmediate = (fn: () => void) => setTimeout(fn, 0);
+}
+
 function SeedOneTrip() {
     const { addTrip } = useTrips();
 
@@ -46,13 +51,19 @@ function SeedOneTrip() {
 
 describe('Automated Acceptance Test: US10 - Tabela Bloqueada', () => {
 
-    it('Scenario: User has 0 trips and views Locked Leaderboard', () => {
+    const flushPromises = () => new Promise((resolve) => setImmediate(resolve));
+
+    it('Scenario: User has 0 trips and views Locked Leaderboard', async () => {
 
         render(
             <TripsProvider>
                 <RankingScreen />
             </TripsProvider>
         );
+
+        await act(async () => {
+            await flushPromises();
+        });
 
         const lockedTitle = screen.getByTestId('locked-title');
         expect(lockedTitle).toBeTruthy();
@@ -68,13 +79,17 @@ describe('Automated Acceptance Test: US10 - Tabela Bloqueada', () => {
         expect(router.push).toHaveBeenCalledWith('/(tabs)/LogTripScreen');
     });
 
-    it('Scenario: User with trips sees unlocked leaderboard and can switch tabs', () => {
+    it('Scenario: User with trips sees unlocked leaderboard and can switch tabs', async () => {
         render(
             <TripsProvider>
                 <SeedOneTrip />
                 <RankingScreen />
             </TripsProvider>
         );
+
+        await act(async () => {
+            await flushPromises();
+        });
 
         expect(screen.getByText('🏆 LeaderBoards')).toBeTruthy();
 

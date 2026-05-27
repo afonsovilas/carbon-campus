@@ -30,6 +30,10 @@ jest.mock('@/services/auth.service', () => ({
     signOutUser: jest.fn(),
 }));
 
+jest.mock('@expo/vector-icons', () => ({
+    Ionicons: () => null,
+}));
+
 jest.mock('expo-router', () => ({
     useRouter: () => ({
         push: mockPush,
