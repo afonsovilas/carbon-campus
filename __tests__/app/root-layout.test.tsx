@@ -2,7 +2,7 @@ import { describe, expect, it, jest } from '@jest/globals';
 import { render, waitFor } from '@testing-library/react-native';
 import React from 'react';
 
-import RootLayout from '../app/_layout';
+import RootLayout from '@/app/_layout';
 
 const mockReplace = jest.fn();
 const mockUnsub = jest.fn();

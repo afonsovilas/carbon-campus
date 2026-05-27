@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render, act } from '@testing-library/react-native';
 import React from 'react';
 
-import ProfileButton from '../components/ProfileButton';
+import ProfileButton from '@/components/ProfileButton';
 
 const mockToggle = jest.fn();
 

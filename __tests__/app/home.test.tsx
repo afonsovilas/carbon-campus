@@ -2,9 +2,9 @@ import { beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 
-import HomeScreen from '../app/(tabs)/index';
-import { TripsProvider } from '../contexts/TripsContext';
-import { UserProvider } from '../contexts/UserContext';
+import HomeScreen from '@/app/(tabs)/index';
+import { TripsProvider } from '@/contexts/TripsContext';
+import { UserProvider } from '@/contexts/UserContext';
 
 const mockPush = jest.fn();
 

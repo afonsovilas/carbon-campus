@@ -3,7 +3,7 @@ import { act, fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 import { Alert } from 'react-native';
 
-import RegisterScreen from '../app/register';
+import RegisterScreen from '@/app/register';
 
 // Mock expo-router
 jest.mock('expo-router', () => ({
@@ -12,7 +12,20 @@ jest.mock('expo-router', () => ({
     },
 }));
 
+jest.mock('@/services/auth.service', () => ({
+    registerWithEmail: jest.fn(),
+}));
+
+jest.mock('@/services/users.service', () => ({
+    upsertUserProfile: jest.fn(),
+}));
+
+jest.mock('@/services/firebase', () => ({
+    isFirebaseConfigured: true,
+}));
+
 import { router } from 'expo-router';
+import * as authService from '@/services/auth.service';
 
 describe('RegisterScreen acceptance tests', () => {
     let alertSpy: ReturnType<typeof jest.spyOn>;
@@ -82,12 +95,37 @@ describe('RegisterScreen acceptance tests', () => {
         expect(router.replace).not.toHaveBeenCalled();
     });
 
-    it('Cenário Excecional: submeter com campos vazios não navega para tabs', () => {
+  it('submeter com campos vazios não navega para tabs', () => {
         const { getByTestId } = render(<RegisterScreen />);
 
         fireEvent.press(getByTestId('submit-button'));
 
         expect(alertSpy).toHaveBeenCalledWith('Erro', 'Preenche todos os campos');
         expect(router.replace).not.toHaveBeenCalled();
+    });
+
+    it('Cenário Excecional: processa erro do Firebase ao registar', async () => {
+        const originalEnv = process.env.NODE_ENV;
+        process.env.NODE_ENV = 'development';
+
+        (authService.registerWithEmail as jest.Mock).mockRejectedValueOnce({
+            code: 'auth/weak-password',
+        });
+
+        const { getByTestId } = render(<RegisterScreen />);
+
+        fireEvent.changeText(getByTestId('email-input'), 'valid@fe.up.pt');
+        fireEvent.changeText(getByTestId('password-input'), '123'); // weak password
+        fireEvent.changeText(getByTestId('confirm-password-input'), '123');
+        fireEvent.press(getByTestId('course-picker-button'));
+        fireEvent.press(getByTestId('course-option-LEIC'));
+        
+        await act(async () => {
+            fireEvent.press(getByTestId('submit-button'));
+        });
+
+        expect(alertSpy).toHaveBeenCalledWith('Erro', 'Password fraca. Usa pelo menos 6 caracteres.');
+        
+        process.env.NODE_ENV = originalEnv;
     });
 });

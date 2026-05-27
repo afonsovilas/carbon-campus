@@ -2,9 +2,9 @@ import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import React from 'react';
 
-import LogTripScreen from '../app/(tabs)/LogTripScreen';
-import { TripsProvider } from '../contexts/TripsContext';
-import { useTripTracking } from '../contexts/TripTrackingContext';
+import LogTripScreen from '@/app/(tabs)/LogTripScreen';
+import { TripsProvider } from '@/contexts/TripsContext';
+import { useTripTracking } from '@/contexts/TripTrackingContext';
 
 const mockUseTripTracking = useTripTracking as jest.Mock;
 

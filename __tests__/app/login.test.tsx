@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
 import { Alert } from 'react-native';
 
-import LoginScreen from '../app/login';
+import LoginScreen from '@/app/login';
 
 jest.mock('expo-router', () => ({
   router: {

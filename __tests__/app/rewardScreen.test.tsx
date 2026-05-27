@@ -2,8 +2,8 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import React, { useEffect } from 'react';
 
 import { beforeEach, describe, expect, it, jest } from '@jest/globals';
-import RewardScreen from '../app/rewardScreen';
-import { TripsProvider, useTrips } from '../contexts/TripsContext';
+import RewardScreen from '@/app/rewardScreen';
+import { TripsProvider, useTrips } from '@/contexts/TripsContext';
 
 jest.mock('react-native-qrcode-svg', () => {
   const React = require('react');

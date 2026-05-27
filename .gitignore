@@ -45,3 +45,6 @@ app-example
 /ios
 /android
 .env
+
+# test coverage
+coverage/

@@ -2,7 +2,7 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react-native';
 import React from 'react';
 import { Alert } from 'react-native';
 
-import SideDrawer from '../components/SideDrawer';
+import SideDrawer from '@/components/SideDrawer';
 
 const mockClose  = jest.fn();
 const mockPush = jest.fn();

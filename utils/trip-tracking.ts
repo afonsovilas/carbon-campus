@@ -4,6 +4,7 @@ export interface TripLocation {
     latitude: number;
     longitude: number;
     timestamp: number;
+    isResumePoint?: boolean;
 }
 
 export interface ActiveTrip {
@@ -12,6 +13,8 @@ export interface ActiveTrip {
     locations: TripLocation[];
     transportMode: TransportMode;
     status: 'active' | 'paused' | 'completed';
+    pausedAt?: number;
+    distance: number;
 }
 
 export interface GTFSStop {
@@ -103,6 +106,9 @@ export const calculateTotalDistance = (locations: TripLocation[]): number => {
 
     let distance = 0;
     for (let i = 1; i < locations.length; i++) {
+        if (locations[i].isResumePoint) {
+            continue; // Do not add distance if this is a point recorded immediately after a resume
+        }
         distance += calculateHaversineDistance(
             locations[i - 1].latitude,
             locations[i - 1].longitude,

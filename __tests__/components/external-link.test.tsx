@@ -21,7 +21,7 @@ jest.mock('expo-router', () => ({
 
 describe('ExternalLink', () => {
   const originalOs = process.env.EXPO_OS;
-  const getExternalLink = () => require('../components/external-link').ExternalLink;
+  const getExternalLink = () => require('@/components/external-link').ExternalLink;
 
   beforeEach(() => {
     mockOpen.mockClear();

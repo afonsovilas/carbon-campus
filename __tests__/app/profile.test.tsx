@@ -3,7 +3,7 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import React from 'react';
 import { Alert } from 'react-native';
 
-import ProfileScreen from '../app/profile';
+import ProfileScreen from '@/app/profile';
 
 const mockReplace = jest.fn();
 

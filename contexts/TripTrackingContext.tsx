@@ -9,6 +9,7 @@ import {
     calculatePointsFromCarbon,
     findNearestStop,
     MAX_DEVIATION_METERS,
+    calculateHaversineDistance
 } from '@/utils/trip-tracking';
 import { METRO_STOPS } from '@/utils/gtfs-data';
 
@@ -71,6 +72,7 @@ export const TripTrackingProvider: React.FC<{ children: React.ReactNode }> = ({
                     locations: [startLocation],
                     transportMode,
                     status: 'active',
+                    distance: 0,
                 };
 
                 setActiveTrip(newTrip);
@@ -79,9 +81,9 @@ export const TripTrackingProvider: React.FC<{ children: React.ReactNode }> = ({
 
                 const subscription = await Location.watchPositionAsync(
                     {
-                        accuracy: Location.Accuracy.High,
-                        timeInterval: 5000,
-                        distanceInterval: 10,
+                        accuracy: Location.Accuracy.BestForNavigation,
+                        timeInterval: 2000,
+                        distanceInterval: 5,
                     },
                     (location) => {
                         const speed = location.coords.speed || 0;
@@ -102,8 +104,15 @@ export const TripTrackingProvider: React.FC<{ children: React.ReactNode }> = ({
                                 timestamp: Date.now(),
                             };
 
+                            const lastLocation = prevTrip.locations[prevTrip.locations.length - 1];
+                            const addedDistance = lastLocation ? calculateHaversineDistance(
+                                lastLocation.latitude, lastLocation.longitude,
+                                newLocation.latitude, newLocation.longitude
+                            ) : 0;
+
                             return {
                                 ...prevTrip,
+                                distance: prevTrip.distance + addedDistance,
                                 locations: [...prevTrip.locations, newLocation],
                             };
                         });
@@ -162,23 +171,33 @@ export const TripTrackingProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const pauseTrip = useCallback(() => {
         if (!activeTrip) return;
-        setActiveTrip({ ...activeTrip, status: 'paused' });
+        setActiveTrip({ ...activeTrip, status: 'paused', pausedAt: Date.now() });
         setIsTracking(false);
         if (locationSubscription) {
             locationSubscription.remove();
+            setLocationSubscription(null);
         }
     }, [activeTrip, locationSubscription]);
 
     const resumeTrip = useCallback(async () => {
         if (!activeTrip) return;
-        setActiveTrip({ ...activeTrip, status: 'active' });
+        
+        let newStartTime = activeTrip.startTime;
+        if (activeTrip.pausedAt) {
+            const pausedDuration = Date.now() - activeTrip.pausedAt;
+            newStartTime += pausedDuration;
+        }
+
+        setActiveTrip({ ...activeTrip, status: 'active', startTime: newStartTime, pausedAt: undefined });
         setIsTracking(true);
+
+        let isFirstPointAfterResume = true;
 
         const subscription = await Location.watchPositionAsync(
             {
-                accuracy: Location.Accuracy.High,
-                timeInterval: 5000,
-                distanceInterval: 10,
+                accuracy: Location.Accuracy.BestForNavigation,
+                timeInterval: 2000,
+                distanceInterval: 5,
             },
             (location) => {
                 setActiveTrip((prevTrip) => {
@@ -188,10 +207,22 @@ export const TripTrackingProvider: React.FC<{ children: React.ReactNode }> = ({
                         latitude: location.coords.latitude,
                         longitude: location.coords.longitude,
                         timestamp: Date.now(),
+                        isResumePoint: isFirstPointAfterResume,
                     };
+
+                    const lastLocation = prevTrip.locations[prevTrip.locations.length - 1];
+                    const addedDistance = (lastLocation && !isFirstPointAfterResume) ? calculateHaversineDistance(
+                        lastLocation.latitude, lastLocation.longitude,
+                        newLocation.latitude, newLocation.longitude
+                    ) : 0;
+
+                    if (isFirstPointAfterResume) {
+                        isFirstPointAfterResume = false;
+                    }
 
                     return {
                         ...prevTrip,
+                        distance: prevTrip.distance + addedDistance,
                         locations: [...prevTrip.locations, newLocation],
                     };
                 });

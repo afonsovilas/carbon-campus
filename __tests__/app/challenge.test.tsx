@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, jest } from '@jest/globals';
 import { act, fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
-import ChallengesScreen from '../app/(tabs)/challenge';
+import ChallengesScreen from '@/app/(tabs)/challenge';
 
 describe('ChallengesScreen acceptance tests', () => {
     beforeEach(() => {
