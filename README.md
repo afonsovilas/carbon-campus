@@ -351,6 +351,8 @@ When creating a new release, ensure the changelog and sprint retrospective are u
 - [docs/firebase-setup.md](docs/firebase-setup.md) - Firebase setup and emulator instructions
 - [docs/testing/UAT.md](docs/testing/UAT.md) - user acceptance tests
 - [docs/testing/defect-log.md](docs/testing/defect-log.md) - tracked defects and fixes
+- [docs/survey/](docs/survey/) - results and prints of the survey about the benefits of our app idea
+
 
 ## DevOps Status
 
